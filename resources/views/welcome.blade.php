@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <link href="css/app.css">
         <title>Laravel</title>
 
         <!-- Fonts -->
@@ -22,7 +22,7 @@
     </head>
     <body class="antialiased">
         <div id="app">
-            <div>
+{{--             <div>
                 @if (Route::has('login'))
                         @auth
                             <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
@@ -34,9 +34,13 @@
                             @endif
                         @endauth
                 @endif
+                        </div> --}}
+                        <div class="float-right">
+                        <router-link to="/login">Login</router-link>
+                        <router-link to="/register">Register</router-link>
                         </div>
-            <example-component></example-component>
-            
+            <router-view></router-view>
+
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>
