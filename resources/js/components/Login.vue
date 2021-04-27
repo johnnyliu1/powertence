@@ -14,7 +14,7 @@ import { mapState } from 'vuex';
         computed: {
             ...mapState({
                 count: state => state.count
-            }),
+        }),
         }
     }
 </script>
