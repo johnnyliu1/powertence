@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WorkoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/test', function() {
     return ['message' => 'hello'];
 });
+
+Route::get('/workouts', [WorkoutController::class, 'index']);

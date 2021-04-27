@@ -35,12 +35,7 @@
                         @endauth
                 @endif
                         </div> --}}
-                        <div class="float-right">
-                        <router-link to="/login">Login</router-link>
-                        <router-link to="/register">Register</router-link>
-                        </div>
-            <router-view></router-view>
-
+                        <example-component></example-component>
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>
