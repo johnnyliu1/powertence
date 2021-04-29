@@ -25,9 +25,10 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.use(VueRouter);
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('left-navigation', require('./components/LeftNavigation.vue').default);
+Vue.component('workouts', require('./components/Workouts.vue').default);
+Vue.component('profile', require('./components/Profile.vue').default);
 Vue.component('login', require('./components/Login.vue').default);
-Vue.component('register', require('./components/Register.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

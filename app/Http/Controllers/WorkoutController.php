@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Workout;
+use Illuminate\Support\Facades\Auth;
 
 class WorkoutController extends Controller
 {
@@ -12,9 +13,12 @@ class WorkoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Workout::all();
+        if(!$request->user()) {
+            return response()->json(['error' => 'User does not exist'], 500);
+        }
+        return $request->user()->workouts;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Laravel\Ui\Presets\Vue;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +18,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
+Route::get('/workouts', function () {
     return view('welcome');
 });
 
-Route::get('/register', function () {
+Auth::routes();
+
+Route::get('/profile', function () {
     return view('welcome');
 });
 
-
+Route::get('/loginuser', function () {
+    return view('welcome');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

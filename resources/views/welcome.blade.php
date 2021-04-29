@@ -22,7 +22,7 @@
     </head>
     <body class="antialiased">
         <div id="app">
-{{--             <div>
+             <div>
                 @if (Route::has('login'))
                         @auth
                             <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
@@ -34,8 +34,8 @@
                             @endif
                         @endauth
                 @endif
-                        </div> --}}
-                        <example-component></example-component>
+                        </div> 
+                        <left-navigation></left-navigation>
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>
