@@ -14,22 +14,31 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
+Route::get('/signin', function () {
+    return view('welcome');
+})->name('signin');
+
+Route::get('/register-user', function () {
+    return view('welcome');
+});
+Route::get('/register', function () {
     return view('welcome');
 });
 
-Route::get('/workouts', function () {
-    return view('welcome');
-});
-
-Auth::routes();
-
-Route::get('/profile', function () {
-    return view('welcome');
-});
-
-Route::get('/loginuser', function () {
-    return view('welcome');
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/profile', function () {
+        return view('welcome');
+    });
+    Route::get('/workouts', function () {
+        return view('welcome');
+    });
+    Route::get('/', function () {
+        return view('welcome');
+    });
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes([
+    'register' => false, // Registration Routes...
+]);

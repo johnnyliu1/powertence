@@ -1,23 +1,35 @@
 <template>
-    <div class="container">
-        <h1>Left navigation bar</h1>
-
-        <router-link to="/">Home</router-link>
-        <router-link to="/workouts">Workouts</router-link>
-        <router-link to="/profile">Profile</router-link>
-        <router-link to="/loginuser">Login</router-link>
-    <router-view></router-view>
+    <div>
+        <horizontal-nav></horizontal-nav>
+        <router-view></router-view>
     </div>
-    
 </template>
 
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
-    }
+export default {
+    mounted() {
+        console.log("Component mounted.");
+    },
+};
 </script>
 <style>
+.b-nav {
+    height: 100vh;
+    background: #a53239;
+    float: left;
+}
 
+.navWidth {
+    width: 15%;
+}
+
+.menuItem {
+    color: white;
+}
+
+.navWidth b-nav-item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 </style>
