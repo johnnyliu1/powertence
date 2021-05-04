@@ -21,21 +21,22 @@
         </style>
     </head>
     <body class="antialiased">
-        <div id="app">
-             <div>
+        <div id="app" style="margin: 0; padding: 0;">
+{{--              <div>
                 @if (Route::has('login'))
                         @auth
                             <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
                         @else
                             <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
-    
+
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
                             @endif
                         @endauth
                 @endif
-                        </div> 
+                        </div>  --}}
                         <left-navigation></left-navigation>
+
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>

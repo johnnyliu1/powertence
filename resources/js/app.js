@@ -8,8 +8,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import router from './Router/index';
 import store from './Store/index';
-
-
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import Vuelidate from 'vuelidate'
 require('./bootstrap');
 
 window.Vue = require('vue').default;
@@ -25,16 +27,26 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.use(VueRouter);
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+Vue.use(Vuelidate)
+
 Vue.component('left-navigation', require('./components/LeftNavigation.vue').default);
 Vue.component('workouts', require('./components/Workouts.vue').default);
 Vue.component('profile', require('./components/Profile.vue').default);
-Vue.component('login', require('./components/Login.vue').default);
+Vue.component('sign-in', require('./components/Login.vue').default);
+Vue.component('dashboard', require('./components/Dashboard.vue').default);
+Vue.component('horizontalNav', require('./components/horizontalNavigation.vue').default);
+Vue.component('register', require('./components/Register.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
 */
 const app = new Vue({
+    beforeCreate() {
+		this.$store.commit('initialiseStore');
+	},
     router,
     store,
     el: '#app',
