@@ -1,3 +1,4 @@
+import * as qs from 'qs'
 
 // initial state
 const state = () => ({
@@ -21,11 +22,6 @@ const actions = {
     const response = await axios.get('/api/workouts')
     commit('setWorkouts', response.data)
     console.log(response.data)
-  },
-   getTest ({ commit }) {
-    let text = 'dit is de state text'
-    commit('setTest', text)
-    console.log('de test is gezet')
   }
 }
 

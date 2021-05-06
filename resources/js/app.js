@@ -31,6 +31,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Vuelidate)
 
+
 Vue.component('left-navigation', require('./components/LeftNavigation.vue').default);
 Vue.component('workouts', require('./components/Workouts.vue').default);
 Vue.component('profile', require('./components/Profile.vue').default);
@@ -38,6 +39,7 @@ Vue.component('sign-in', require('./components/Login.vue').default);
 Vue.component('dashboard', require('./components/Dashboard.vue').default);
 Vue.component('horizontalNav', require('./components/horizontalNavigation.vue').default);
 Vue.component('register', require('./components/Register.vue').default);
+Vue.component('workout-form', require('./components/WorkoutForm.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
