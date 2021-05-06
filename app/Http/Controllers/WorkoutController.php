@@ -19,7 +19,10 @@ class WorkoutController extends Controller
             return response()->json(['error' => 'User does not exist'], 500);
         }
 
-        return $request->user()->workouts;
+        //$myWorkouts = $request->user()->workouts;
+        //$myWorkouts = Workout::paginate(5)->where('user_id', $request->user()->id);
+        $myWorkouts = Workout::where('user_id', $request->user()->id)->paginate(3);
+        return $myWorkouts;
     }
 
     /**

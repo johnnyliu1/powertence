@@ -51,6 +51,7 @@ export default {
         ...mapMutations('workouts', [
             'setWorkouts'
         ]),
+
         onSubmit: function (event) {
             event.preventDefault()
             console.log(event)
