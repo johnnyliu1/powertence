@@ -18,6 +18,7 @@ class WorkoutController extends Controller
         if(!$request->user()) {
             return response()->json(['error' => 'User does not exist'], 500);
         }
+
         return $request->user()->workouts;
     }
 
@@ -39,7 +40,12 @@ class WorkoutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newWorkout = new Workout();
+        $newWorkout->name = $request->name;
+        $newWorkout->user_id = $request->userId;
+        $newWorkout->save();
+
+        return $newWorkout;
     }
 
     /**

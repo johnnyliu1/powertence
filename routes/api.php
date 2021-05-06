@@ -28,6 +28,10 @@ Route::get('/test', function() {
 Route::post('/register', [UserController::class, 'register']);
 
 Route::get('/workouts', [WorkoutController::class, 'index']);
+Route::post('/workouts/store', [WorkoutController::class, 'store']);
+Route::put('/workouts/{id}', [WorkoutController::class, 'update']);
+Route::delete('/workouts/{id}', [WorkoutController::class, 'destroy']);
+
 
 Route::middleware('auth:sanctum')->get('/profile', [WorkoutController::class, 'index']);
 
