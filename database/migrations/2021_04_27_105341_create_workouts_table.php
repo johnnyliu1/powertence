@@ -17,6 +17,8 @@ class CreateWorkoutsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('user_id');
+            $table->timestamp('startTime')->useCurrent();
+            $table->timestamp('stopTime')->nullable();
             $table->timestamps();
         });
     }
