@@ -13,6 +13,11 @@ export default {
 };
 </script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro');
+
+* {
+    font-family: "Source Sans Pro";
+}
 .b-nav {
     height: 100vh;
     background: #a53239;

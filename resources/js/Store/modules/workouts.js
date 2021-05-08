@@ -18,21 +18,30 @@ const getters = {
 
 // actions
 const actions = {
-/*  dit is de functie zonder pagination
-    async getAllWorkouts({commit}) {
-        const response = await axios.get('/api/workouts')
-        commit('setWorkouts', response.data)
-        commit('setLaravelData', response.data)
-        console.log(response.data)
-    },*/
+
+    /*    async getAllWorkouts({commit}) {
+            const response = await axios.get('/api/workouts')
+            commit('setWorkouts', response.data)
+            commit('setLaravelData', response.data)
+            console.log(response.data)
+        },*/
     async getResults({commit}, page = 1) {
         axios.get('api/workouts?page=' + page)
             .then(response => {
                 this.laravelData = response.data;
                 commit('setLaravelData', response.data)
             });
+    },
+    async deleteWorkout({commit, state}, id) {
+        console.log(id)
+        try {
+            const response = await axios.delete('api/workouts/delete/' + id)
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
+
 
 // mutations
 const mutations = {

@@ -80,9 +80,12 @@ class WorkoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $workout = Workout::find($request->workoutId);
+        $workout->name = $request->name;
+        $workout->update();
+        return $request;
     }
 
     /**
@@ -91,8 +94,10 @@ class WorkoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        $workout = Workout::where('id', $id);
+        $workout->delete();
     }
 }

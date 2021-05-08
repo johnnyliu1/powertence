@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-form @submit="onSubmit" v-if="show">
+        <b-form @submit="onSubmit" v-if="show" >
             <b-form-group id="input-group-2" label="Name of the workout" label-for="input-2">
                 <b-form-input
                     id="input-2"
@@ -46,10 +46,10 @@ export default {
     },
     methods: {
         ...mapActions('workouts', [
-            'getAllWorkouts'
+            'getResults'
         ]),
         ...mapMutations('workouts', [
-            'setWorkouts'
+            'setLaravelData'
         ]),
 
         onSubmit: function (event) {
@@ -62,7 +62,7 @@ export default {
                 .then((response) => {
                     console.log(response);
                     console.log(this.form.name)
-                    this.$store.dispatch("workouts/getAllWorkouts");
+                    this.$store.dispatch("workouts/getResults");
                     this.$bvModal.hide('workoutForm')
                 })
                 .catch(error => {
@@ -74,7 +74,8 @@ export default {
     },
     computed: {
         ...mapGetters('workouts', [
-            'workouts'
+            //'workouts',
+            'laravelData'
         ]),
         ...mapGetters('user', [
             'authenticated',
