@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ExerciseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,15 @@ Route::post('/register', [UserController::class, 'register']);
 Route::get('/workouts', [WorkoutController::class, 'index']);
 Route::post('/workouts/store', [WorkoutController::class, 'store']);
 Route::put('/workouts/update/{id}', [WorkoutController::class, 'update']);
+Route::put('/workouts/update/timer/{id}', [WorkoutController::class, 'updateTimer']);
 Route::delete('/workouts/delete/{id}', [WorkoutController::class, 'destroy']);
+
+Route::get('/exercises/{id}', [ExerciseController::class, 'getExercisesForWorkout']);
+Route::post('/exercises/store', [ExerciseController::class, 'store']);
+Route::put('/exercises/update/{id}', [ExerciseController::class, 'update']);
+Route::delete('/exercises/delete/{id}', [ExerciseController::class, 'destroy']);
+
+
 
 
 Route::middleware('auth:sanctum')->get('/profile', [WorkoutController::class, 'index']);

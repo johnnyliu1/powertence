@@ -40,6 +40,7 @@ Vue.component('dashboard', require('./components/Dashboard.vue').default);
 Vue.component('horizontalNav', require('./components/horizontalNavigation.vue').default);
 Vue.component('register', require('./components/Register.vue').default);
 Vue.component('workout-form', require('./components/WorkoutForm.vue').default);
+Vue.component('exercise-form', require('./components/ExerciseForm.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

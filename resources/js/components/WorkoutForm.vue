@@ -81,6 +81,7 @@ export default {
             'authenticated',
             'user'
         ]),
+
     },
 }
 </script>

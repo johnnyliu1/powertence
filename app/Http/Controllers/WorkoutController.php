@@ -88,6 +88,15 @@ class WorkoutController extends Controller
         return $request;
     }
 
+    public function updateTimer(Request $request)
+    {
+        $workout = Workout::find($request->workoutId);
+        $workout->stopTime = $request->stopTime;
+        $workout->betweenTime = $request->betweenTime;
+        $workout->update();
+        return $request;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
