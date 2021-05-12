@@ -2,13 +2,15 @@ import Vue from 'vue';
 import Vuex from 'vuex'
 import workouts from './modules/workouts'
 import user from './modules/user'
+import exercises from './modules/exercises'
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     modules: {
         workouts,
-        user
+        user,
+        exercises
     },
     mutations: {
 		initialiseStore(state) {

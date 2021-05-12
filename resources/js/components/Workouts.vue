@@ -70,6 +70,89 @@
                                 </b-button>
                             </div>
                         </template>
+                        <b-card-body class="p-1">
+                            <h4>Started: {{ workout.startTime | moment }}</h4>
+                            <b-button
+                                variant="danger"
+                                @click="endWorkout(workout)"
+                                v-if="workout.stopTime === null"
+                            >
+                                End workout
+                            </b-button>
+                            <p v-if="workout.stopTime === null">{{ now }}</p>
+                            <p v-else>Time {{ workout.betweenTime | timer }}</p>
+                            <template v-if="workout.stopTime === null">
+                                <exercise-form :workoutId="workout.id"></exercise-form>
+                            </template>
+                            <template>
+
+                                <b-button
+                                    @click="toggleShowDetail(workout.id)"
+                                    size="sm"
+                                    class="mt-2"
+                                    variant="dark"
+
+                                >
+                                    Details
+                                </b-button>
+                            </template>
+                            <template v-if="showDetailState.includes(workout.id)">
+                                <template v-if="exercises.length">
+                                    <b-card-header class="border mt-4">Exercises</b-card-header>
+                                    <ol class="list-group list-group-numbered">
+
+                                        <div v-for="exercise in exercises">
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold"><h4>{{ exercise.name }}</h4></div>
+
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label>Set</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <label>Kg</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <label>Reps</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <b-form v-if="workout.stopTime === null">
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                <b-form-input size="sm" type="number">
+
+                                                                </b-form-input>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <b-form-input size="sm" type="number">
+
+                                                                </b-form-input>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <b-form-input size="sm" type="number">
+
+                                                                </b-form-input>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <b-button type="submit">Submit</b-button>
+                                                            </div>
+                                                        </div>
+                                                    </b-form>
+
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </ol>
+                                </template>
+                                <template v-else>
+                                    <h5 class="mt-2">No exercises exist for this workout</h5>
+                                </template>
+                            </template>
+
+
+                        </b-card-body>
                     </b-card>
                 </b-card-group>
             </div>
@@ -81,8 +164,17 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import moment from 'moment'
 
 export default {
+    filters: {
+        moment(date) {
+            return moment(date).format("LLLL HH:mm:ss")
+        },
+        timer(date) {
+            return moment(date).utcOffset(0).format("HH:mm:ss")
+        }
+    },
     beforeMount() {
         if (this.authenticated === false) {
             this.$router.push("/signin");
@@ -97,7 +189,15 @@ export default {
                 name: '',
                 user: this.id,
                 workoutId: null
-            }
+            },
+            exerciseForm: {
+                name: '',
+                workoutId: null
+            },
+            now: 0,
+            timedTracker: 0,
+            showDetailState: [],
+            showDetail: false
         };
     },
     methods: {
@@ -109,6 +209,27 @@ export default {
             //'setWorkouts',
             'setLaravelData'
         ]),
+        ...mapActions('exercises', [
+            'saveExercise',
+            'getAllExercisesForWorkout'
+        ]),
+        ...mapMutations('exercises', [
+            'setExercises'
+        ]),
+        toggleShowDetail(workoutId) {
+            if (this.showDetailState.includes(workoutId)) {
+                this.$store.dispatch('exercises/getAllExercisesForWorkout', workoutId)
+                let index = this.showDetailState.indexOf(workoutId)
+                this.showDetailState.splice(index, 1)
+                if (index !== -1) {
+                    this.showDetailState.splice(index, 1)
+                }
+            } else {
+                this.showDetailState.push(workoutId)
+                this.$store.dispatch('exercises/getAllExercisesForWorkout', workoutId)
+
+            }
+        },
         deleteAndRefresh(workout) {
             this.deleteWorkout(workout);
             this.$store.dispatch("workouts/getResults");
@@ -154,6 +275,42 @@ export default {
             this.form.workoutId = workout.id
             this.$bvModal.show('UpdateWorkoutForm')
         },
+        endWorkout(workout) {
+            this.form.workoutId = workout.id
+
+            let milliseconds = this.now
+            let currentTimeInMilliseconds = moment.duration(milliseconds);
+            let startTime = moment(workout.startTime).valueOf();
+            let timeSinceStart = currentTimeInMilliseconds.asMilliseconds() - startTime
+            let stopTime = startTime + timeSinceStart
+            let endValueOfStopTime = moment(stopTime).format("YYYY-MM-DD HH:mm:ss")
+
+            /* console.log('currentTime = ' + moment(this.now).format())
+             console.log(currentTimeInMilliseconds.asMilliseconds())
+             console.log('startTime ' + moment(startTime).format("HH:mm:ss"))
+             console.log(currentTimeInMilliseconds.asMilliseconds() - startTime)
+             console.log('timeSinceStart = ' + moment(timeSinceStart, '').utcOffset(0).format("HH:mm:ss"))
+             console.log('timeSinceStart ISO = ' + moment(timeSinceStart).utcOffset(0).format())
+             console.log(parseInt(stopTime))
+             console.log(moment(stopTime).format("YYYY-MM-DD HH:mm:ss"))*/
+            let endValueOfTimeSinceStart = moment(timeSinceStart).format("YYYY-MM-DD HH:mm:ss")
+
+            if (workout.stopTime === null) {
+                this.form.workoutId = workout.id
+                axios.put('api/workouts/update/timer/' + this.form.workoutId, {
+                    workoutId: this.form.workoutId,
+                    stopTime: endValueOfStopTime,
+                    betweenTime: endValueOfTimeSinceStart
+                })
+                    .then((response) => {
+                        console.log(response);
+                        this.getResults()
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+        },
         onUpdate: function (event) {
             event.preventDefault()
             axios.put('api/workouts/update/' + this.form.workoutId, {
@@ -169,6 +326,9 @@ export default {
                     console.log(error);
                 })
         },
+        currentTime() {
+            this.now = Date.now()
+        },
     },
     mounted() {
         console.log('Component mounted.');
@@ -183,10 +343,18 @@ export default {
             'authenticated',
             'user'
         ]),
+        ...mapGetters('exercises', [
+            'exercises'
+        ]),
+        timeSinceStart() {
+            return this.now - 100000000
+        }
     },
     created() {
         this.$store.dispatch("workouts/getResults");
         console.log(this.laravelData)
+        this.currentTime()
+        setInterval(this.currentTime.bind(this), 1000)
     },
 };
 </script>
