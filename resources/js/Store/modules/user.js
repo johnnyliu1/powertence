@@ -26,7 +26,6 @@ const actions = {
 
     async signOut({dispatch}) {
         await axios.post('/logout')
-
         return dispatch('loadUser')
     },
 

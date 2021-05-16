@@ -3,6 +3,7 @@
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\SetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,12 @@ Route::get('/exercises/{id}', [ExerciseController::class, 'getExercisesForWorkou
 Route::post('/exercises/store', [ExerciseController::class, 'store']);
 Route::put('/exercises/update/{id}', [ExerciseController::class, 'update']);
 Route::delete('/exercises/delete/{id}', [ExerciseController::class, 'destroy']);
+
+
+Route::get('/sets/{id}', [SetController::class, 'getAllSetsForExercise']);
+Route::post('/sets/store', [SetController::class, 'store']);
+Route::put('/sets/update/{id}', [SetController::class, 'update']);
+Route::delete('/sets/delete/{id}', [SetController::class, 'destroy']);
 
 
 

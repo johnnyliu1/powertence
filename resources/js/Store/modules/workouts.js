@@ -3,7 +3,8 @@ import * as qs from 'qs'
 // initial state
 const state = () => ({
     workouts: [],
-    laravelData: {}
+    active: false,
+    laravelData: {},
 })
 
 // getters
@@ -13,18 +14,14 @@ const getters = {
     },
     laravelData(state) {
         return state.laravelData
+    },
+    active(state) {
+        return state.active
     }
 }
 
 // actions
 const actions = {
-
-    /*    async getAllWorkouts({commit}) {
-            const response = await axios.get('/api/workouts')
-            commit('setWorkouts', response.data)
-            commit('setLaravelData', response.data)
-            console.log(response.data)
-        },*/
     async getResults({commit}, page = 1) {
         axios.get('api/workouts?page=' + page)
             .then(response => {
@@ -40,6 +37,9 @@ const actions = {
             console.log(e)
         }
     },
+    activate({commit, state}, value) {
+        commit('setActive', value)
+    }
 }
 
 
@@ -50,6 +50,9 @@ const mutations = {
     },
     setLaravelData(state, workouts) {
         state.laravelData = workouts
+    },
+    setActive(state, toggle) {
+        state.active = toggle
     }
 }
 

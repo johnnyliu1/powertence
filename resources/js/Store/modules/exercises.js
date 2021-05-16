@@ -22,11 +22,11 @@ const actions = {
     },
 
     async saveExercise({commit, state, dispatch}, exercise) {
-            console.log(exercise)
-           const response = await axios.post('api/exercises/store', {
-                name: exercise.name,
-                workoutId: exercise.workoutId
-            })
+        console.log(exercise)
+        const response = await axios.post('api/exercises/store', {
+            name: exercise.name,
+            workoutId: exercise.workoutId
+        })
         dispatch('getAllExercisesForWorkout', exercise.workoutId)
         return response;
 

@@ -18,8 +18,11 @@ export default {
         console.log("dashboard mounted");
     },
     beforeMount() {
+
+    },
+    created() {
         if (this.authenticated === false) {
-            this.$router.push('/signin')
+        this.$router.push('/signin')
         }
     },
     computed: {
