@@ -17,9 +17,11 @@ class SetController extends Controller
         //
     }
 
-    public function getAllSetsForExercise()
+    public function getAllSetsForExercise($id)
     {
-        return ['test' => 'test'];
+        $mySets = Set::where('exercise_id', $id)->get();
+
+        return $mySets;
     }
     /**
      * Show the form for creating a new resource.

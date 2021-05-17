@@ -5,6 +5,7 @@ const state = () => ({
     workouts: [],
     active: false,
     laravelData: {},
+    workoutStartTimes: new Map()
 })
 
 // getters
@@ -39,6 +40,9 @@ const actions = {
     },
     activate({commit, state}, value) {
         commit('setActive', value)
+    },
+    addWorkoutStartTime({commit, state}, value) {
+      commit('setWorkoutStartTime', value )
     }
 }
 
@@ -53,6 +57,9 @@ const mutations = {
     },
     setActive(state, toggle) {
         state.active = toggle
+    },
+    setWorkoutStartTime(state, workoutId) {
+        state.workoutStartTimes.set(workoutId, new Date())
     }
 }
 
