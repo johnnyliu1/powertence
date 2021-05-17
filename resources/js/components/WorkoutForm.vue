@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-form @submit="onSubmit" v-if="show" >
+        <b-form @submit="onSubmit" v-if="show">
             <b-form-group id="input-group-2" label="Name of the workout" label-for="input-2">
                 <b-form-input
                     id="input-2"
@@ -9,7 +9,7 @@
                     required
                 ></b-form-input>
             </b-form-group>
-            <b-form-group  id="input-group-3" label="id" label-for="id">
+            <b-form-group id="input-group-3" label="id" label-for="id">
                 <b-form-input
                     id="id"
                     v-model="id"
@@ -46,23 +46,26 @@ export default {
     },
     methods: {
         ...mapActions('workouts', [
-            'getResults'
+            'getResults',
+            'activate'
         ]),
         ...mapMutations('workouts', [
-            'setLaravelData'
+            'setLaravelData',
+            'setActive'
         ]),
 
         onSubmit: function (event) {
             event.preventDefault()
             console.log(event)
             axios.post('api/workouts/store', {
-                    name: this.form.name,
-                    userId: this.id
+                name: this.form.name,
+                userId: this.id
             })
                 .then((response) => {
                     console.log(response);
                     console.log(this.form.name)
                     this.$store.dispatch("workouts/getResults");
+                    this.$store.dispatch('workouts/activate', true)
                     this.$bvModal.hide('workoutForm')
                 })
                 .catch(error => {
@@ -75,7 +78,8 @@ export default {
     computed: {
         ...mapGetters('workouts', [
             //'workouts',
-            'laravelData'
+            'laravelData',
+            'active'
         ]),
         ...mapGetters('user', [
             'authenticated',

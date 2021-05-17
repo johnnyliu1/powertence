@@ -8,7 +8,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import router from './Router/index';
 import store from './Store/index';
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import { BootstrapVue, IconsPlugin, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuelidate from 'vuelidate'
@@ -29,7 +29,8 @@ window.Vue = require('vue').default;
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
-Vue.use(Vuelidate)
+Vue.use(Vuelidate);
+Vue.use(BootstrapVueIcons);
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('left-navigation', require('./components/LeftNavigation.vue').default);
@@ -41,6 +42,7 @@ Vue.component('horizontalNav', require('./components/horizontalNavigation.vue').
 Vue.component('register', require('./components/Register.vue').default);
 Vue.component('workout-form', require('./components/WorkoutForm.vue').default);
 Vue.component('exercise-form', require('./components/ExerciseForm.vue').default);
+Vue.component('set-form', require('./components/SetForm.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

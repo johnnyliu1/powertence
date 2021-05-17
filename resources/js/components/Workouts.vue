@@ -1,11 +1,14 @@
 <template>
     <div class="container">
         <h1>Workouts</h1>
-        {{ authenticated }}
-        {{ user }}
         <div>
-            <b-button class="mt-3 mb-3" v-b-modal.workoutForm>Create new workout</b-button>
-
+            {{ authenticated }}
+            {{ user.name }}
+            {{ active }}
+        </div>
+        <div>
+            <b-button v-if="this.active === false" class="mt-3 mb-3" v-b-modal.workoutForm>Create new workout</b-button>
+            <b-button v-else disabled class="mt-3 mb-3" v-b-modal.workoutForm>Workout in progress</b-button>
             <b-modal id="workoutForm" title="CreateWorkout" hide-footer>
                 <workout-form></workout-form>
             </b-modal>
@@ -71,13 +74,16 @@
                             </div>
                         </template>
                         <b-card-body class="p-1">
-                            <h4>Started: {{ workout.startTime | moment }}</h4>
+                            <!--  <h4>Started: {{ workout.startTime | moment }}</h4> -->
                             <b-button
                                 variant="danger"
                                 @click="endWorkout(workout)"
                                 v-if="workout.stopTime === null"
+                                size="small"
                             >
-                                End workout
+
+                                <b-icon icon="stop-circle"></b-icon>
+                                <span class="ml-1">End workout</span>
                             </b-button>
                             <p v-if="workout.stopTime === null">{{ now }}</p>
                             <p v-else>Time {{ workout.betweenTime | timer }}</p>
@@ -93,58 +99,26 @@
                                     variant="dark"
 
                                 >
-                                    Details
+                                    Show exercises
                                 </b-button>
                             </template>
                             <template v-if="showDetailState.includes(workout.id)">
                                 <template v-if="exercises.length">
                                     <b-card-header class="border mt-4">Exercises</b-card-header>
-                                    <ol class="list-group list-group-numbered">
-
+                                    <ul class="list-group list-unstyled list-group-numbered">
                                         <div v-for="exercise in exercises">
-                                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                                <div class="ms-2 me-auto">
-                                                    <div class="fw-bold"><h4>{{ exercise.name }}</h4></div>
-
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <label>Set</label>
-                                                        </div>
-                                                        <div class="col-sm-3">
-                                                            <label>Kg</label>
-                                                        </div>
-                                                        <div class="col-sm-3">
-                                                            <label>Reps</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <b-form v-if="workout.stopTime === null">
-                                                        <div class="row">
-                                                            <div class="col-sm-3">
-                                                                <b-form-input size="sm" type="number">
-
-                                                                </b-form-input>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <b-form-input size="sm" type="number">
-
-                                                                </b-form-input>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <b-form-input size="sm" type="number">
-
-                                                                </b-form-input>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <b-button type="submit">Submit</b-button>
-                                                            </div>
-                                                        </div>
-                                                    </b-form>
-
-                                                </div>
-                                            </li>
+                                            <li class="list-group-item">
+                                                <set-form
+                                                    v-if="workout.stopTime === null"
+                                                    :exercise="exercise">
+                                                </set-form>
+                                                <b-button size="sm" class="mt-2">
+                                                    <b-icon-grip-horizontal></b-icon-grip-horizontal>
+                                                    Sets
+                                                </b-button>
+                                            <li/>
                                         </div>
-                                    </ol>
+                                    </ul>
                                 </template>
                                 <template v-else>
                                     <h5 class="mt-2">No exercises exist for this workout</h5>
@@ -203,7 +177,8 @@ export default {
     methods: {
         ...mapActions('workouts', [
             'getResults',
-            'deleteWorkout'
+            'deleteWorkout',
+            'activate'
         ]),
         ...mapMutations('workouts', [
             //'setWorkouts',
@@ -216,6 +191,9 @@ export default {
         ...mapMutations('exercises', [
             'setExercises'
         ]),
+        workoutActive(value) {
+            this.$store.dispatch('workouts/activate', value)
+        },
         toggleShowDetail(workoutId) {
             if (this.showDetailState.includes(workoutId)) {
                 this.$store.dispatch('exercises/getAllExercisesForWorkout', workoutId)
@@ -276,6 +254,7 @@ export default {
             this.$bvModal.show('UpdateWorkoutForm')
         },
         endWorkout(workout) {
+            this.$store.dispatch('workouts/activate', false)
             this.form.workoutId = workout.id
 
             let milliseconds = this.now
@@ -337,7 +316,12 @@ export default {
     computed: {
         ...mapGetters('workouts', [
             //'workouts',
-            'laravelData'
+            'laravelData',
+            'active'
+        ]),
+        ...mapState('workouts', [
+            'active',
+            'test'
         ]),
         ...mapGetters('user', [
             'authenticated',
@@ -346,15 +330,19 @@ export default {
         ...mapGetters('exercises', [
             'exercises'
         ]),
-        timeSinceStart() {
-            return this.now - 100000000
-        }
+        ...mapGetters('sets', [
+            'sets'
+        ]),
     },
     created() {
         this.$store.dispatch("workouts/getResults");
         console.log(this.laravelData)
         this.currentTime()
         setInterval(this.currentTime.bind(this), 1000)
+        // when new user gets created the state of active was true so no workout could be created
+        if (this.laravelData.data.length === 0) {
+            this.$store.dispatch("workouts/activate", false)
+        }
     },
 };
 </script>
