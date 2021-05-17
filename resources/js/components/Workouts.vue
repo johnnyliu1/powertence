@@ -85,7 +85,7 @@
                                 <b-icon icon="stop-circle"></b-icon>
                                 <span class="ml-1">End workout</span>
                             </b-button>
-                            <p v-if="workout.stopTime === null">{{ now }}</p>
+                            <p v-if="workout.stopTime === null">{{ calculateTimePassed(workout.startTime) | timer }}</p>
                             <p v-else>Time {{ workout.betweenTime | timer }}</p>
                             <template v-if="workout.stopTime === null">
                                 <exercise-form :workoutId="workout.id"></exercise-form>
@@ -94,12 +94,23 @@
 
                                 <b-button
                                     @click="toggleShowDetail(workout.id)"
+                                    v-if="!showDetailState.includes(workout.id)"
                                     size="sm"
                                     class="mt-2"
                                     variant="dark"
 
                                 >
                                     Show exercises
+                                </b-button>
+                                <b-button
+                                    @click="toggleHideDetail(workout.id)"
+                                    v-else
+                                    size="sm"
+                                    class="mt-2"
+                                    variant="dark"
+
+                                >
+                                    Hide exercises
                                 </b-button>
                             </template>
                             <template v-if="showDetailState.includes(workout.id)">
@@ -112,20 +123,30 @@
                                                     v-if="workout.stopTime === null"
                                                     :exercise="exercise">
                                                 </set-form>
-                                                <b-button size="sm" class="mt-2">
-                                                    <b-icon-grip-horizontal></b-icon-grip-horizontal>
-                                                    Sets
-                                                </b-button>
+                                                <template>
+                                                    <h4>{{ exercise.name }}</h4>
+                                                    <b-button
+                                                        size="sm"
+                                                        class="mt-2"
+                                                        v-b-modal.setModal
+                                                        @click="toggleShowSetsDetail(exercise.id)"
+                                                    >
+                                                        <b-icon-grip-horizontal></b-icon-grip-horizontal>
+                                                        Show sets
+                                                    </b-button>
+                                                </template>
+
                                             <li/>
                                         </div>
                                     </ul>
+                                    <b-modal id="setModal" hide-footer>
+                                        <set-detail></set-detail>
+                                    </b-modal>
                                 </template>
                                 <template v-else>
                                     <h5 class="mt-2">No exercises exist for this workout</h5>
                                 </template>
                             </template>
-
-
                         </b-card-body>
                     </b-card>
                 </b-card-group>
@@ -171,7 +192,9 @@ export default {
             now: 0,
             timedTracker: 0,
             showDetailState: [],
-            showDetail: false
+            showDetail: false,
+            showSetsDetail: false,
+            showSetsDetailState: []
         };
     },
     methods: {
@@ -191,23 +214,72 @@ export default {
         ...mapMutations('exercises', [
             'setExercises'
         ]),
+        calculateTimePassed(startTimeString) {
+            const startTime = moment(startTimeString).valueOf();
+            return this.now - startTime
+        },
         workoutActive(value) {
             this.$store.dispatch('workouts/activate', value)
         },
         toggleShowDetail(workoutId) {
+            this.showDetailState = []
             if (this.showDetailState.includes(workoutId)) {
-                this.$store.dispatch('exercises/getAllExercisesForWorkout', workoutId)
                 let index = this.showDetailState.indexOf(workoutId)
                 this.showDetailState.splice(index, 1)
                 if (index !== -1) {
                     this.showDetailState.splice(index, 1)
                 }
+                this.$store.dispatch('exercises/getAllExercisesForWorkout', workoutId)
             } else {
                 this.showDetailState.push(workoutId)
                 this.$store.dispatch('exercises/getAllExercisesForWorkout', workoutId)
-
             }
         },
+        toggleShowSetsDetail(exerciseId) {
+
+            if (this.showSetsDetailState.includes(exerciseId)) {
+                this.showSetsDetailState = this.showSetsDetailState.filter(x => x !== exerciseId)
+                this.$store.dispatch('sets/getAllSetsForExercise', exerciseId)
+                console.log(this.showSetsDetailState)
+            } else {
+                this.showSetsDetailState.push(exerciseId)
+                this.$store.dispatch('sets/getAllSetsForExercise', exerciseId)
+                console.log(this.showSetsDetailState)
+            }
+        },
+        toggleHideDetail(workoutId) {
+            if (this.showDetailState.includes(workoutId)) {
+                let index = this.showDetailState.indexOf(workoutId)
+                this.showDetailState.splice(index, 1)
+                if (index !== -1) {
+                    this.showDetailState.splice(index, 1)
+                }
+                this.$store.dispatch('exercises/getAllExercisesForWorkout', workoutId)
+            } else {
+                this.$bvToast.toast('There is an error', {
+                    title: 'Error',
+                    autoHideDelay: 5000,
+                    appendToast: append
+                })
+            }
+        },
+        toggleHideSetsDetail(exerciseId) {
+            if (this.showSetsDetailState.includes(exerciseId)) {
+                let index = this.showSetsDetailState.indexOf(exerciseId)
+                this.showSetsDetailState.splice(index, 1)
+                if (index !== -1) {
+                    this.showSetsDetailState.splice(index, 1)
+                }
+                this.$store.dispatch('sets/getAllSetsForExercise', exerciseId)
+            } else {
+                this.$bvToast.toast('There is an error', {
+                    title: 'Error',
+                    autoHideDelay: 5000,
+                    appendToast: append
+                })
+            }
+        },
+
         deleteAndRefresh(workout) {
             this.deleteWorkout(workout);
             this.$store.dispatch("workouts/getResults");
@@ -338,6 +410,7 @@ export default {
         this.$store.dispatch("workouts/getResults");
         console.log(this.laravelData)
         this.currentTime()
+
         setInterval(this.currentTime.bind(this), 1000)
         // when new user gets created the state of active was true so no workout could be created
         if (this.laravelData.data.length === 0) {
