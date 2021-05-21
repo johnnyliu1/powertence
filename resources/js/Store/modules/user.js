@@ -1,7 +1,9 @@
 // initial state
 const state = () => ({
     authenticated: false,
-    user: null
+    user: null,
+    wrong: false,
+    profile: null
 })
 
 // getters
@@ -11,6 +13,12 @@ const getters = {
     },
     user(state) {
         return state.user
+    },
+    wrong(state) {
+        return state.wrong
+    },
+    profile(state) {
+        return state.profile
     }
 }
 
@@ -43,13 +51,20 @@ const actions = {
     async registerUser({dispatch}, credentials) {
         await axios.post('/api/register', credentials)
             .then(function () {
-                console.log('user has been saved')
+                console.log('user registered')
             })
             .catch(function (error) {
                 console.log(error + 'user.js')
             })
+    },
+    async loadWrong({commit}, value) {
+        commit('setWrong', value)
+    },
+    async makeProfile({commit, dispatch}, id) {
+
     }
 }
+
 
 // mutations
 const mutations = {
@@ -59,6 +74,9 @@ const mutations = {
     SET_USER(state, value) {
         state.user = value;
     },
+    setWrong(state, value) {
+        state.wrong = value;
+    }
 
 }
 

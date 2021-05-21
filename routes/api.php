@@ -4,6 +4,7 @@ use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\SetController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,10 @@ Route::get('/sets/{id}', [SetController::class, 'getAllSetsForExercise']);
 Route::post('/sets/store', [SetController::class, 'store']);
 Route::put('/sets/update/{id}', [SetController::class, 'update']);
 Route::delete('/sets/delete/{id}', [SetController::class, 'destroy']);
+
+Route::get('/profile/{id}', [ProfileController::class, 'index']);
+Route::post('/profile/store', [ProfileController::class, 'store']);
+Route::put('/profile/update/{id}', [ProfileController::class, 'update']);
 
 
 

@@ -6,11 +6,11 @@
 
         <b-container class="bv-example-row">
             <b-row>
-                <b-col class="bg mt-2">
+                <b-col cols="12" md="12" class="bg mt-2 profilePicture">
                     <b-avatar size="10em"></b-avatar>
-                    <div class="d-inline-block ml-5">
+                    <div class="d-inline-block">
                         <h2>{{user.name}}</h2>
-                        <h2>Account created {{user.created_at}}</h2>
+                        <h5>Account created {{user.created_at}}</h5>
                     </div>
                 </b-col>
             </b-row>
@@ -27,7 +27,7 @@
                         </b-input-group>
                     </div>
                 </b-col>
-                <b-col>
+                <b-col cols="12" md="6">
                     <b-input-group prepend="Date of birth" class="mt-3">
                         <b-form-input disabled>
                         </b-form-input>
@@ -44,8 +44,12 @@
             </b-row>
 
             <b-row>
+
                 <b-col>
-                    <b-button class="mt-4" variant="info">Edit profile</b-button>
+                    <b-button class="mt-4" v-b-modal.profileForm variant="info">Edit profile</b-button>
+                    <b-modal id="profileForm" title="Edit profile" hide-footer>
+                        <profile-form></profile-form>
+                    </b-modal>
                 </b-col>
             </b-row>
         </b-container>
@@ -73,6 +77,7 @@ export default {
     },
     methods: {},
     created() {
+
     },
 };
 </script>
@@ -80,5 +85,12 @@ export default {
 <style scoped>
 .bg {
     background-color: red;
+}
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767px) {
+    .profilePicture {
+        text-align: center;
+    }
 }
 </style>

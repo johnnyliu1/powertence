@@ -83,10 +83,9 @@
                             >
 
                                 <b-icon icon="stop-circle"></b-icon>
-                                <span class="ml-1">End workout</span>
+                                <span class="ml-1">{{ calculateTimePassed(workout.startTime) | timer }}</span>
                             </b-button>
-                            <p v-if="workout.stopTime === null">{{ calculateTimePassed(workout.startTime) | timer }}</p>
-                            <p v-else>Time {{ workout.betweenTime | timer }}</p>
+                            <p v-if="workout.stopTime !== null">Time {{ workout.betweenTime | timer }}</p>
                             <template v-if="workout.stopTime === null">
                                 <exercise-form :workoutId="workout.id"></exercise-form>
                             </template>
