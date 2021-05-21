@@ -92,7 +92,6 @@ export default {
                 minLength: minLength(8)
             }
         }
-
     },
     methods: {
         ...mapActions('user', [
@@ -130,7 +129,7 @@ export default {
             try {
                 await axios.post('/api/register', userData)
                     .then(function () {
-                        console.log('user has been saved thenTHENN')
+                        console.log('user has been saved then')
                     })
             } catch (e) {
                 validated = false
