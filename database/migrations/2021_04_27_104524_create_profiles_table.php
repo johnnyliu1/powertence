@@ -15,6 +15,10 @@ class CreateProfilesTable extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->dateTime('birthDate')->nullable();
+            $table->text('startWeight')->nullable();
+            $table->longText('goals')->nullable();
             $table->timestamps();
         });
     }

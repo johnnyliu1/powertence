@@ -8,10 +8,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import router from './Router/index';
 import store from './Store/index';
-import { BootstrapVue, IconsPlugin, BootstrapVueIcons } from 'bootstrap-vue'
+import {BootstrapVue, IconsPlugin, BootstrapVueIcons} from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuelidate from 'vuelidate'
+
 require('./bootstrap');
 
 window.Vue = require('vue').default;
@@ -44,17 +45,18 @@ Vue.component('workout-form', require('./components/WorkoutForm.vue').default);
 Vue.component('exercise-form', require('./components/ExerciseForm.vue').default);
 Vue.component('set-form', require('./components/SetForm.vue').default);
 Vue.component('set-detail', require('./components/SetDetail.vue').default);
+Vue.component('profile-form', require('./components/ProfileForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
-*/
+ */
 const app = new Vue({
     beforeCreate() {
-		this.$store.commit('initialiseStore');
-	},
-    router,
+        this.$store.commit('initialiseStore');
+    },
     store,
+    router,
     el: '#app',
 });
