@@ -1,13 +1,17 @@
 <template>
     <b-form @submit.prevent="validateForm" class="">
         <label>Add a exercise</label>
+        <b-input-group>
         <b-form-input
             id="exerciseName"
             v-model="exerciseForm.name"
             placeholder="Exercise..."
             required
         ></b-form-input>
-        <b-button type="submit" class="mt-2" variant="info">Add exercise</b-button>
+            <b-input-group-append>
+                <b-button type="submit" variant="info">Add exercise</b-button>
+            </b-input-group-append>
+        </b-input-group>
     </b-form>
 </template>
 

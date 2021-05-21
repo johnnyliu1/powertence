@@ -43,6 +43,8 @@ Vue.component('register', require('./components/Register.vue').default);
 Vue.component('workout-form', require('./components/WorkoutForm.vue').default);
 Vue.component('exercise-form', require('./components/ExerciseForm.vue').default);
 Vue.component('set-form', require('./components/SetForm.vue').default);
+Vue.component('set-detail', require('./components/SetDetail.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
