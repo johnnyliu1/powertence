@@ -23,7 +23,10 @@
                     <b-form-input
                         size="sm"
                         type="number"
-                        v-model="setForm.set"
+                        v-model="$v.setForm.set.$model"
+                        min="0"
+                        oninput="validity.valid||(value='');"
+                        :state="validateState('set')"
                     >
 
                     </b-form-input>
@@ -32,7 +35,11 @@
                     <b-form-input
                         size="sm"
                         type="number"
-                        v-model="setForm.kg">
+                        v-model="$v.setForm.kg.$model"
+                        min="0"
+                        oninput="validity.valid||(value='');"
+                        :state="validateState('kg')"
+                    >
 
                     </b-form-input>
                 </div>
@@ -40,8 +47,11 @@
                     <b-form-input
                         size="sm"
                         type="number"
-                        v-model="setForm.reps">
-
+                        v-model="$v.setForm.reps.$model"
+                        min="0"
+                        oninput="validity.valid||(value='');"
+                        :state="validateState('reps')"
+                    >
                     </b-form-input>
                 </div>
                 <div class="col-sm-3">
@@ -59,6 +69,7 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import {email, minLength, required} from "vuelidate/lib/validators";
 
 export default {
     name: "SetForm",
@@ -76,7 +87,16 @@ export default {
     methods: {
         validateForm(event) {
             event.preventDefault()
-            this.OnSubmitSet(event)
+            if (this.$v.$invalid) {
+                console.log('something is invalid')
+                this.$bvToast.toast('Please make sure all fields are filled in', {
+                    title: 'Set error',
+                    variant: 'danger',
+                    autoHideDelay: 5000
+                })
+            } else {
+                this.OnSubmitSet(event)
+            }
         },
         async OnSubmitSet(event) {
             event.preventDefault()
@@ -100,12 +120,29 @@ export default {
         ...mapMutations('sets', [
             'setSets'
         ]),
+        validateState(name) {
+            const {$dirty, $error} = this.$v.setForm[name]
+            return $dirty ? !$error : null
+        },
     },
     computed: {
         ...mapGetters('sets', [
             'sets'
         ]),
-    }
+    },
+    validations: {
+        setForm: {
+            set: {
+                required
+            },
+            kg: {
+                required
+            },
+            reps: {
+                required
+            }
+        }
+    },
 }
 </script>
 

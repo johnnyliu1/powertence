@@ -4,9 +4,9 @@
         <b-input-group>
         <b-form-input
             id="exerciseName"
-            v-model="exerciseForm.name"
+            v-model="$v.exerciseForm.name.$model"
             placeholder="Exercise..."
-            required
+            :state="validateState('name')"
         ></b-form-input>
             <b-input-group-append>
                 <b-button type="submit" variant="info">Add exercise</b-button>
@@ -17,6 +17,7 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import {email, minLength, required} from "vuelidate/lib/validators";
 
 export default {
     name: "ExerciseForm",
@@ -42,7 +43,15 @@ export default {
         ]),
         validateForm(event) {
             event.preventDefault()
-            this.onSubmitExercise(event)
+            if (this.$v.$invalid) {
+                this.$bvToast.toast('Please make sure the Exercise field is not empty', {
+                    title: 'Set error',
+                    variant: 'danger',
+                    autoHideDelay: 5000
+                })
+            } else {
+                this.onSubmitExercise(event)
+            }
         },
         async onSubmitExercise(event) {
             event.preventDefault()
@@ -57,6 +66,10 @@ export default {
                 console.log(e)
             }
         },
+        validateState(name) {
+            const {$dirty, $error} = this.$v.exerciseForm[name]
+            return $dirty ? !$error : null
+        },
     },
     computed: {
         ...mapGetters('workouts', [
@@ -70,6 +83,13 @@ export default {
         ...mapGetters('exercises', [
             'exercises'
         ]),
+    },
+    validations: {
+        exerciseForm: {
+            name: {
+                required
+            },
+        }
     },
 
 }
