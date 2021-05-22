@@ -6,17 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f56debca-ca84-41a7-949f-038205cbcd32" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Profile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_04_27_104524_create_profiles_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_04_27_104524_create_profiles_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Store/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Store/modules/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Store/modules/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Profile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Workouts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Workouts.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +216,9 @@
       <workItem from="1621593581900" duration="333000" />
       <workItem from="1621593925704" duration="2545000" />
       <workItem from="1621596481135" duration="1231000" />
-      <workItem from="1621597865789" duration="8724000" />
+      <workItem from="1621597865789" duration="13303000" />
+      <workItem from="1621635616693" duration="190000" />
+      <workItem from="1621636528332" duration="7579000" />
     </task>
     <servers />
   </component>

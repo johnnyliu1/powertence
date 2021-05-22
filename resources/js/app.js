@@ -53,9 +53,9 @@ Vue.component('profile-form', require('./components/ProfileForm.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 const app = new Vue({
-    beforeCreate() {
+/*    beforeCreate() {
         this.$store.commit('initialiseStore');
-    },
+    },*/
     store,
     router,
     el: '#app',

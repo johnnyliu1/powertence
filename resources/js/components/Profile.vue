@@ -70,14 +70,25 @@ export default {
         console.log("Component mounted.");
     },
     data() {
-        return {};
+        return {
+            user_id: this.$store.state.user.user.id
+        };
     },
     computed: {
-        ...mapGetters("user", ["authenticated", "user"]),
+        ...mapGetters("user", ["authenticated", "user",'profile']),
     },
-    methods: {},
+    methods: {
+        ...mapActions('user', [
+            'loadProfile',
+            'saveProfile'
+        ])
+    },
     created() {
-
+        if (this.profile === null) {
+            this.$store.dispatch('user/saveProfile', this.user_id)
+        } else {
+            this.$store.dispatch('user/loadProfile')
+        }
     },
 };
 </script>
