@@ -14,7 +14,7 @@ const store = new Vuex.Store({
         exercises,
         sets
     },
-    mutations: {
+/*    mutations: {
         initialiseStore(state) {
             // Check if the ID exists
             if(localStorage.getItem('store')) {
@@ -27,7 +27,7 @@ const store = new Vuex.Store({
     },
 })
 store.subscribe((mutation, state) => {
-    localStorage.setItem('store', JSON.stringify(state))
+    localStorage.setItem('store', JSON.stringify(state))*/
 });
 
 

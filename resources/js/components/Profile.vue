@@ -9,8 +9,8 @@
                 <b-col cols="12" md="12" class="bg mt-2 profilePicture">
                     <b-avatar size="10em"></b-avatar>
                     <div class="d-inline-block">
-                        <h2>{{user.name}}</h2>
-                        <h5>Account created {{user.created_at}}</h5>
+                        <h2>{{ user.name }}</h2>
+                        <h5>Account created {{ user.created_at }}</h5>
                     </div>
                 </b-col>
             </b-row>
@@ -27,7 +27,7 @@
                         </b-input-group>
                     </div>
                 </b-col>
-                <b-col cols="12" md="6">
+                <b-col v-if="profile !== null" cols="12" md="6">
                     <b-input-group prepend="Date of birth" class="mt-3">
                         <b-form-input disabled>
                         </b-form-input>
@@ -46,9 +46,13 @@
             <b-row>
 
                 <b-col>
-                    <b-button class="mt-4" v-b-modal.profileForm variant="info">Edit profile</b-button>
+                    <b-button v-if="this.profile.length === 0" class="mt-4" variant="info" @click="saveProfile(user_id)">
+                        Create profile
+                    </b-button>
+                    <b-button v-else class="mt-4" v-b-modal.profileForm variant="info">Edit profile</b-button>
                     <b-modal id="profileForm" title="Edit profile" hide-footer>
-                        <profile-form></profile-form>
+                        <profile-form v-if="this.profile.length === 0"></profile-form>
+                        <profile-form v-else :prop="this.profile[0]" ></profile-form>
                     </b-modal>
                 </b-col>
             </b-row>
@@ -70,14 +74,23 @@ export default {
         console.log("Component mounted.");
     },
     data() {
-        return {};
+        return {
+            user_id: this.$store.state.user.user.id,
+            //propProfile: this.profile[0]
+        };
     },
     computed: {
-        ...mapGetters("user", ["authenticated", "user"]),
+        ...mapGetters("user", ["authenticated", "user", 'profile']),
     },
-    methods: {},
+    methods: {
+        ...mapActions('user', [
+            'loadProfile',
+            'saveProfile'
+        ])
+    },
     created() {
-
+        this.$store.dispatch('user/loadProfile', this.user_id)
+        console.log(this.profile[0])
     },
 };
 </script>

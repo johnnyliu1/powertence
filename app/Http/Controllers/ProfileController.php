@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -12,9 +13,12 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+
+        $profile = Profile::where('user_id', $id)->get();
+
+        return $profile;
     }
 
     /**
@@ -35,14 +39,16 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $newProfile = new Profile();
-        $newProfile->user_id = $request->userId;
-/*        $newProfile->birthDate = $request->birthDate;
+        $user = User::findOrFail($request->userId);
+        $profile = $user->profile ?: new Profile();
+        $profile->user_id = $request->userId;
+        $user->profile()->save($profile);
+
+/*      $newProfile->birthDate = $request->birthDate;
         $newProfile->startWeight = $request->startWeight;
         $newProfile->goals = $request->goals;*/
-        $newProfile->save();
 
-        return $newProfile;
+        return $user;
     }
 
     /**
@@ -76,7 +82,12 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $profile = Profile::find($id);
+        $profile->birthDate = $request->dateOfBirth;
+        $profile->startWeight = $request->startWeight;
+        $profile->goals = $request->goals;
+        $profile->update();
+        return $profile;
     }
 
     /**

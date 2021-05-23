@@ -37,6 +37,20 @@ const actions = {
         return dispatch('loadUser')
     },
 
+    async loadProfile({commit, dispatch}, id) {
+        const response = await axios.get('api/profile/' + id)
+        commit('setProfile', response.data)
+        console.log(response.data)
+    },
+    async saveProfile({commit, dispatch}, id) {
+        console.log('SaveProfile loaded with user_id ' + id)
+        const response = await axios.post('api/profile/store', {
+            userId: id
+        })
+        dispatch('loadProfile', id)
+        return response;
+    },
+
     async loadUser({commit, dispatch}) {
         try {
             const response = (await axios.get("api/user"));
@@ -60,9 +74,6 @@ const actions = {
     async loadWrong({commit}, value) {
         commit('setWrong', value)
     },
-    async makeProfile({commit, dispatch}, id) {
-
-    }
 }
 
 
@@ -76,6 +87,9 @@ const mutations = {
     },
     setWrong(state, value) {
         state.wrong = value;
+    },
+    setProfile(state, value) {
+        state.profile = value
     }
 
 }

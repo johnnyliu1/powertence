@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,5 +22,6 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
     }
 }
