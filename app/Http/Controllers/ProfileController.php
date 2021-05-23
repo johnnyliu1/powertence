@@ -13,9 +13,11 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($id)
     {
-        $profile = User::find($request->userId)->profile();
+
+        $profile = Profile::where('user_id', $id)->get();
+
         return $profile;
     }
 
@@ -37,14 +39,16 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $newProfile = new Profile();
-        $newProfile->user_id = $request->userId;
-/*        $newProfile->birthDate = $request->birthDate;
+        $user = User::findOrFail($request->userId);
+        $profile = $user->profile ?: new Profile();
+        $profile->user_id = $request->userId;
+        $user->profile()->save($profile);
+
+/*      $newProfile->birthDate = $request->birthDate;
         $newProfile->startWeight = $request->startWeight;
         $newProfile->goals = $request->goals;*/
-        $newProfile->save();
 
-        return $newProfile;
+        return $user;
     }
 
     /**
@@ -78,7 +82,12 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $profile = Profile::find($id);
+        $profile->birthDate = $request->dateOfBirth;
+        $profile->startWeight = $request->startWeight;
+        $profile->goals = $request->goals;
+        $profile->update();
+        return $profile;
     }
 
     /**

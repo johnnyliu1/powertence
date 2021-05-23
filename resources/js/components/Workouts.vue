@@ -392,7 +392,6 @@ export default {
         ]),
         ...mapState('workouts', [
             'active',
-            'test'
         ]),
         ...mapGetters('user', [
             'authenticated',
