@@ -14,7 +14,7 @@ class CreateProfilesTable extends Migration
     public function up()
     {
         Schema::create('profiles', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('birthDate')->nullable();
             $table->text('startWeight')->nullable();

@@ -14,7 +14,7 @@ class CreateSetsTable extends Migration
     public function up()
     {
         Schema::create('sets', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id();
             $table->unsignedBigInteger('exercise_id');
             $table->integer('set');
             $table->integer('kg');
