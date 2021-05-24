@@ -49,7 +49,7 @@ Route::delete('/sets/delete/{id}', [SetController::class, 'destroy']);
 
 Route::get('/profile/{id}', [ProfileController::class, 'index']);
 Route::post('/profile/store', [ProfileController::class, 'store']);
-Route::put('/profile/update/{id}', [ProfileController::class, 'update']);
+Route::post('/profile/update/{id}', [ProfileController::class, 'update']);
 
 
 

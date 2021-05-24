@@ -1,6 +1,16 @@
 <template>
     <div>
-        <b-form @submit="onUpdate">
+        <b-form @submit="onUpdate" enctype="multipart/form-data" method="PUT">
+            <b-form-group>
+                <label>Profile picture</label>
+                <input type="file" class="form-control" v-on:change="onFilesUpdate">
+<!--                <b-form-file
+                    v-model="profileForm.file"
+                    :state="Boolean(profileForm.file)"
+                    drop-placeholder="Drop file here..."
+                ></b-form-file>
+                <div class="mt-3">Selected file: {{ profileForm.file ? profileForm.file.name : '' }}</div>-->
+            </b-form-group>
             <b-form-group>
                 <label>Choose a date</label>
                 <b-form-datepicker
@@ -9,15 +19,6 @@
                     class="mb-2">
                 </b-form-datepicker>
                 <p>Value: '{{ profileForm.dateOfBirth }}'</p>
-            </b-form-group>
-            <b-form-group>
-                <b-form-file
-                    v-model="profileForm.file"
-                    :state="Boolean(profileForm.file)"
-                    :placeholder="this.prop.file"
-                    drop-placeholder="Drop file here..."
-                ></b-form-file>
-                <div class="mt-3">Selected file: {{ profileForm.file ? profileForm.file.name : '' }}</div>
             </b-form-group>
             <b-form-group>
                 <label>Start weight</label>
@@ -62,7 +63,8 @@ export default {
                 file: null,
                 goals: null
             },
-            profileId: this.$store.getters["user/profile"]
+            profileId: this.$store.getters["user/profile"],
+            file: '',
         };
     },
 
@@ -71,16 +73,35 @@ export default {
             'loadProfile',
             'saveProfile'
         ]),
+        onFilesUpdate(e){
+            console.log(e.target.files[0]);
+            this.file = e.target.files[0];
+            this.profileForm.file = e.target.files[0]
+        },
         onUpdate: function (event) {
             event.preventDefault()
-            axios.put('api/profile/update/' + this.profileId[0].id, {
-                profileId: this.profileId[0].id,
-                startWeight: this.profileForm.startWeight,
-                dateOfBirth: this.profileForm.dateOfBirth,
-                file: this.profileForm.file,
-                goals: this.profileForm.goals
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+            let data = new FormData();
+            //data.append('file', this.file);
+            data.append('profileId', this.profileId[0].id)
+            data.append('startWeight', this.profileForm.startWeight)
+            data.append('dateOfBirth', this.profileForm.dateOfBirth)
+            data.append('file', this.profileForm.file)
+            data.append('goals', this.profileForm.goals)
 
-            })
+
+/*           axios.put('api/profile/update/' + this.profileId[0].id, {
+                    profileId: this.profileId[0].id,
+                    startWeight: this.profileForm.startWeight,
+                    dateOfBirth: this.profileForm.dateOfBirth,
+                    file: this.profileForm.file,
+                    goals: this.profileForm.goals
+                })*/
+            axios.post('api/profile/update/' + this.profileId[0].id, data, config)
                 .then((response) => {
                     console.log(response);
                     this.$bvModal.hide('profileForm')
@@ -89,8 +110,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
-            console.log(this.user_id);
-            console.log(this.profileId[0].id);
+            console.log('HEEEEEEEEEY ' + this.profileForm.file);
         },
     },
     created() {
