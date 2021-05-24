@@ -28,8 +28,8 @@
                     <div class="px-3 py-2">
                         <div class="d-flex flex-column justify-content-center">
                             <div class="d-flex justify-content-center">
-                                <b-avatar v-if="this.profile.length !== 0" href="#bar" size="10em"
-                                          :src="getProfilePicture()"></b-avatar>
+                                <b-avatar v-if="this.profile.length !== 0" href="#bar" size="10em">
+                                </b-avatar>
                                 <b-avatar v-else href="#bar" size="10em"></b-avatar>
 
                             </div>
@@ -121,8 +121,8 @@ export default {
         },
         getProfilePicture() {
             if (this.profile[0].file !== null) {
-                console.log('../storage/profiles/' + this.profile[0].file)
-                return '../storage/profiles/' + this.profile[0].file
+                console.log('../workspace/storage/profiles/' + this.profile[0].file)
+                return '../workspace/storage/profiles/' + this.profile[0].file
             }
         }
     },
