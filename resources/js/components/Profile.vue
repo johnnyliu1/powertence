@@ -7,7 +7,8 @@
         <b-container class="bv-example-row">
             <b-row>
                 <b-col cols="12" md="12" class="bg mt-2 profilePicture">
-                    <b-avatar href="#bar" size="10em" :src="getProfilePicture()"></b-avatar>
+                    <b-avatar v-if="this.profile.file !== null" href="#bar" size="10em" :src="getProfilePicture()"></b-avatar>
+                    <b-avatar v-else href="#bar" size="10em"></b-avatar>
                     <div class="d-inline-block profileText">
                         <h2>{{ user.name }}</h2>
                         <h5>Account created {{ user.created_at }}</h5>
