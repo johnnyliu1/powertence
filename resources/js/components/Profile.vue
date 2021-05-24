@@ -80,7 +80,11 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("user", ["authenticated", "user", 'profile']),
+        ...mapGetters("user", [
+            'authenticated',
+            'user',
+            'profile'
+        ]),
     },
     methods: {
         ...mapActions('user', [
