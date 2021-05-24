@@ -74,6 +74,7 @@ export default {
         ])
     },
     created() {
+        this.$store.dispatch('user/signOut')
         this.$store.dispatch('user/loadWrong', false)
         if (this.authenticated === true) {
             this.$router.push('/')

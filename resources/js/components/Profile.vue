@@ -7,14 +7,14 @@
         <b-container class="bv-example-row">
             <b-row>
                 <b-col cols="12" md="12" class="bg mt-2 profilePicture">
-                    <b-avatar size="10em"></b-avatar>
-                    <div class="d-inline-block">
+                    <b-avatar href="#bar" size="10em" :src="getProfilePicture()"></b-avatar>
+                    <div class="d-inline-block profileText">
                         <h2>{{ user.name }}</h2>
                         <h5>Account created {{ user.created_at }}</h5>
                     </div>
                 </b-col>
             </b-row>
-            <b-row>
+            <b-row v-if="this.profile.length !== 0">
                 <b-col>
                     <div>
                         <b-input-group prepend="Name" class="mt-3">
@@ -29,15 +29,15 @@
                 </b-col>
                 <b-col v-if="profile !== null" cols="12" md="6">
                     <b-input-group prepend="Date of birth" class="mt-3">
-                        <b-form-input disabled>
+                        <b-form-input :value="this.profile[0].birthDate" disabled>
                         </b-form-input>
                     </b-input-group>
                     <b-input-group prepend="Start weight" class="mt-3">
-                        <b-form-input disabled>
+                        <b-form-input :value="this.profile[0].startWeight" disabled>
                         </b-form-input>
                     </b-input-group>
                     <b-input-group prepend="Goals" class="mt-3">
-                        <b-form-textarea disabled>
+                        <b-form-textarea :value="this.profile[0].goals" disabled>
                         </b-form-textarea>
                     </b-input-group>
                 </b-col>
@@ -86,7 +86,12 @@ export default {
         ...mapActions('user', [
             'loadProfile',
             'saveProfile'
-        ])
+        ]),
+        getProfilePicture() {
+            console.log('../storage/profiles/' + this.profile[0].file)
+            return '../storage/profiles/' + this.profile[0].file
+
+        }
     },
     created() {
         this.$store.dispatch('user/loadProfile', this.user_id)
@@ -96,14 +101,18 @@ export default {
 </script>
 
 <style scoped>
-.bg {
-    background-color: red;
-}
+
 
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767px) {
     .profilePicture {
         text-align: center;
     }
+    .profileText {
+        margin-right: 2em;
+    }
+}
+.profileText {
+    margin-left: 2em;
 }
 </style>

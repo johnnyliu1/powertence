@@ -82,11 +82,37 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $profile = Profile::find($id);
-        $profile->birthDate = $request->dateOfBirth;
-        $profile->startWeight = $request->startWeight;
-        $profile->goals = $request->goals;
-        $profile->update();
+        if($request->hasFile('file')) {
+            $request->validate([
+                'file' => 'image|mimes:jpg,jpeg,png,gif,svg|max:4096'
+            ]);
+            //get filename with extension
+            $filenameWithExt = $request->file('file')->getClientOriginalName();
+
+            //Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            //Get just extension
+            $ext = $request->file('file')->getClientOriginalExtension();
+            //Filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$ext;
+
+            //Upload Image
+            $path = $request->file('file')->storeAs('public/profiles',$fileNameToStore);
+            $profile = Profile::find($id);
+            $profile->birthDate = $request->dateOfBirth;
+            $profile->startWeight = $request->startWeight;
+            $profile->goals = $request->goals;
+            //$profile->file = $fileNameToStore;
+            $profile->file = $fileNameToStore;
+            $profile->update();
+        } else {
+            $profile = Profile::find($id);
+            $profile->birthDate = $request->dateOfBirth;
+            $profile->startWeight = $request->startWeight;
+            $profile->goals = $request->goals;
+            //$profile->file = $fileNameToStore;
+            $profile->update();
+        }
         return $profile;
     }
 
