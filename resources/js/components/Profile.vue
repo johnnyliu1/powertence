@@ -95,7 +95,7 @@ export default {
             'saveProfile'
         ]),
         getProfilePicture() {
-            if (this.profile[0].file !== null) {
+            if (this.profile.length !== 0 && this.profile[0].file !== null) {
                 console.log('../storage/profiles/' + this.profile[0].file)
                 return '../storage/profiles/' + this.profile[0].file
             }
