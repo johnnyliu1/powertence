@@ -34,7 +34,7 @@
 
                             </div>
                             <div>
-                                <h2 class="text-center" >{{ user.name }}</h2>
+                                <h2 class="text-center text-white-50" >{{ user.name }}</h2>
                             </div>
                         </div>
                         <div class="menu-items list-unstyled">
