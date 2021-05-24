@@ -14,7 +14,7 @@ class CreateWorkoutsTable extends Migration
     public function up()
     {
         Schema::create('workouts', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('name');
             $table->unsignedBigInteger('user_id');
             $table->timestamp('startTime')->useCurrent();
