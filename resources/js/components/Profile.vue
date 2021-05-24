@@ -7,7 +7,8 @@
         <b-container class="bv-example-row">
             <b-row>
                 <b-col cols="12" md="12" class="bg mt-2 profilePicture">
-                    <b-avatar v-if="this.profile.file !== null" href="#bar" size="10em" :src="getProfilePicture()"></b-avatar>
+                    <b-avatar v-if="this.profile.file !== null" href="#bar" size="10em"
+                              :src="getProfilePicture()"></b-avatar>
                     <b-avatar v-else href="#bar" size="10em"></b-avatar>
                     <div class="d-inline-block profileText">
                         <h2>{{ user.name }}</h2>
@@ -47,13 +48,14 @@
             <b-row>
 
                 <b-col>
-                    <b-button v-if="this.profile.length === 0" class="mt-4" variant="info" @click="saveProfile(user_id)">
+                    <b-button v-if="this.profile.length === 0" class="mt-4" variant="info"
+                              @click="saveProfile(user_id)">
                         Create profile
                     </b-button>
                     <b-button v-else class="mt-4" v-b-modal.profileForm variant="info">Edit profile</b-button>
                     <b-modal id="profileForm" title="Edit profile" hide-footer>
                         <profile-form v-if="this.profile.length === 0"></profile-form>
-                        <profile-form v-else :prop="this.profile[0]" ></profile-form>
+                        <profile-form v-else :prop="this.profile[0]"></profile-form>
                     </b-modal>
                 </b-col>
             </b-row>
@@ -89,9 +91,10 @@ export default {
             'saveProfile'
         ]),
         getProfilePicture() {
-            console.log('../storage/profiles/' + this.profile[0].file)
-            return '../storage/profiles/' + this.profile[0].file
-
+            if (this.profile[0].file !== null) {
+                console.log('../storage/profiles/' + this.profile[0].file)
+                return '../storage/profiles/' + this.profile[0].file
+            }
         }
     },
     created() {
@@ -109,10 +112,12 @@ export default {
     .profilePicture {
         text-align: center;
     }
+
     .profileText {
         margin-right: 2em;
     }
 }
+
 .profileText {
     margin-left: 2em;
 }
