@@ -35,7 +35,8 @@ export default {
     props: ['exercise'],
     data() {
         return {
-            test: this.exercise
+            test: this.exercise,
+            user_id: this.$store.state.user.user.id,
         };
     },
     computed: {

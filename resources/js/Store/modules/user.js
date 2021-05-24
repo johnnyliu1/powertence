@@ -34,13 +34,18 @@ const actions = {
 
     async signOut({dispatch}) {
         await axios.post('/logout')
+        dispatch('loadProfile')
         return dispatch('loadUser')
     },
 
     async loadProfile({commit, dispatch}, id) {
-        const response = await axios.get('api/profile/' + id)
-        commit('setProfile', response.data)
-        console.log(response.data)
+        try {
+            const response = await axios.get('api/profile/' + id)
+            commit('setProfile', response.data)
+            console.log(response.data)
+        } catch (e) {
+            commit('setProfile', null)
+        }
     },
     async saveProfile({commit, dispatch}, id) {
         console.log('SaveProfile loaded with user_id ' + id)

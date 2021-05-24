@@ -6,9 +6,35 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
     mounted() {
         console.log("Component mounted.");
+    },
+    data() {
+        return {
+            user_id: this.$store.state.user.user.id,
+        }
+    },
+    created() {
+        this.$store.dispatch('user/loadProfile', this.user_id)
+        console.log(this.profile)
+
+    },
+    methods: {
+        ...mapActions('user', [
+            'signOut',
+            'loadProfile',
+            'saveProfile'
+        ]),
+    },
+    computed: {
+        ...mapGetters('user', [
+            'authenticated',
+            'user',
+            'profile'
+        ]),
     },
 };
 </script>

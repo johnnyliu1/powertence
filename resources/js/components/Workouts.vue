@@ -179,6 +179,7 @@ export default {
             //laravelData: {},
             show: true,
             id: this.$store.state.user.user.id,
+            user_id: this.$store.state.user.user.id,
             form: {
                 name: '',
                 user: this.id,
@@ -395,7 +396,8 @@ export default {
         ]),
         ...mapGetters('user', [
             'authenticated',
-            'user'
+            'user',
+            'profile'
         ]),
         ...mapGetters('exercises', [
             'exercises'
@@ -413,6 +415,10 @@ export default {
         // when new user gets created the state of active was true so no workout could be created
         if (this.laravelData.data.length === 0) {
             this.$store.dispatch("workouts/activate", false)
+        }
+        if (this.authenticated === true) {
+            this.$store.dispatch('user/loadProfile', this.user_id)
+            console.log(this.profile[0])
         }
     },
 };

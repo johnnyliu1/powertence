@@ -7,7 +7,7 @@
         <b-container class="bv-example-row">
             <b-row>
                 <b-col cols="12" md="12" class="bg mt-2 profilePicture">
-                    <b-avatar v-if="this.profile.file !== null" href="#bar" size="10em"
+                    <b-avatar v-if="this.profile.length !== 0 " href="#bar" size="10em"
                               :src="getProfilePicture()"></b-avatar>
                     <b-avatar v-else href="#bar" size="10em"></b-avatar>
                     <div class="d-inline-block profileText">
@@ -83,7 +83,11 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("user", ["authenticated", "user", 'profile']),
+        ...mapGetters('user', [
+            'authenticated',
+            'user',
+            'profile'
+        ]),
     },
     methods: {
         ...mapActions('user', [
@@ -98,8 +102,10 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('user/loadProfile', this.user_id)
-        console.log(this.profile[0])
+        if (this.authenticated === true) {
+            this.$store.dispatch('user/loadProfile', this.user_id)
+            console.log(this.profile[0])
+        }
     },
 };
 </script>

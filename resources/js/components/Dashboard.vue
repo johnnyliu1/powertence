@@ -20,14 +20,26 @@ export default {
     beforeMount() {
 
     },
+    data() {
+        return {
+            user_id: this.$store.state.user.user.id,
+        }
+    },
     created() {
         if (this.authenticated === false) {
         this.$router.push('/signin')
         }
+        if (this.authenticated === true) {
+            this.$store.dispatch('user/loadProfile', this.user_id)
+            console.log(this.profile[0])
+        }
     },
     computed: {
-        ...mapGetters("user",
-            ["authenticated", "user"]),
+        ...mapGetters('user', [
+            'authenticated',
+            'user',
+            'profile'
+        ]),
     },
     methods: {
 

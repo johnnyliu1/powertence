@@ -18,12 +18,25 @@
     <div>
         <b-navbar toggleable="lg" type="dark" variant="info">
             <div class="container">
-                <b-button variant="danger" v-if="authenticated === true" v-b-toggle.sidebar-1><b-icon-list></b-icon-list></b-button>
+                <b-button variant="danger" v-if="authenticated === true" v-b-toggle.sidebar-1>
+                    <b-icon-list></b-icon-list>
+                </b-button>
                 <b-navbar-brand v-else class="text-black-50" href="#">Powertence</b-navbar-brand>
-                <b-sidebar v-if="authenticated === true" noCloseOnRouteChange id="sidebar-1" title="Sidebar" bg-variant="danger"
+                <b-sidebar v-if="authenticated === true" noCloseOnRouteChange id="sidebar-1" title="Sidebar"
+                           bg-variant="danger"
                            shadow>
                     <div class="px-3 py-2">
-                        <b-icon icon="card-image" style="height: 250px; width: 250px; color: white"></b-icon>
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="d-flex justify-content-center">
+                                <b-avatar v-if="this.profile.length !== 0" href="#bar" size="10em"
+                                          :src="getProfilePicture()"></b-avatar>
+                                <b-avatar v-else href="#bar" size="10em"></b-avatar>
+
+                            </div>
+                            <div>
+                                <h2 class="text-center" >{{ user.name }}</h2>
+                            </div>
+                        </div>
                         <div class="menu-items list-unstyled">
                             <b-nav-item>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
@@ -90,16 +103,40 @@ export default {
     name: "horizontalNavigation",
 
     computed: {
-        ...mapGetters("user",
-            ["authenticated", "user"]),
+        ...mapGetters('user', [
+            'authenticated',
+            'user',
+            'profile'
+        ]),
     },
     methods: {
-        ...mapActions("user", ["signOut"]),
+        ...mapActions('user', [
+            'signOut',
+            'loadProfile',
+            'saveProfile'
+        ]),
         async logout() {
             await this.signOut();
             this.$router.push("signin");
         },
+        getProfilePicture() {
+            if (this.profile[0].file !== null) {
+                console.log('../storage/profiles/' + this.profile[0].file)
+                return '../storage/profiles/' + this.profile[0].file
+            }
+        }
     },
+    data() {
+        return {
+            user_id: this.$store.state.user.user.id,
+            //propProfile: this.profile[0]
+        };
+    },
+    created() {
+        this.$store.dispatch('user/loadProfile', this.user_id)
+        console.log(this.profile[0])
+
+    }
 }
 </script>
 
