@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/app.css">
+        <link href="public/css/app.css">
+        <link href="public/css/main.css">
         <title>Laravel</title>
 
         <!-- Fonts -->

@@ -5,6 +5,7 @@ const state = () => ({
     workouts: [],
     active: false,
     laravelData: {},
+    allWorkouts: [],
     workoutStartTimes: new Map()
 })
 
@@ -18,6 +19,9 @@ const getters = {
     },
     active(state) {
         return state.active
+    },
+    getAllWorkouts(state) {
+        return state.allWorkouts
     }
 }
 
@@ -28,6 +32,13 @@ const actions = {
             .then(response => {
                 this.laravelData = response.data;
                 commit('setLaravelData', response.data)
+            });
+    },
+    async getAll({commit}) {
+        axios.get('api/workouts/all')
+            .then(response => {
+                this.allWorkouts = response.data;
+                commit('setAllWorkouts', response.data)
             });
     },
     async deleteWorkout({commit, state}, id) {
@@ -60,6 +71,9 @@ const mutations = {
     },
     setWorkoutStartTime(state, workoutId) {
         state.workoutStartTimes.set(workoutId, new Date())
+    },
+    setAllWorkouts(state, workouts) {
+        state.allWorkouts = workouts
     }
 }
 

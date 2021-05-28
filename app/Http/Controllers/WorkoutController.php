@@ -24,6 +24,15 @@ class WorkoutController extends Controller
         $myWorkouts = Workout::where('user_id', $request->user()->id)->paginate(3);
         return $myWorkouts;
     }
+    public function getAll(Request $request)
+    {
+        if(!$request->user()) {
+            return response()->json(['error' => 'User does not exist'], 500);
+        }
+
+        $myWorkouts = Workout::where('user_id', $request->user()->id)->get();
+        return $myWorkouts;
+    }
 
     /**
      * Show the form for creating a new resource.

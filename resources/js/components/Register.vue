@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <b-card class="mt-4">
         <h1>Register</h1>
         <form action="#" @submit.prevent="validateForm">
             <div class="form-group" :class="{ 'form-group--error': $v.userData.name.$error }">
@@ -49,6 +50,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        </b-card>
     </div>
 </template>
 

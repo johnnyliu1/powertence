@@ -1,14 +1,21 @@
 <template>
     <div class="container">
-        <h1>Workouts</h1>
+        <h1 class="mt-4 mb-2">Workouts</h1>
         <div>
+            <b-jumbotron  class="pl-4 pt-0 pb-0">
+                <h4 class="pt-3">{{quote}}</h4>
+                <small class="pt-1">{{author}}</small>
+                <p class="pt-5">You currently have {{laravelData.data.length}} workout(s).</p>
+                <b-button v-if="this.active === false" class="mt-1 mb-3 primary-btn" v-b-modal.workoutForm>Create new workout</b-button>
+                <b-button v-else disabled class="mt-1 mb-3 primary-btn" v-b-modal.workoutForm>Workout in progress</b-button>
+            </b-jumbotron>
+        </div>
+        <div class="invisible">
             {{ authenticated }}
             {{ user.name }}
             {{ active }}
         </div>
         <div>
-            <b-button v-if="this.active === false" class="mt-3 mb-3" v-b-modal.workoutForm>Create new workout</b-button>
-            <b-button v-else disabled class="mt-3 mb-3" v-b-modal.workoutForm>Workout in progress</b-button>
             <b-modal id="workoutForm" title="CreateWorkout" hide-footer>
                 <workout-form></workout-form>
             </b-modal>
@@ -180,6 +187,8 @@ export default {
             show: true,
             id: this.$store.state.user.user.id,
             user_id: this.$store.state.user.user.id,
+            quote: null,
+            author: null,
             form: {
                 name: '',
                 user: this.id,
@@ -217,6 +226,20 @@ export default {
         calculateTimePassed(startTimeString) {
             const startTime = moment(startTimeString).valueOf();
             return this.now - startTime
+        },
+        getRandomQuote() {
+            let self = this
+            fetch("https://type.fit/api/quotes")
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    const NumberOfQuotes = data.length
+                    const randomNumber = Math.floor(Math.random(0, NumberOfQuotes) * 100)
+                    const quote = data[randomNumber]
+                    self.quote = quote.text
+                    self.author = quote.author
+                });
         },
         workoutActive(value) {
             this.$store.dispatch('workouts/activate', value)
@@ -410,6 +433,12 @@ export default {
         this.$store.dispatch("workouts/getResults");
         console.log(this.laravelData)
         this.currentTime()
+        this.getRandomQuote();
+        for(var i = 0; i < this.laravelData.data.length; i++) {
+            if (this.laravelData.data[i].stopTime === null) {
+                this.$store.dispatch("workouts/activate", true)
+            }
+        }
 
         setInterval(this.currentTime.bind(this), 1000)
         // when new user gets created the state of active was true so no workout could be created
@@ -423,3 +452,26 @@ export default {
     },
 };
 </script>
+
+<style>
+.btn-secondary {
+    background-color: #003c77 !important;
+    border-color: #003c77 !important;
+}
+.btn-dark {
+    background-color: #003c77 !important;
+    border-color: #003c77 !important;
+}
+.btn-info {
+    background-color: #003c77 !important;
+    border-color: #003c77 !important;
+}
+.btn-primary {
+    background-color: #003c77 !important;
+    border-color: #003c77 !important;
+}
+.btn-primary:hover {
+    background-color: #002877 !important;
+    border-color: #002877 !important;
+}
+</style>

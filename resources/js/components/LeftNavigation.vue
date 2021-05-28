@@ -35,6 +35,9 @@ export default {
             'user',
             'profile'
         ]),
+        ...mapGetters('workouts', [
+            'getAll'
+        ]),
     },
 };
 </script>

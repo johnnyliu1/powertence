@@ -1,30 +1,34 @@
 <template>
     <div class="container">
-        <h1>Login</h1>
-        <form action="#" @submit.prevent="validateData">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input
-                    type="email"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    v-model="$v.userData.email.$model"
-                    placeholder="Enter email"
-                />
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input
-                    type="password"
-                    class=""
-                    id="exampleInputPassword1"
-                    placeholder="Password"
-                    v-model="$v.userData.password.$model"
-                />
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <b-alert v-if="wrong === true" class="mt-2" show variant="danger">Wrong login credentials</b-alert>
+        <div class="mt-4">
+            <b-card>
+                <h1>Login</h1>
+                <form action="#" @submit.prevent="validateData">
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <b-form-input
+                            type="email"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            v-model="$v.userData.email.$model"
+                            placeholder="Enter email"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <b-form-input
+                            type="password"
+                            class=""
+                            id="exampleInputPassword1"
+                            placeholder="Password"
+                            v-model="$v.userData.password.$model"
+                        />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <b-alert v-if="wrong === true" class="mt-2" show variant="danger">Wrong login credentials</b-alert>
+            </b-card>
+        </div>
     </div>
 </template>
 

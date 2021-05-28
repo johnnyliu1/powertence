@@ -1,21 +1,34 @@
 <template>
     <div class="container">
-        <h1>Profile</h1>
-        {{ authenticated }}
-        {{ user }}
+        <h1 class="mt-4 mb-2">Profile</h1>
+        <div>
+            <b-jumbotron class="p-4">
+                <b-row>
+                <b-col lg="3" md="4" sm="12" class="bg profilePicture">
 
-        <b-container class="bv-example-row">
-            <b-row>
-                <b-col cols="12" md="12" class="bg mt-2 profilePicture">
-                    <b-avatar v-if="this.profile.length !== 0 " href="#bar" size="10em"
-                              :src="getProfilePicture()"></b-avatar>
-                    <b-avatar v-else href="#bar" size="10em"></b-avatar>
-                    <div class="d-inline-block profileText">
-                        <h2>{{ user.name }}</h2>
-                        <h5>Account created {{ user.created_at }}</h5>
+                    <b-avatar v-if="this.profile.length !== 0" size="10em"
+                              :src="getProfilePicture()" class="mt-0"></b-avatar>
+                    <b-avatar v-else class="mt-0" size="10em"></b-avatar>
+                </b-col>
+                <b-col lg="9" md="8" sm="12" class="d-flex justify-content-center justify-content-md-start">
+                    <div class="d-inline-block profilePicture profileText">
+                        <h2 class="">{{ user.name }}</h2>
+                        <h5>Account created {{ user.created_at | moment }}</h5>
+                        <b-button v-if="this.profile.length === 0"
+                                  variant="info"
+                                  @click="saveProfile(user_id)">
+                            Create profile
+                        </b-button>
+                        <b-button size="sm" v-else v-b-modal.profileForm variant="info">Edit
+                            profile
+                        </b-button>
                     </div>
                 </b-col>
-            </b-row>
+                </b-row>
+            </b-jumbotron>
+        </div>
+
+        <b-container class="bv-example-row">
             <b-row v-if="this.profile.length !== 0">
                 <b-col>
                     <div>
@@ -46,13 +59,7 @@
             </b-row>
 
             <b-row>
-
                 <b-col>
-                    <b-button v-if="this.profile.length === 0" class="mt-4" variant="info"
-                              @click="saveProfile(user_id)">
-                        Create profile
-                    </b-button>
-                    <b-button v-else class="mt-4" v-b-modal.profileForm variant="info">Edit profile</b-button>
                     <b-modal id="profileForm" title="Edit profile" hide-footer>
                         <profile-form v-if="this.profile.length === 0"></profile-form>
                         <profile-form v-else :prop="this.profile[0]"></profile-form>
@@ -66,6 +73,7 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import moment from "moment";
 
 export default {
     beforeMount() {
@@ -89,6 +97,11 @@ export default {
             'profile'
         ]),
     },
+    filters: {
+        moment(date) {
+            return moment(date).format("LLLL")
+        },
+    },
     methods: {
         ...mapActions('user', [
             'loadProfile',
@@ -96,7 +109,6 @@ export default {
         ]),
         getProfilePicture() {
             if (this.profile.length !== 0 && this.profile[0].file !== null) {
-                console.log('../storage/profiles/' + this.profile[0].file)
                 return '../storage/profiles/' + this.profile[0].file
             }
         }
@@ -104,7 +116,6 @@ export default {
     created() {
         if (this.authenticated === true) {
             this.$store.dispatch('user/loadProfile', this.user_id)
-            console.log(this.profile[0])
         }
     },
 };
@@ -114,17 +125,28 @@ export default {
 
 
 /* Small devices (landscape phones, less than 768px) */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .profilePicture {
         text-align: center;
     }
 
+}
+
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
     .profileText {
         margin-right: 2em;
     }
+    .profilePicture {
+        text-align: left;
+    }
 }
 
-.profileText {
-    margin-left: 2em;
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .profilePicture {
+        text-align: left;
+    }
 }
 </style>

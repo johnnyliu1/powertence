@@ -16,25 +16,34 @@
                 </div>-->
 
     <div>
-        <b-navbar toggleable="lg" type="dark" variant="info">
+
+        <b-navbar toggleable="lg" class="testShadow" >
             <div class="container">
                 <b-button variant="danger" v-if="authenticated === true" v-b-toggle.sidebar-1>
                     <b-icon-list></b-icon-list>
                 </b-button>
                 <b-navbar-brand v-else class="text-black-50" href="#">Powertence</b-navbar-brand>
-                <b-sidebar v-if="authenticated === true" noCloseOnRouteChange id="sidebar-1" title="Sidebar"
-                           bg-variant="danger"
-                           shadow>
+                <b-sidebar
+                    v-if="authenticated === true"
+                    noCloseOnRouteChange
+                    id="sidebar-1"
+                    bg-variant="danger"
+                    shadow
+                >
                     <div class="px-3 py-2">
                         <div class="d-flex flex-column justify-content-center">
                             <div class="d-flex justify-content-center">
-                                <b-avatar v-if="this.profile.length !== 0" href="#bar" size="10em">
+                                <b-avatar v-if="this.profile.length !== 0"
+                                          class="profile-pic-border"
+                                          :src="getProfilePicture()"
+                                          href="#bar"
+                                          size="10em">
                                 </b-avatar>
                                 <b-avatar v-else href="#bar" size="10em"></b-avatar>
 
                             </div>
                             <div>
-                                <h2 class="text-center text-white-50" >{{ user.name }}</h2>
+                                <h2 class="text-center text-white">{{ user.name }}</h2>
                             </div>
                         </div>
                         <div class="menu-items list-unstyled">
@@ -68,8 +77,11 @@
                                     <path
                                         d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
                                 </svg>
-                                <router-link class="menuItem m-1" to="/signin">Calendar</router-link>
+                                <router-link class="menuItem m-1" to="/">Calendar(work in progress)</router-link>
                             </b-nav-item>
+                        </div>
+                        <div class="d-flex justify-content-center fixed-bottom">
+                            <img width="50%" height="50%" src="/images/logo-sidebar.svg"/>
                         </div>
                     </div>
                 </b-sidebar>
@@ -121,8 +133,8 @@ export default {
         },
         getProfilePicture() {
             if (this.profile[0].file !== null) {
-                console.log('../workspace/storage/profiles/' + this.profile[0].file)
-                return '../workspace/storage/profiles/' + this.profile[0].file
+                console.log('../storage/profiles/' + this.profile[0].file)
+                return '../storage/profiles/' + this.profile[0].file
             }
         }
     },
@@ -149,6 +161,12 @@ export default {
 
 .authenticateItem {
     color: black;
-
+}
+.profile-pic-border {
+    border : 5px solid white;
+}
+.testShadow {
+    background-color: whitesmoke;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>
