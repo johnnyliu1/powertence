@@ -32,7 +32,7 @@ Route::post('/register', [UserController::class, 'register']);
 
 Route::get('/workouts', [WorkoutController::class, 'index']);
 Route::get('/workouts/{id}', [WorkoutController::class, 'show']);
-Route::get('/workouts/all', [WorkoutController::class, 'getAll']);
+Route::get('/workouts/all/{id}', [WorkoutController::class, 'getWorkouts']);
 Route::post('/workouts/store', [WorkoutController::class, 'store']);
 Route::put('/workouts/update/{id}', [WorkoutController::class, 'update']);
 Route::put('/workouts/update/timer/{id}', [WorkoutController::class, 'updateTimer']);

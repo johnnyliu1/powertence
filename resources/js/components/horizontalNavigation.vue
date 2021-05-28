@@ -25,7 +25,6 @@
                 <b-navbar-brand v-else class="text-black-50" href="#">Powertence</b-navbar-brand>
                 <b-sidebar
                     v-if="authenticated === true"
-                    noCloseOnRouteChange
                     id="sidebar-1"
                     bg-variant="danger"
                     shadow

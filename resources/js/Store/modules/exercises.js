@@ -29,7 +29,6 @@ const actions = {
         })
         dispatch('getAllExercisesForWorkout', exercise.workoutId)
         return response;
-
     },
 }
 

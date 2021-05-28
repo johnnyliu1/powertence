@@ -24,13 +24,17 @@ class WorkoutController extends Controller
         $myWorkouts = Workout::where('user_id', $request->user()->id)->paginate(3);
         return $myWorkouts;
     }
-    public function getAll(Request $request)
+    public function getWorkouts(Request $request, $id)
     {
         if(!$request->user()) {
             return response()->json(['error' => 'User does not exist'], 500);
         }
 
-        $myWorkouts = Workout::where('user_id', $request->user()->id)->get();
+        $myWorkouts = Workout::where('user_id', $id)
+            ->orderBy('created_at', 'DESC')
+            ->whereNotNull('stopTime')
+            ->limit(5)
+            ->get();
         return $myWorkouts;
     }
 
@@ -66,9 +70,14 @@ class WorkoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        if(!$request->user()) {
+            return response()->json(['error' => 'User does not exist'], 500);
+        }
+
+        $myWorkout = Workout::find($id);
+        return $myWorkout;
     }
 
     /**

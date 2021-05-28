@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1 class="mt-4 mb-2">Workouts</h1>
-        <div>
+        <div class="centered">
             <b-jumbotron  class="pl-4 pt-0 pb-0">
                 <h4 class="pt-3">{{quote}}</h4>
                 <small class="pt-1">{{author}}</small>
@@ -92,12 +92,12 @@
                                 <b-icon icon="stop-circle"></b-icon>
                                 <span class="ml-1">{{ calculateTimePassed(workout.startTime) | timer }}</span>
                             </b-button>
-                            <p v-if="workout.stopTime !== null">Time {{ workout.betweenTime | timer }}</p>
+                            <p class="centered" v-if="workout.stopTime !== null">Time {{ workout.betweenTime | timer }}</p>
                             <template v-if="workout.stopTime === null">
                                 <exercise-form :workoutId="workout.id"></exercise-form>
                             </template>
                             <template>
-
+                                <div class="centered">
                                 <b-button
                                     @click="toggleShowDetail(workout.id)"
                                     v-if="!showDetailState.includes(workout.id)"
@@ -118,6 +118,7 @@
                                 >
                                     Hide exercises
                                 </b-button>
+                                </div>
                             </template>
                             <template v-if="showDetailState.includes(workout.id)">
                                 <template v-if="exercises.length">
@@ -130,16 +131,17 @@
                                                     :exercise="exercise">
                                                 </set-form>
                                                 <template>
-                                                    <h4>{{ exercise.name }}</h4>
+                                                    <h4 class="centered">{{ exercise.name }}</h4>
+                                                    <div class="centered">
                                                     <b-button
                                                         size="sm"
-                                                        class="mt-2"
+                                                        class="mt-2 "
                                                         v-b-modal.setModal
                                                         @click="toggleShowSetsDetail(exercise.id)"
                                                     >
-                                                        <b-icon-grip-horizontal></b-icon-grip-horizontal>
                                                         Show sets
                                                     </b-button>
+                                                    </div>
                                                 </template>
 
                                             <li/>
@@ -473,5 +475,13 @@ export default {
 .btn-primary:hover {
     background-color: #002877 !important;
     border-color: #002877 !important;
+}
+
+@media (max-width: 767px) {
+    .centered {
+        text-align: center;
+        justify-content: center !important;
+        display:flex !important;
+    }
 }
 </style>

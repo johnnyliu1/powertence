@@ -46,6 +46,8 @@ Vue.component('exercise-form', require('./components/ExerciseForm.vue').default)
 Vue.component('set-form', require('./components/SetForm.vue').default);
 Vue.component('set-detail', require('./components/SetDetail.vue').default);
 Vue.component('profile-form', require('./components/ProfileForm.vue').default);
+Vue.component('workout-detail', require('./components/WorkoutDetail.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
