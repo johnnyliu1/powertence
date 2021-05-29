@@ -1,6 +1,9 @@
 <template>
-    <b-form @submit.prevent="validateForm" class="">
+    <b-form @submit.prevent="validateForm" class="mt-4 mb-2">
+        <div class="centered">
         <label>Add a exercise</label>
+        </div>
+        <div class="centered">
         <b-input-group>
         <b-form-input
             id="exerciseName"
@@ -12,6 +15,7 @@
                 <b-button type="submit" variant="info">Add exercise</b-button>
             </b-input-group-append>
         </b-input-group>
+        </div>
     </b-form>
 </template>
 
@@ -96,5 +100,14 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 767px) {
+    .centered {
+        text-align: center;
+        justify-content: center !important;
+        display:flex !important;
+    }
+    .logo-sm {
 
+    }
+}
 </style>

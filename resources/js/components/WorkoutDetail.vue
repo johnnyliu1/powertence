@@ -7,37 +7,41 @@
                         <h6 class="mb-0 mt-1 float-left">{{ single.name }}</h6>
                     </template>
                     <b-card-body class="p-1">
-                        <!--  <h4>Started: {{ workout.startTime | moment }}</h4> -->
-                        <p v-if="single.stopTime !== null">
-                            <b-icon class="mr-2" icon="clock"></b-icon>
-                            {{ single.betweenTime | timeBetween }}
-                        </p>
-                        <template v-if="single.stopTime === null">
-                            <exercise-form :workoutId="single.id"></exercise-form>
-                        </template>
-                        <template>
+                        <div class="centered">
+                            <!--  <h4>Started: {{ workout.startTime | moment }}</h4> -->
+                            <p class="d-block" v-if="single.stopTime !== null">
+                                <b-icon class="mr-2" icon="clock"></b-icon>
+                                {{ single.betweenTime | timeBetween }}
+                            </p>
+                            </div>
+                    <div class="centered">
+                            <template v-if="single.stopTime === null">
+                                <exercise-form :workoutId="single.id"></exercise-form>
+                            </template>
+                            <template>
 
-                            <b-button
-                                @click="toggleShowDetail(single.id)"
-                                v-if="!showDetailState.includes(single.id)"
-                                size="sm"
-                                class="mt-2"
-                                variant="dark"
+                                <b-button
+                                    @click="toggleShowDetail(single.id)"
+                                    v-if="!showDetailState.includes(single.id)"
+                                    size="sm"
+                                    class="mt-2"
+                                    variant="dark"
 
-                            >
-                                Show exercises
-                            </b-button>
-                            <b-button
-                                @click="toggleHideDetail(single.id)"
-                                v-else
-                                size="sm"
-                                class="mt-2"
-                                variant="dark"
+                                >
+                                    Show exercises
+                                </b-button>
+                                <b-button
+                                    @click="toggleHideDetail(single.id)"
+                                    v-else
+                                    size="sm"
+                                    class="mt-2"
+                                    variant="dark"
 
-                            >
-                                Hide exercises
-                            </b-button>
-                        </template>
+                                >
+                                    Hide exercises
+                                </b-button>
+                            </template>
+                        </div>
                         <template v-if="showDetailState.includes(single.id)">
                             <template v-if="exercises.length">
                                 <ul class="list-group list-unstyled list-group-numbered mt-4">
@@ -49,11 +53,11 @@
                                             </set-form>
                                             <template>
                                                 <b-container>
-                                                    <b-row>
-                                                        <b-col >
+                                                    <b-row class="centered">
+                                                        <b-col cols="12">
                                                             <h4>{{ exercise.name }}</h4>
                                                         </b-col>
-                                                        <b-col cols="6">
+                                                        <b-col cols="12">
                                                             <b-button
                                                                 size="sm"
                                                                 class="mt-2"
@@ -234,5 +238,11 @@ export default {
 </script>
 
 <style scoped>
-
+@media (max-width: 767px) {
+    .centered {
+        text-align: center;
+        justify-content: center !important;
+        display: flex !important;
+    }
+}
 </style>

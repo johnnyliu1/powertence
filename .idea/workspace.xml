@@ -6,15 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f56debca-ca84-41a7-949f-038205cbcd32" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkoutController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkoutController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Store/modules/exercises.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Store/modules/exercises.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Store/modules/workouts.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Store/modules/workouts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/ExerciseForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ExerciseForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/WorkoutDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/WorkoutDetail.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Workouts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Workouts.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/horizontalNavigation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/horizontalNavigation.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +235,8 @@
       <workItem from="1622057708424" duration="1004000" />
       <workItem from="1622066831619" duration="4648000" />
       <workItem from="1622105409323" duration="19186000" />
-      <workItem from="1622192706171" duration="38333000" />
+      <workItem from="1622192706171" duration="38407000" />
+      <workItem from="1622282953231" duration="7967000" />
     </task>
     <servers />
   </component>

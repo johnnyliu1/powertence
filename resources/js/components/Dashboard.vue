@@ -32,7 +32,7 @@
                                 <td>{{ workout.betweenTime | timeBetween }}</td>
                                 <td>
                                     <b-button size="sm" @click="toggleDetail(workout.id)" variant="primary">View {{workout.id}}</b-button>
-                                    <b-modal :id="workout.id" size="lg" hide-footer :title="workout.name">
+                                    <b-modal :id="workout.id" size="lg" hide-footer>
                                         <workout-detail :workoutId="workout.id"></workout-detail>
                                     </b-modal>
                                 </td>

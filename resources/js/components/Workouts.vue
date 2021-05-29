@@ -2,12 +2,17 @@
     <div class="container">
         <h1 class="mt-4 mb-2">Workouts</h1>
         <div class="centered">
-            <b-jumbotron  class="pl-4 pt-0 pb-0">
-                <h4 class="pt-3">{{quote}}</h4>
+            <b-jumbotron class="pl-4 pt-0 pb-0">
+                <h4 class="pt-3"><strong>
+                    <blockquote>{{quote}}</blockquote>
+                </strong></h4>
                 <small class="pt-1">{{author}}</small>
                 <p class="pt-5">You currently have {{laravelData.data.length}} workout(s).</p>
-                <b-button v-if="this.active === false" class="mt-1 mb-3 primary-btn" v-b-modal.workoutForm>Create new workout</b-button>
-                <b-button v-else disabled class="mt-1 mb-3 primary-btn" v-b-modal.workoutForm>Workout in progress</b-button>
+                <b-button v-if="this.active === false" class="mt-1 mb-3 primary-btn" v-b-modal.workoutForm>Create new
+                    workout
+                </b-button>
+                <b-button v-else disabled class="mt-1 mb-3 primary-btn" v-b-modal.workoutForm>Workout in progress
+                </b-button>
             </b-jumbotron>
         </div>
         <div class="invisible">
@@ -82,42 +87,47 @@
                         </template>
                         <b-card-body class="p-1">
                             <!--  <h4>Started: {{ workout.startTime | moment }}</h4> -->
-                            <b-button
-                                variant="danger"
-                                @click="endWorkout(workout)"
-                                v-if="workout.stopTime === null"
-                                size="small"
-                            >
+                            <div class="centered">
+                                <b-button
+                                    variant="danger"
+                                    @click="endWorkout(workout)"
+                                    v-if="workout.stopTime === null"
+                                    size="small"
+                                >
 
-                                <b-icon icon="stop-circle"></b-icon>
-                                <span class="ml-1">{{ calculateTimePassed(workout.startTime) | timer }}</span>
-                            </b-button>
-                            <p class="centered" v-if="workout.stopTime !== null">Time {{ workout.betweenTime | timer }}</p>
+                                    <b-icon icon="stop-circle"></b-icon>
+                                    <span class="ml-1">{{ calculateTimePassed(workout.startTime) | timer }}</span>
+                                </b-button>
+                            </div>
+                            <p class="centered" v-if="workout.stopTime !== null">
+                                <b-icon class="mr-2 mt-1" icon="clock"></b-icon>
+                                {{ workout.betweenTime | timer }}
+                            </p>
                             <template v-if="workout.stopTime === null">
                                 <exercise-form :workoutId="workout.id"></exercise-form>
                             </template>
                             <template>
                                 <div class="centered">
-                                <b-button
-                                    @click="toggleShowDetail(workout.id)"
-                                    v-if="!showDetailState.includes(workout.id)"
-                                    size="sm"
-                                    class="mt-2"
-                                    variant="dark"
+                                    <b-button
+                                        @click="toggleShowDetail(workout.id)"
+                                        v-if="!showDetailState.includes(workout.id)"
+                                        size="sm"
+                                        class="mt-2"
+                                        variant="dark"
 
-                                >
-                                    Show exercises
-                                </b-button>
-                                <b-button
-                                    @click="toggleHideDetail(workout.id)"
-                                    v-else
-                                    size="sm"
-                                    class="mt-2"
-                                    variant="dark"
+                                    >
+                                        Show exercises
+                                    </b-button>
+                                    <b-button
+                                        @click="toggleHideDetail(workout.id)"
+                                        v-else
+                                        size="sm"
+                                        class="mt-2"
+                                        variant="dark"
 
-                                >
-                                    Hide exercises
-                                </b-button>
+                                    >
+                                        Hide exercises
+                                    </b-button>
                                 </div>
                             </template>
                             <template v-if="showDetailState.includes(workout.id)">
@@ -133,14 +143,14 @@
                                                 <template>
                                                     <h4 class="centered">{{ exercise.name }}</h4>
                                                     <div class="centered">
-                                                    <b-button
-                                                        size="sm"
-                                                        class="mt-2 "
-                                                        v-b-modal.setModal
-                                                        @click="toggleShowSetsDetail(exercise.id)"
-                                                    >
-                                                        Show sets
-                                                    </b-button>
+                                                        <b-button
+                                                            size="sm"
+                                                            class="mt-2 "
+                                                            v-b-modal.setModal
+                                                            @click="toggleShowSetsDetail(exercise.id)"
+                                                        >
+                                                            Show sets
+                                                        </b-button>
                                                     </div>
                                                 </template>
 
@@ -232,10 +242,10 @@ export default {
         getRandomQuote() {
             let self = this
             fetch("https://type.fit/api/quotes")
-                .then(function(response) {
+                .then(function (response) {
                     return response.json();
                 })
-                .then(function(data) {
+                .then(function (data) {
                     const NumberOfQuotes = data.length
                     const randomNumber = Math.floor(Math.random(0, NumberOfQuotes) * 100)
                     const quote = data[randomNumber]
@@ -436,7 +446,7 @@ export default {
         console.log(this.laravelData)
         this.currentTime()
         this.getRandomQuote();
-        for(var i = 0; i < this.laravelData.data.length; i++) {
+        for (var i = 0; i < this.laravelData.data.length; i++) {
             if (this.laravelData.data[i].stopTime === null) {
                 this.$store.dispatch("workouts/activate", true)
             }
@@ -460,18 +470,22 @@ export default {
     background-color: #003c77 !important;
     border-color: #003c77 !important;
 }
+
 .btn-dark {
     background-color: #003c77 !important;
     border-color: #003c77 !important;
 }
+
 .btn-info {
     background-color: #003c77 !important;
     border-color: #003c77 !important;
 }
+
 .btn-primary {
     background-color: #003c77 !important;
     border-color: #003c77 !important;
 }
+
 .btn-primary:hover {
     background-color: #002877 !important;
     border-color: #002877 !important;
@@ -481,7 +495,11 @@ export default {
     .centered {
         text-align: center;
         justify-content: center !important;
-        display:flex !important;
+        display: flex !important;
+    }
+
+    .logo-sm {
+
     }
 }
 </style>

@@ -80,7 +80,7 @@
                             </b-nav-item>
                         </div>
                         <div class="d-flex justify-content-center fixed-bottom">
-                            <img width="50%" height="50%" src="/images/logo-sidebar.svg"/>
+                            <img width="50%" height="50%" class="logo-sm" src="/images/logo-sidebar.svg"/>
                         </div>
                     </div>
                 </b-sidebar>
@@ -167,5 +167,11 @@ export default {
 .testShadow {
     background-color: whitesmoke;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+@media (max-width: 767px) {
+    .logo-sm {
+        width: 25% !important;
+        height: 25% !important;
+    }
 }
 </style>
