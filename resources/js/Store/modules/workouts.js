@@ -6,7 +6,6 @@ const state = () => ({
     active: false,
     singleWorkout: [],
     laravelData: {},
-    allWorkouts:[],
     workoutStartTimes: new Map()
 })
 
@@ -39,8 +38,8 @@ const actions = {
         axios.get('api/workouts/all/' + id)
             .then(response => {
                 this.workouts = response.data;
-                console.log("my object: %o", response)
                 commit('setWorkouts', response.data)
+                console.log("my object: %o", response)
             });
     },
     async getSingle({commit, state}, id) {

@@ -33,6 +33,7 @@ Vue.use(IconsPlugin);
 Vue.use(Vuelidate);
 Vue.use(BootstrapVueIcons);
 
+
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('left-navigation', require('./components/LeftNavigation.vue').default);
 Vue.component('workouts', require('./components/Workouts.vue').default);
