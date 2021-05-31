@@ -39,6 +39,7 @@ Route::put('/workouts/update/timer/{id}', [WorkoutController::class, 'updateTime
 Route::delete('/workouts/delete/{id}', [WorkoutController::class, 'destroy']);
 
 Route::get('/exercises/{id}', [ExerciseController::class, 'getExercisesForWorkout']);
+Route::get('/exercises/single/{id}', [ExerciseController::class, 'show']);
 Route::post('/exercises/store', [ExerciseController::class, 'store']);
 Route::put('/exercises/update/{id}', [ExerciseController::class, 'update']);
 Route::delete('/exercises/delete/{id}', [ExerciseController::class, 'destroy']);

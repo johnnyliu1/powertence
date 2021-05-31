@@ -2,13 +2,17 @@ import * as qs from 'qs'
 
 // initial state
 const state = () => ({
-    exercises: []
+    exercises: [],
+    singleExercise: []
 })
 
 // getters
 const getters = {
     exercises(state) {
         return state.exercises
+    },
+    exercise(state) {
+        return state.singleExercise
     }
 }
 
@@ -18,7 +22,13 @@ const actions = {
     async getAllExercisesForWorkout({commit}, id) {
         const response = await axios.get('api/exercises/' + id)
         commit('setExercises', response.data)
-        console.log(response.data)
+    },
+    async getSingleExercise({commit, state}, id) {
+        axios.get('api/exercises/single/' + id)
+            .then(response => {
+                this.singleExercise = response.data;
+                commit('setSingleExercise', response.data)
+            })
     },
 
     async saveExercise({commit, state, dispatch}, exercise) {
@@ -37,6 +47,9 @@ const mutations = {
     setExercises(state, exercises) {
         state.exercises = exercises
     },
+    setSingleExercise(state, singleExercise) {
+        state.singleExercise = singleExercise
+    }
 }
 
 export default {

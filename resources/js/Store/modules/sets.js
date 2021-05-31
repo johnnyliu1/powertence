@@ -18,7 +18,6 @@ const actions = {
     async getAllSetsForExercise({commit}, id) {
         const response = await axios.get('api/sets/' + id)
         commit('setSets', response.data)
-        console.log(response.data)
     },
 
     async saveSet({commit, state, dispatch}, set) {

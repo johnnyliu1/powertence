@@ -139,14 +139,16 @@ export default {
     },
     data() {
         return {
-            user_id: this.$store.state.user.user.id,
+            user_id: null
             //propProfile: this.profile[0]
         };
     },
     created() {
-        this.$store.dispatch('user/loadProfile', this.user_id)
-        console.log(this.profile[0])
-
+        if (this.authenticated) {
+            this.user_id = this.$store.state.user.user.id;
+            this.$store.dispatch('user/loadProfile', this.user_id)
+            console.log(this.profile[0])
+        }
     }
 }
 </script>

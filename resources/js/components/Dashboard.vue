@@ -43,21 +43,23 @@
                         </table>
                     </b-col>
                     <b-col sm="12" md="6">
-                        <b-form-select v-model="selected" @change="changeData()" size="sm" class="mt-3">
+                        <b-form-select v-model="selected" @change="changeWorkout()" size="sm" class="mt-3">
                             <option v-for="(workout, workoutIndex) in workouts" :key="workout.id" :value="workout.id">
-                                {{workout.name}}
+                                {{ workout.name }}
                             </option>
                         </b-form-select>
                         <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
 
-                        <b-form-select v-if="exercises.length" v-model="selectedExercises" @change="" size="sm" class="mt-3">
-                            <option v-for="(exercise, exerciseIndex) in exercises" :key="exercise.id" :value="exercise.id">
-                                {{exercise.name}}
+                        <b-form-select v-if="exercises.length" v-model="selectedExercises" @change="changeExercise()"
+                                       size="sm" class="mt-3">
+                            <option v-for="exercise in exercises" :key="exercise.id" :value="exercise.id">
+                                {{ exercise.name }}
                             </option>
                         </b-form-select>
                         <div class="mt-3">Selected: <strong>{{ selectedExercises }}</strong></div>
-
-                        <line-chart :chartdata="this.chartdata" :options="this.options"></line-chart>
+                        <b-button @click="addDataToChart()">Add chart</b-button>
+                        <line-chart :key="componentKey" :chartData="this.chartData"
+                                    :options="this.options"></line-chart>
                     </b-col>
                 </b-row>
             </b-container>
@@ -81,7 +83,6 @@ export default {
     mounted() {
         console.log("dashboard mounted");
     },
-
     filters: {
         moment(date) {
             return moment(date).format('Do MMM YYYY')
@@ -96,8 +97,14 @@ export default {
         }
         if (this.authenticated === true) {
             this.$store.dispatch('workouts/getAll', this.user_id);
-            this.$store.dispatch('user/loadProfile', this.user_id)
+            this.$store.dispatch('user/loadProfile', this.user_id);
+            this.$store.dispatch('exercises/getSingleExercise', this.selectedExercises)
         }
+        this.chartData.datasets.push({
+            label: 'test',
+            data: [1, 2, 3, 4, 5],
+            borderWidth: 1
+        })
     },
     computed: {
         ...mapGetters('user', [
@@ -110,7 +117,11 @@ export default {
             'single'
         ]),
         ...mapGetters('exercises', [
-            'exercises'
+            'exercises',
+            'exercise'
+        ]),
+        ...mapGetters('sets', [
+            'sets'
         ])
     },
     data() {
@@ -120,10 +131,12 @@ export default {
             show: false,
             showWorkout: [],
             selected: null,
+            test: null,
             selectedExercises: null,
-            loaded: false,
-            chartdata: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            componentKey: 0,
+            selectedExerciseName: null,
+            chartData: {
+                labels: ['Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6'],
                 datasets: [{
                     label: 'Afternoon workout',
                     data: [12, 19, 3, 5, 2, 3],
@@ -151,23 +164,72 @@ export default {
             'getSingle'
         ]),
         ...mapActions('exercises', [
-            'getAllExercisesForWorkout'
+            'getAllExercisesForWorkout',
+            'getSingleExercise'
         ]),
         ...mapMutations('workouts', [
             'setWorkouts',
             'setSingleWorkout'
         ]),
         ...mapMutations('exercises', [
-            'setExercises'
+            'setExercises',
+            'setSingleExercise'
         ]),
         async toggleDetail(id) {
             this.workout_id = id
             this.$bvModal.show(this.workout_id)
         },
-        changeData() {
-            console.log('select changed' + this.selected)
+        changeWorkout() {
             this.$store.dispatch('exercises/getAllExercisesForWorkout', this.selected)
+
+        },
+        changeExercise() {
+            this.$store.dispatch('sets/getAllSetsForExercise', this.selectedExercises)
+            this.$store.dispatch('exercises/getSingleExercise', this.selectedExercises)
             console.log(this.exercises)
+            console.log(this.exercise)
+        },
+        forceRerender() {
+            this.componentKey += 1;
+        },
+        addDataToChart() {
+            if (this.selected !== null && this.selectedExercises !== null) {
+                let i;
+                let selectedData = [];
+                for (i = 0; i < this.sets.length; i++) {
+                    selectedData.push(this.sets[i].kg)
+                }
+                console.log('aantal sets = ' + this.sets.length)
+                console.log('aantal sets in graph = ' + this.chartData.labels.length)
+                console.log(this.exercises)
+                if (this.chartData.labels.length < this.sets.length) {
+                    this.chartData.labels = []
+                    let k;
+                    for (k = 1; k < this.sets.length + 1; k++) {
+                        this.chartData.labels.push('Set ' + k)
+                    }
+                    this.chartData.datasets.push({
+                        label: this.exercise.name,
+                        data: selectedData,
+                        borderWidth: 1
+                    })
+                } else {
+                    this.chartData.datasets.push({
+                        label: this.exercise.name,
+                        data: selectedData,
+                        borderWidth: 1
+                    })
+                }
+
+                this.forceRerender()
+
+            } else {
+                this.$bvToast.toast('Please select a workout and exercise to add to the graph', {
+                    title: 'Error',
+                    variant: 'danger',
+                    autoHideDelay: 5000,
+                })
+            }
         }
     }
 }

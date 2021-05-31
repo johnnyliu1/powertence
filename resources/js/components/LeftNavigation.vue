@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     mounted() {
@@ -14,12 +14,16 @@ export default {
     },
     data() {
         return {
-            user_id: this.$store.state.user.user.id,
+            user_id: null,
         }
     },
     created() {
-        this.$store.dispatch('user/loadProfile', this.user_id)
-        console.log(this.profile)
+        if (this.authenticated) {
+            this.user_id = this.$store.state.user.user.id
+            this.$store.dispatch('user/loadProfile', this.user_id)
+            console.log(this.profile)
+
+        }
 
     },
     methods: {
@@ -38,6 +42,11 @@ export default {
         ...mapGetters('workouts', [
             'getAll'
         ]),
+        ...mapState('user', [
+            'user',
+            'authenticated',
+            'profile'
+        ])
     },
 };
 </script>

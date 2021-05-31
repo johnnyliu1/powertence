@@ -6,6 +6,7 @@ const state = () => ({
     active: false,
     singleWorkout: [],
     laravelData: {},
+    allWorkouts: [],
     workoutStartTimes: new Map()
 })
 
