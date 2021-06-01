@@ -16,6 +16,7 @@
                         <h5>Account created {{ user.created_at | moment }}</h5>
                         <b-button v-if="this.profile.length === 0"
                                   variant="info"
+                                  size="sm"
                                   @click="saveProfile(user_id)">
                             Create profile
                         </b-button>

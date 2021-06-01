@@ -141,7 +141,7 @@
                                                     :exercise="exercise">
                                                 </set-form>
                                                 <template>
-                                                    <h4 class="centered">{{ exercise.name }}</h4>
+
                                                     <div class="centered">
                                                         <b-button
                                                             size="sm"
@@ -442,17 +442,14 @@ export default {
         ]),
     },
     created() {
-        this.$store.dispatch("workouts/getResults");
-        console.log(this.laravelData)
-        this.currentTime()
         this.getRandomQuote();
         for (var i = 0; i < this.laravelData.data.length; i++) {
             if (this.laravelData.data[i].stopTime === null) {
                 this.$store.dispatch("workouts/activate", true)
             }
         }
-
         setInterval(this.currentTime.bind(this), 1000)
+        setInterval(this.calculateTimePassed.bind(this), 1000)
         // when new user gets created the state of active was true so no workout could be created
         if (this.laravelData.data.length === 0) {
             this.$store.dispatch("workouts/activate", false)

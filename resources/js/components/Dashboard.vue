@@ -2,9 +2,9 @@
     <div class="container">
         <div class="mt-4 mb-2">
             <h1>Dashboard</h1>
-<!--        {{ authenticated }}
-            {{ user }}
-            {{ workouts }}-->
+            <!--        {{ authenticated }}
+                        {{ user }}
+                        {{ workouts }}-->
             <b-container>
                 <b-row>
                     <b-col sm="12" md="6">
@@ -42,22 +42,35 @@
                             </tbody>
                         </table>
                     </b-col>
-                    <b-col sm="12" md="6">
-                        <b-form-select v-model="selected" @change="changeWorkout()" size="sm" class="mt-3">
-                            <option v-for="(workout, workoutIndex) in workouts" :key="workout.id" :value="workout.id">
-                                {{ workout.name }}
-                            </option>
-                        </b-form-select>
-                        <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
 
-                        <b-form-select v-if="exercises.length" v-model="selectedExercises" @change="changeExercise()"
-                                       size="sm" class="mt-3">
-                            <option v-for="exercise in exercises" :key="exercise.id" :value="exercise.id">
-                                {{ exercise.name }}
-                            </option>
-                        </b-form-select>
-                        <div class="mt-3">Selected: <strong>{{ selectedExercises }}</strong></div>
-                        <b-button @click="addDataToChart()">Add chart</b-button>
+                    <b-col sm="12" md="6">
+                        <div class="row">
+                            <div class="col-6">
+                                <label>Select workout</label>
+                                <b-form-select v-model="selected" @change="changeWorkout()" size="sm">
+                                    <option v-for="(workout, workoutIndex) in workouts" :key="workout.id"
+                                            :value="workout.id">
+                                        {{ workout.name }}
+                                    </option>
+                                </b-form-select>
+                            </div>
+                            <div class="col-6">
+                                <div v-if="exercises.length">
+                                    <label>Select Exercise</label>
+                                    <b-form-select v-model="selectedExercises"
+                                                   @change="changeExercise()"
+                                                   size="sm">
+                                        <option v-for="exercise in exercises" :key="exercise.id" :value="exercise.id">
+                                            {{ exercise.name }}
+                                        </option>
+                                    </b-form-select>
+                                </div>
+                            </div>
+                        </div>
+
+<!--                        <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
+                        <div class="mt-3">Selected: <strong>{{ selectedExercises }}</strong></div>-->
+                        <b-button size="sm" class="mt-2 mb-2" @click="addDataToChart()">Add chart</b-button>
                         <line-chart :key="componentKey" :chartData="this.chartData"
                                     :options="this.options"></line-chart>
                     </b-col>
@@ -256,5 +269,9 @@ export default {
 .small {
     max-width: 600px;
     margin: 150px auto;
+}
+
+.mt-3, .my-3 {
+    margin-top: 0rem !important;
 }
 </style>

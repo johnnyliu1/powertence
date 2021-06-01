@@ -1,69 +1,99 @@
 <template>
     <div class="ms-2 me-auto">
         <div class="fw-bold"><h4>{{ exercise.name }}</h4></div>
+               <div class="row">
+                    <div class="col-sm-12 col-md-3">
+                        <label>Set</label>
+                        <b-form-input
+                            size="sm"
+                            type="number"
+                            v-model="$v.setForm.set.$model"
+                            min="0"
+                            oninput="validity.valid||(value='');"
+                            :state="validateState('set')"
+                        >
 
-        <div class="row">
-            <div class="col-sm-3">
-                <label>Set</label>
-            </div>
-            <div class="col-sm-3">
-                <label>Kg</label>
-            </div>
-            <div class="col-sm-3">
-                <label>Reps</label>
-            </div>
-            <div class="col-sm-3">
-                <label>Submit</label>
-            </div>
-        </div>
-
-        <b-form @submit.prevent="validateForm">
-            <div class="row">
-                <div class="col-sm-3">
-                    <b-form-input
-                        size="sm"
-                        type="number"
-                        v-model="$v.setForm.set.$model"
-                        min="0"
-                        oninput="validity.valid||(value='');"
-                        :state="validateState('set')"
-                    >
-
-                    </b-form-input>
-                </div>
-                <div class="col-sm-3">
-                    <b-form-input
-                        size="sm"
-                        type="number"
-                        v-model="$v.setForm.kg.$model"
-                        min="0"
-                        oninput="validity.valid||(value='');"
-                        :state="validateState('kg')"
-                    >
-
-                    </b-form-input>
-                </div>
-                <div class="col-sm-3">
-                    <b-form-input
-                        size="sm"
-                        type="number"
-                        v-model="$v.setForm.reps.$model"
-                        min="0"
-                        oninput="validity.valid||(value='');"
-                        :state="validateState('reps')"
-                    >
-                    </b-form-input>
-                </div>
-                <div class="col-sm-3">
-                    <div class="d-inline">
-                        <b-button size="sm" variant="info" type="submit">
-                            Submit
-                        </b-button>
-
+                        </b-form-input>
+                    </div>
+                    <div class="col-sm-12 col-md-3" >
+                        <label>Kg</label>
+                        <b-form-input
+                            size="sm"
+                            type="number"
+                            v-model="$v.setForm.kg.$model"
+                            min="0"
+                            oninput="validity.valid||(value='');"
+                            :state="validateState('kg')"
+                        >
+                        </b-form-input>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <label>Reps</label>
+                        <b-form-input
+                            size="sm"
+                            type="number"
+                            v-model="$v.setForm.reps.$model"
+                            min="0"
+                            oninput="validity.valid||(value='');"
+                            :state="validateState('reps')"
+                        >
+                        </b-form-input>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <label class="invisible dissapear">Submit</label>
+                            <b-button class="d-block btn-on-small" size="sm" variant="info" type="submit">
+                                Submit
+                            </b-button>
                     </div>
                 </div>
-            </div>
-        </b-form>
+
+<!--                <b-form @submit.prevent="validateForm">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <b-form-input
+                                size="sm"
+                                type="number"
+                                v-model="$v.setForm.set.$model"
+                                min="0"
+                                oninput="validity.valid||(value='');"
+                                :state="validateState('set')"
+                            >
+
+                            </b-form-input>
+                        </div>
+                        <div class="col-sm-6">
+                            <b-form-input
+                                size="sm"
+                                type="number"
+                                v-model="$v.setForm.kg.$model"
+                                min="0"
+                                oninput="validity.valid||(value='');"
+                                :state="validateState('kg')"
+                            >
+
+                            </b-form-input>
+                        </div>
+                        <div class="col-sm-3">
+                            <b-form-input
+                                size="sm"
+                                type="number"
+                                v-model="$v.setForm.reps.$model"
+                                min="0"
+                                oninput="validity.valid||(value='');"
+                                :state="validateState('reps')"
+                            >
+                            </b-form-input>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="d-inline">
+                                <b-button size="sm" variant="info" type="submit">
+                                    Submit
+                                </b-button>
+
+                            </div>
+                        </div>
+                    </div>
+                </b-form>-->
     </div>
 </template>
 
@@ -147,5 +177,13 @@ export default {
 </script>
 
 <style scoped>
-
+/* small devices (tablets, less than 768px) */
+@media (max-width: 767px) {
+.dissapear {
+    display:none;
+}
+    .btn-on-small {
+        margin-top : 2em;
+    }
+}
 </style>
