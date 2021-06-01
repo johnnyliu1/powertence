@@ -1,10 +1,10 @@
 <template>
     <div class="container">
         <div class="mt-4 mb-2">
-            <h1>Dashboards</h1>
-            {{ authenticated }}
+            <h1>Dashboard</h1>
+<!--        {{ authenticated }}
             {{ user }}
-            {{ workouts }}
+            {{ workouts }}-->
             <b-container>
                 <b-row>
                     <b-col sm="12" md="6">
@@ -99,12 +99,8 @@ export default {
             this.$store.dispatch('workouts/getAll', this.user_id);
             this.$store.dispatch('user/loadProfile', this.user_id);
             this.$store.dispatch('exercises/getSingleExercise', this.selectedExercises)
+            this.selectedExercises = null
         }
-        this.chartData.datasets.push({
-            label: 'test',
-            data: [1, 2, 3, 4, 5],
-            borderWidth: 1
-        })
     },
     computed: {
         ...mapGetters('user', [
@@ -134,20 +130,11 @@ export default {
             test: null,
             selectedExercises: null,
             componentKey: 0,
+            graphList: [],
             selectedExerciseName: null,
             chartData: {
                 labels: ['Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6'],
-                datasets: [{
-                    label: 'Afternoon workout',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                },
-                    {
-                        label: 'Morning workout',
-                        data: [45, 18, 34, 10, 2, 45],
-                        borderWidth: 1
-                    },
-                ]
+                datasets: []
             },
             options: {
                 scales: {
@@ -202,25 +189,55 @@ export default {
                 console.log('aantal sets = ' + this.sets.length)
                 console.log('aantal sets in graph = ' + this.chartData.labels.length)
                 console.log(this.exercises)
-                if (this.chartData.labels.length < this.sets.length) {
-                    this.chartData.labels = []
-                    let k;
-                    for (k = 1; k < this.sets.length + 1; k++) {
-                        this.chartData.labels.push('Set ' + k)
+                if (!this.graphList.includes(this.exercise.id)) {
+                    if (this.chartData.labels.length < this.sets.length) {
+                        this.chartData.labels = []
+                        let k;
+                        for (k = 1; k < this.sets.length + 1; k++) {
+                            this.chartData.labels.push('Set ' + k)
+                        }
+                        var dynamicColors = function () {
+                            var r = Math.floor(Math.random() * 255);
+                            var g = Math.floor(Math.random() * 255);
+                            var b = Math.floor(Math.random() * 255);
+                            var a = 0.2
+                            return "rgb(" + r + "," + g + "," + b + "," + a + ")";
+                        };
+                        var makeColor = dynamicColors();
+
+                        this.chartData.datasets.push({
+                            label: this.exercise.name,
+                            data: selectedData,
+                            backgroundColor: makeColor,
+                            borderColor: makeColor,
+                            borderWidth: 1
+                        })
+                        this.graphList.push(this.exercise.id)
+                    } else {
+                        var dynamicColors = function () {
+                            var r = Math.floor(Math.random() * 255);
+                            var g = Math.floor(Math.random() * 255);
+                            var b = Math.floor(Math.random() * 255);
+                            var a = 0.2
+                            return "rgb(" + r + "," + g + "," + b + "," + a + ")";
+                        };
+                        var makeColor = dynamicColors();
+                        this.chartData.datasets.push({
+                            label: this.exercise.name,
+                            data: selectedData,
+                            backgroundColor: makeColor,
+                            borderColor: makeColor,
+                            borderWidth: 1,
+                        })
+                        this.graphList.push(this.exercise.id)
                     }
-                    this.chartData.datasets.push({
-                        label: this.exercise.name,
-                        data: selectedData,
-                        borderWidth: 1
-                    })
                 } else {
-                    this.chartData.datasets.push({
-                        label: this.exercise.name,
-                        data: selectedData,
-                        borderWidth: 1
+                    this.$bvToast.toast('This exercise is already on the chart', {
+                        title: 'Error',
+                        variant: 'danger',
+                        autoHideDelay: 5000,
                     })
                 }
-
                 this.forceRerender()
 
             } else {
