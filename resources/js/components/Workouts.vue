@@ -7,7 +7,8 @@
                     <blockquote>{{quote}}</blockquote>
                 </strong></h4>
                 <small class="pt-1">{{author}}</small>
-                <p class="pt-5">You currently have {{laravelData.data.length}} workout(s).</p>
+                <hr>
+                <p class="pt-3">You currently have {{laravelData.data.length}} workout(s).</p>
                 <b-button v-if="this.active === false" class="mt-1 mb-3 primary-btn" v-b-modal.workoutForm>Create new
                     workout
                 </b-button>
@@ -15,7 +16,7 @@
                 </b-button>
             </b-jumbotron>
         </div>
-        <div class="invisible">
+        <div>
             {{ authenticated }}
             {{ user.name }}
             {{ active }}
@@ -321,7 +322,6 @@ export default {
                 this.$bvToast.toast('There is an error', {
                     title: 'Error',
                     autoHideDelay: 5000,
-                    appendToast: append
                 })
             }
         },

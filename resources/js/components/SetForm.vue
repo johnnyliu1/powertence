@@ -1,6 +1,7 @@
 <template>
     <div class="ms-2 me-auto">
         <div class="fw-bold"><h4>{{ exercise.name }}</h4></div>
+        <b-form @submit.prevent="validateForm">
                <div class="row">
                     <div class="col-sm-12 col-md-3">
                         <label>Set</label>
@@ -46,6 +47,7 @@
                             </b-button>
                     </div>
                 </div>
+        </b-form>
 
 <!--                <b-form @submit.prevent="validateForm">
                     <div class="row">

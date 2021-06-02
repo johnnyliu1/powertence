@@ -23,7 +23,8 @@ class WorkoutFactory extends Factory
     {
         return [
             'user_id' => 1,
-            'workout' => $this->faker->text()
+            'name' => $this->faker->text(20),
+            'stopTime' => $this->faker->iso8601
         ];
     }
 }

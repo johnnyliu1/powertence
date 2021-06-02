@@ -11,9 +11,17 @@
                         <div>
                             <b-jumbotron>
                                 <h2>Hi, {{user.name}}!</h2>
-                                <p></p>
-                                <b-button size="sm" variant="primary" href="#"><router-link class="menuItem m-1" to="/workouts">Workouts</router-link></b-button>
-                                <b-button size="sm" variant="primary" href="#">More Info</b-button>
+                                <p>Check your statistics from previous workouts here.</p>
+                                <hr>
+                                <b-button size="sm"
+                                          variant="primary">
+                                    <router-link class="menuItem m-1" to="/workouts">Workouts</router-link>
+                                </b-button>
+
+                                <b-button size="sm"
+                                          variant="primary">
+                                    <router-link class="menuItem m-1" to="/profile">Profile</router-link>
+                                </b-button>
                             </b-jumbotron>
                         </div>
                     </b-col>
@@ -25,6 +33,8 @@
                 <b-row>
                     <b-col sm="12" md="6" align-self="stretch">
                         <b-jumbotron class="p-4 ">
+                            <h4>Previous workouts</h4>
+                            <hr>
                             <div class="table-responsive-sm">
                             <table class="table">
                                 <thead>
@@ -56,6 +66,8 @@
 
                     <b-col sm="12" md="6">
                         <b-jumbotron class="p-4">
+                            <h4>Charts</h4>
+                            <hr>
                             <div class="row">
                                 <div class="col-6">
                                     <label>Select workout</label>
