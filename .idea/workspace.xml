@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Profile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/SetForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/SetForm.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Workouts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Workouts.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -253,7 +252,9 @@
       <workItem from="1622334964785" duration="39000" />
       <workItem from="1622364428947" duration="26188000" />
       <workItem from="1622452032367" duration="31165000" />
-      <workItem from="1622546857512" duration="17193000" />
+      <workItem from="1622546857512" duration="17316000" />
+      <workItem from="1622618245658" duration="1837000" />
+      <workItem from="1622623267912" duration="8530000" />
     </task>
     <servers />
   </component>

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1 class="mt-4 mb-2">Profile</h1>
+        <h1 class="mt-4 mb-2 centered">Profile</h1>
         <div>
             <b-jumbotron class="p-4">
                 <b-row>

@@ -1,14 +1,21 @@
 <template>
     <div class="container">
         <div class="mt-4 mb-2">
-            <h1>Dashboard</h1>
+            <h1 class="centered">Dashboard</h1>
             <!--        {{ authenticated }}
                         {{ user }}
                         {{ workouts }}-->
-            <b-container>
+            <b-container class="p-0">
                 <b-row>
-                    <b-col sm="12" md="6">
-                        test
+                    <b-col sm="12" md="6" class="centered">
+                        <div>
+                            <b-jumbotron>
+                                <h2>Hi, {{user.name}}!</h2>
+                                <p></p>
+                                <b-button size="sm" variant="primary" href="#"><router-link class="menuItem m-1" to="/workouts">Workouts</router-link></b-button>
+                                <b-button size="sm" variant="primary" href="#">More Info</b-button>
+                            </b-jumbotron>
+                        </div>
                     </b-col>
                     <b-col sm="12" md="6">
                         test
@@ -16,63 +23,70 @@
                 </b-row>
 
                 <b-row>
-                    <b-col sm="12" md="6">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">View</th>
-                            </tr>
-                            </thead>
-                            <tbody v-for="workout in workouts">
-                            <tr>
-                                <td>{{ workout.name }}</td>
-                                <td>{{ workout.created_at | moment }}</td>
-                                <td>{{ workout.betweenTime | timeBetween }}</td>
-                                <td>
-                                    <b-button size="sm" @click="toggleDetail(workout.id)" variant="primary">View
-                                    </b-button>
-                                    <b-modal :id="workout.id" size="lg" hide-footer>
-                                        <workout-detail :workoutId="workout.id"></workout-detail>
-                                    </b-modal>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <b-col sm="12" md="6" align-self="stretch">
+                        <b-jumbotron class="p-4 ">
+                            <div class="table-responsive-sm">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">View</th>
+                                </tr>
+                                </thead>
+                                <tbody v-for="workout in workouts">
+                                <tr>
+                                    <td>{{ workout.name }}</td>
+                                    <td>{{ workout.created_at | moment }}</td>
+                                    <td>{{ workout.betweenTime | timeBetween }}</td>
+                                    <td>
+                                        <b-button size="sm" @click="toggleDetail(workout.id)" variant="primary">View
+                                        </b-button>
+                                        <b-modal :id="workout.id" size="lg" hide-footer>
+                                            <workout-detail :workoutId="workout.id"></workout-detail>
+                                        </b-modal>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </b-jumbotron>
                     </b-col>
 
                     <b-col sm="12" md="6">
-                        <div class="row">
-                            <div class="col-6">
-                                <label>Select workout</label>
-                                <b-form-select v-model="selected" @change="changeWorkout()" size="sm">
-                                    <option v-for="(workout, workoutIndex) in workouts" :key="workout.id"
-                                            :value="workout.id">
-                                        {{ workout.name }}
-                                    </option>
-                                </b-form-select>
-                            </div>
-                            <div class="col-6">
-                                <div v-if="exercises.length">
-                                    <label>Select Exercise</label>
-                                    <b-form-select v-model="selectedExercises"
-                                                   @change="changeExercise()"
-                                                   size="sm">
-                                        <option v-for="exercise in exercises" :key="exercise.id" :value="exercise.id">
-                                            {{ exercise.name }}
+                        <b-jumbotron class="p-4">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label>Select workout</label>
+                                    <b-form-select v-model="selected" @change="changeWorkout()" size="sm">
+                                        <option v-for="(workout, workoutIndex) in workouts" :key="workout.id"
+                                                :value="workout.id">
+                                            {{ workout.name }} / {{workout.created_at | moment}}
                                         </option>
                                     </b-form-select>
                                 </div>
+                                <div class="col-6">
+                                    <div v-if="exercises.length">
+                                        <label>Select Exercise</label>
+                                        <b-form-select v-model="selectedExercises"
+                                                       @change="changeExercise()"
+                                                       size="sm">
+                                            <option v-for="exercise in exercises" :key="exercise.id"
+                                                    :value="exercise.id">
+                                                {{ exercise.name }}
+                                            </option>
+                                        </b-form-select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-<!--                        <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
-                        <div class="mt-3">Selected: <strong>{{ selectedExercises }}</strong></div>-->
-                        <b-button size="sm" class="mt-2 mb-2" @click="addDataToChart()">Add chart</b-button>
-                        <line-chart :key="componentKey" :chartData="this.chartData"
-                                    :options="this.options"></line-chart>
+                            <!--                        <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
+                                                    <div class="mt-3">Selected: <strong>{{ selectedExercises }}</strong></div>-->
+                            <b-button size="sm" class="mt-2 mb-2" @click="addDataToChart()">Add chart</b-button>
+                            <line-chart :key="componentKey" :chartData="this.chartData"
+                                        :options="this.options"></line-chart>
+                        </b-jumbotron>
                     </b-col>
                 </b-row>
             </b-container>
@@ -181,6 +195,7 @@ export default {
         },
         changeWorkout() {
             this.$store.dispatch('exercises/getAllExercisesForWorkout', this.selected)
+            this.selectedExercises = null;
 
         },
         changeExercise() {
@@ -213,7 +228,7 @@ export default {
                             var r = Math.floor(Math.random() * 255);
                             var g = Math.floor(Math.random() * 255);
                             var b = Math.floor(Math.random() * 255);
-                            var a = 0.2
+                            var a = 0.4
                             return "rgb(" + r + "," + g + "," + b + "," + a + ")";
                         };
                         var makeColor = dynamicColors();

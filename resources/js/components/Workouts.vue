@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1 class="mt-4 mb-2">Workouts</h1>
+        <h1 class="mt-4 mb-2 centered">Workouts</h1>
         <div class="centered">
             <b-jumbotron class="pl-4 pt-0 pb-0">
                 <h4 class="pt-3"><strong>
@@ -103,6 +103,14 @@
                                 <b-icon class="mr-2 mt-1" icon="clock"></b-icon>
                                 {{ workout.betweenTime | timer }}
                             </p>
+                            <p class="centered" v-if="workout.stopTime !== null">
+                                <b-icon class="mr-2 mt-1" icon="calendar"></b-icon>
+                                {{ workout.created_at | moment }}
+                            </p>
+                            <p class="centered" v-if="workout.stopTime !== null">
+                                <b-icon class="mr-2 mt-1" icon="person-circle"></b-icon>
+                                {{ user.name }}
+                            </p>
                             <template v-if="workout.stopTime === null">
                                 <exercise-form :workoutId="workout.id"></exercise-form>
                             </template>
@@ -136,6 +144,7 @@
                                     <ul class="list-group list-unstyled list-group-numbered">
                                         <div v-for="exercise in exercises">
                                             <li class="list-group-item">
+                                                <h4 v-if="workout.stopTime !== null">{{exercise.name}}</h4>
                                                 <set-form
                                                     v-if="workout.stopTime === null"
                                                     :exercise="exercise">
@@ -238,6 +247,8 @@ export default {
         calculateTimePassed(startTimeString) {
             const startTime = moment(startTimeString).valueOf();
             return this.now - startTime
+            this.$forceUpdate();
+
         },
         getRandomQuote() {
             let self = this
