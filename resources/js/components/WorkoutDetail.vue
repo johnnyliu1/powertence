@@ -21,8 +21,8 @@
                                 <b-icon class="mr-2 mt-1" icon="person-circle"></b-icon>
                                 {{ user.name }}
                             </p>
-                            </div>
-                    <div class="centered">
+                        </div>
+                        <div class="centered">
                             <template v-if="single.stopTime === null">
                                 <exercise-form :workoutId="single.id"></exercise-form>
                             </template>
@@ -198,11 +198,9 @@ export default {
             if (this.showSetsDetailState.includes(exerciseId)) {
                 this.showSetsDetailState = this.showSetsDetailState.filter(x => x !== exerciseId)
                 this.$store.dispatch('sets/getAllSetsForExercise', exerciseId)
-                console.log(this.showSetsDetailState)
             } else {
                 this.showSetsDetailState.push(exerciseId)
                 this.$store.dispatch('sets/getAllSetsForExercise', exerciseId)
-                console.log(this.showSetsDetailState)
             }
         },
         toggleHideDetail(workoutId) {
@@ -239,11 +237,8 @@ export default {
         },
     },
     created() {
-        console.log(this.workoutId)
         this.$store.dispatch('workouts/getSingle', this.workout_id)
         this.$store.dispatch('exercises/getAllExercisesForWorkout', this.workout_id)
-        console.log(this.single)
-
     }
 }
 </script>

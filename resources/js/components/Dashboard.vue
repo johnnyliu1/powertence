@@ -30,10 +30,9 @@
                                         <b-card-text><h1 class="bigText">{{ allWorkouts.length }}</h1></b-card-text>
                                     </b-card>
                                     <b-card bg-variant="primary" text-variant="white" header="Current weight" class="text-center">
-                                        <b-card-text>
-                                            <b-card-text v-if="profile[0].startWeight === null"><h1 class="bigText">Not set</h1></b-card-text>
-                                            <b-card-text v-else><h1 class="bigText">{{ profile[0].startWeight }} kg</h1></b-card-text>
-                                        </b-card-text>
+
+                                       <h1 v-if="this.profile.length === 0 || this.profile[0].startWeight === null" class="bigText">Not set</h1>
+                                        <h1 v-else class="bigText">{{ this.profile[0].startWeight }} kg</h1>
                                     </b-card>
                                 </b-card-group>
                             </b-jumbotron>
@@ -132,7 +131,6 @@ export default {
         LineChart
     },
     mounted() {
-        console.log("dashboard mounted");
     },
     filters: {
         moment(date) {
@@ -246,8 +244,6 @@ export default {
         changeExercise() {
             this.$store.dispatch('sets/getAllSetsForExercise', this.selectedExercises)
             this.$store.dispatch('exercises/getSingleExercise', this.selectedExercises)
-            console.log(this.exercises)
-            console.log(this.exercise)
         },
         forceRerender() {
             this.componentKey += 1;
@@ -263,7 +259,6 @@ export default {
                     tooltipObject.push(this.sets[i].reps)
                 }
                 selectedData.push(tooltipObject)
-                console.log(tooltipObject + 'heey')
                 this.tooltipData = tooltipObject
 
                 if (!this.graphList.includes(this.exercise.id)) {

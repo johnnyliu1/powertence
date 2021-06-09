@@ -1,23 +1,6 @@
 <template>
-    <!--    <div>
-                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-                &lt;!&ndash; Right aligned nav items &ndash;&gt;
-                <b-navbar-nav class="ml-auto">
-                    <b-nav-item-dropdown v-if="authenticated === true" class="pr-5" right>
-                        &lt;!&ndash; Using 'button-content' slot &ndash;&gt;
-                        <template  #button-content v-if="authenticated">
-                            <em>{{ user.name }}</em>
-                        </template>
-                        <template>
-                            <b-dropdown-item @click="logout" href="#">Sign Out</b-dropdown-item>
-                        </template>
-                    </b-nav-item-dropdown>
-                </b-navbar-nav>
-                </div>-->
-
     <div>
-
-        <b-navbar toggleable="lg" class="testShadow" >
+        <b-navbar toggleable="lg" class="testShadow">
             <div class="container">
                 <b-button variant="danger" v-if="authenticated === true" v-b-toggle.sidebar-1>
                     <b-icon-list></b-icon-list>
@@ -124,7 +107,6 @@ export default {
         },
         getProfilePicture() {
             if (this.profile[0].file !== null) {
-                console.log('../storage/profiles/' + this.profile[0].file)
                 return '../storage/profiles/' + this.profile[0].file
             }
         }
@@ -132,14 +114,12 @@ export default {
     data() {
         return {
             user_id: null
-            //propProfile: this.profile[0]
         };
     },
     created() {
         if (this.authenticated) {
             this.user_id = this.$store.state.user.user.id;
             this.$store.dispatch('user/loadProfile', this.user_id)
-            console.log(this.profile[0])
         }
     }
 }
@@ -151,7 +131,8 @@ export default {
     border-bottom: 1px solid #cec4d4;
     color: black;
 }
-.menuItem:hover{
+
+.menuItem:hover {
     text-underline: none;
     color: white;
 }
@@ -159,13 +140,16 @@ export default {
 .authenticateItem {
     color: black;
 }
+
 .profile-pic-border {
-    border : 5px solid white;
+    border: 5px solid white;
 }
+
 .testShadow {
     background-color: whitesmoke;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 @media (max-width: 767px) {
     .logo-sm {
         width: 25% !important;

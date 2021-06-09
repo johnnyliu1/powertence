@@ -101,6 +101,8 @@ class ProfileController extends Controller
             $profile = Profile::find($id);
             $profile->birthDate = $request->dateOfBirth;
             $profile->startWeight = $request->startWeight;
+            $profile->currentWeight = $request->currentWeight;
+            $profile->desiredWeight = $request->desiredWeight;
             $profile->goals = $request->goals;
             //$profile->file = $fileNameToStore;
             $profile->file = $fileNameToStore;
@@ -109,6 +111,8 @@ class ProfileController extends Controller
             $profile = Profile::find($id);
             $profile->birthDate = $request->dateOfBirth;
             $profile->startWeight = $request->startWeight;
+            $profile->currentWeight = $request->currentWeight;
+            $profile->desiredWeight = $request->desiredWeight;
             $profile->goals = $request->goals;
             //$profile->file = $fileNameToStore;
             $profile->update();

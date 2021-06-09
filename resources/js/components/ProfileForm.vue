@@ -3,7 +3,7 @@
         <b-form @submit="onUpdate" enctype="multipart/form-data" method="PUT">
             <b-form-group>
                 <label>Profile picture</label>
-                <input type="file" class="form-control" v-on:change="onFilesUpdate">
+                <input type="file" class="form-control btn btn-primary p-1" v-on:change="onFilesUpdate">
 <!--                <b-form-file
                     v-model="profileForm.file"
                     :state="Boolean(profileForm.file)"
@@ -18,7 +18,6 @@
                     v-model="profileForm.dateOfBirth"
                     class="mb-2">
                 </b-form-datepicker>
-                <p>Value: '{{ profileForm.dateOfBirth }}'</p>
             </b-form-group>
             <b-form-group>
                 <label>Start weight</label>
@@ -26,6 +25,24 @@
                     size="sm"
                     type="number"
                     v-model="profileForm.startWeight"
+                    min="0"
+                    oninput="validity.valid||(value='');"
+                >
+                </b-form-input>
+                <label>Current Weight</label>
+                <b-form-input
+                    size="sm"
+                    type="number"
+                    v-model="profileForm.currentWeight"
+                    min="0"
+                    oninput="validity.valid||(value='');"
+                >
+                </b-form-input>
+                <label>Desired weight</label>
+                <b-form-input
+                    size="sm"
+                    type="number"
+                    v-model="profileForm.desiredWeight"
                     min="0"
                     oninput="validity.valid||(value='');"
                 >
@@ -59,6 +76,8 @@ export default {
             user_id: this.$store.state.user.user.id,
             profileForm: {
                 startWeight: null,
+                currentWeight: null,
+                desiredWeight: null,
                 dateOfBirth: null,
                 file: null,
                 goals: null
@@ -74,7 +93,6 @@ export default {
             'saveProfile'
         ]),
         onFilesUpdate(e){
-            console.log(e.target.files[0]);
             this.file = e.target.files[0];
             this.profileForm.file = e.target.files[0]
         },
@@ -89,6 +107,8 @@ export default {
             //data.append('file', this.file);
             data.append('profileId', this.profileId[0].id)
             data.append('startWeight', this.profileForm.startWeight)
+            data.append('currentWeight', this.profileForm.currentWeight)
+            data.append('desiredWeight', this.profileForm.desiredWeight)
             data.append('dateOfBirth', this.profileForm.dateOfBirth)
             data.append('file', this.profileForm.file)
             data.append('goals', this.profileForm.goals)
@@ -103,19 +123,22 @@ export default {
                 })*/
             axios.post('api/profile/update/' + this.profileId[0].id, data, config)
                 .then((response) => {
-                    console.log(response);
                     this.$bvModal.hide('profileForm')
                     this.loadProfile(this.profileId[0].id)
                 })
                 .catch(error => {
-                    console.log(error);
+                    this.$bvToast.toast('Something went wrong', {
+                        title: error,
+                        variant: 'danger',
+                        solid: true
+                    })
                 })
-            console.log('HEEEEEEEEEY ' + this.profileForm.file);
         },
     },
     created() {
-        console.log('PASSED PROP ' + this.prop.id)
         this.profileForm.startWeight = this.prop.startWeight
+        this.profileForm.currentWeight = this.prop.currentWeight
+        this.profileForm.desiredWeight = this.prop.desiredWeight
         this.profileForm.dateOfBirth = this.prop.dateOfBirth
         this.profileForm.goals = this.prop.goals
     }

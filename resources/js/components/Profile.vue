@@ -52,6 +52,14 @@
                         <b-form-input :value="this.profile[0].startWeight" disabled>
                         </b-form-input>
                     </b-input-group>
+                    <b-input-group prepend="Current weight" class="mt-3">
+                        <b-form-input :value="this.profile[0].currentWeight" disabled>
+                        </b-form-input>
+                    </b-input-group>
+                    <b-input-group prepend="Desired weight" class="mt-3">
+                        <b-form-input :value="this.profile[0].desiredWeight" disabled>
+                        </b-form-input>
+                    </b-input-group>
                     <b-input-group prepend="Goals" class="mt-3">
                         <b-form-textarea :value="this.profile[0].goals" disabled>
                         </b-form-textarea>
@@ -81,9 +89,6 @@ export default {
         if (this.authenticated === false) {
             this.$router.push("/signin");
         }
-    },
-    mounted() {
-        console.log("Component mounted.");
     },
     data() {
         return {

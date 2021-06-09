@@ -67,9 +67,6 @@ export default {
             return $dirty ? !$error : null
         },
     },
-    mounted() {
-        console.log("Login mounted");
-    },
     computed: {
         ...mapGetters('user', [
             'wrong',

@@ -9,9 +9,6 @@
 import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
-    mounted() {
-        console.log("Component mounted.");
-    },
     data() {
         return {
             user_id: null,
@@ -21,10 +18,7 @@ export default {
         if (this.authenticated) {
             this.user_id = this.$store.state.user.user.id
             this.$store.dispatch('user/loadProfile', this.user_id)
-            console.log(this.profile)
-
         }
-
     },
     methods: {
         ...mapActions('user', [

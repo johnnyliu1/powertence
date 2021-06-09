@@ -293,11 +293,9 @@ export default {
             if (this.showSetsDetailState.includes(exerciseId)) {
                 this.showSetsDetailState = this.showSetsDetailState.filter(x => x !== exerciseId)
                 this.$store.dispatch('sets/getAllSetsForExercise', exerciseId)
-                console.log(this.showSetsDetailState)
             } else {
                 this.showSetsDetailState.push(exerciseId)
                 this.$store.dispatch('sets/getAllSetsForExercise', exerciseId)
-                console.log(this.showSetsDetailState)
             }
         },
         toggleHideDetail(workoutId) {
@@ -388,15 +386,6 @@ export default {
             let timeSinceStart = currentTimeInMilliseconds.asMilliseconds() - startTime
             let stopTime = startTime + timeSinceStart
             let endValueOfStopTime = moment(stopTime).format("YYYY-MM-DD HH:mm:ss")
-
-            /* console.log('currentTime = ' + moment(this.now).format())
-             console.log(currentTimeInMilliseconds.asMilliseconds())
-             console.log('startTime ' + moment(startTime).format("HH:mm:ss"))
-             console.log(currentTimeInMilliseconds.asMilliseconds() - startTime)
-             console.log('timeSinceStart = ' + moment(timeSinceStart, '').utcOffset(0).format("HH:mm:ss"))
-             console.log('timeSinceStart ISO = ' + moment(timeSinceStart).utcOffset(0).format())
-             console.log(parseInt(stopTime))
-             console.log(moment(stopTime).format("YYYY-MM-DD HH:mm:ss"))*/
             let endValueOfTimeSinceStart = moment(timeSinceStart).format("YYYY-MM-DD HH:mm:ss")
 
             if (workout.stopTime === null) {
@@ -407,11 +396,14 @@ export default {
                     betweenTime: endValueOfTimeSinceStart
                 })
                     .then((response) => {
-                        console.log(response);
                         this.getResults()
                     })
                     .catch(error => {
-                        console.log(error);
+                        this.$bvToast.toast('Something went wrong', {
+                            title: error,
+                            variant: 'danger',
+                            autoHideDelay: 5000,
+                        })
                     })
             }
         },
@@ -422,7 +414,6 @@ export default {
                 name: this.form.name
             })
                 .then((response) => {
-                    console.log(response);
                     this.$bvModal.hide('UpdateWorkoutForm')
                     this.getResults()
                     this.getAllWorkouts(this.id)
@@ -430,7 +421,11 @@ export default {
                     this.$store.dispatch('workouts/getAllWorkouts', this.user_id)
                 })
                 .catch(error => {
-                    console.log(error);
+                    this.$bvToast.toast('Something went wrong', {
+                        title: error,
+                        variant: 'danger',
+                        autoHideDelay: 5000,
+                    })
                 })
         },
         currentTime() {
@@ -438,12 +433,9 @@ export default {
         },
     },
     mounted() {
-        console.log('Component mounted.');
         if (this.authenticated === true) {
             this.$store.dispatch('user/loadProfile', this.user_id)
             this.$store.dispatch('workouts/getAllWorkouts', this.user_id)
-            console.log(this.profile[0])
-
         }
 
 
@@ -480,16 +472,7 @@ export default {
         if (this.laravelData.data.length === 0) {
             this.$store.dispatch("workouts/activate", false)
         }
-        /*        for (let i = 0; i < this.laravelData.data.length + 1; i++) {
-                    console.log(this.laravelData.data[i])
-                    if (this.laravelData.data[i].stopTime === null) {
-                        console.log('het wordt nu wel geactive normaal')
-                        this.$store.dispatch("workouts/activate", true)
-                    }
-                }*/
-        console.log(this.allWorkouts)
         for (let i = 0; i < this.allWorkouts.length; i++) {
-            console.log(this.allWorkouts[i])
             if (this.allWorkouts[i].stopTime === null) {
                 this.$store.dispatch("workouts/activate", true)
             }

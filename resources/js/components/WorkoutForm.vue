@@ -9,19 +9,8 @@
                     required
                 ></b-form-input>
             </b-form-group>
-            <b-form-group id="input-group-3" label="id" label-for="id">
-                <b-form-input
-                    id="id"
-                    v-model="id"
-                    disabled
-                    required
-                ></b-form-input>
-            </b-form-group>
             <b-button type="submit" variant="primary">Create</b-button>
         </b-form>
-        <b-card class="mt-3" header="Form Data Result">
-            <pre class="m-0">{{ form }}</pre>
-        </b-card>
     </div>
 </template>
 
@@ -58,23 +47,15 @@ export default {
 
         onSubmit: function (event) {
             event.preventDefault()
-            console.log(event)
             axios.post('api/workouts/store', {
                 name: this.form.name,
                 userId: this.id
             })
                 .then((response) => {
-                    console.log(response);
-                    console.log(this.form.name)
                     this.$store.dispatch("workouts/getResults");
                     this.$store.dispatch('workouts/getAllWorkouts', this.id)
                     this.$store.dispatch('workouts/activate', true)
                     this.$bvModal.hide('workoutForm')
-                })
-                .catch(error => {
-                    console.log(error);
-                    console.log(this.form.name)
-                    console.log(this.id)
                 })
             this.getAllWorkouts(this.id)
         },

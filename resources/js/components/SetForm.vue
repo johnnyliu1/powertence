@@ -3,19 +3,19 @@
         <div class="fw-bold"><h4>{{ exercise.name }}</h4></div>
         <b-form @submit.prevent="validateForm">
             <div class="row">
-<!--                <div class="col-sm-12 col-md-3">
-                    <label>Set</label>
-                    <b-form-input
-                        size="sm"
-                        type="number"
-                        disabled
-                        v-model="this.sets.length + 1"
-                        min="0"
-                        oninput="validity.valid||(value='');"
-                    >
+                <!--                <div class="col-sm-12 col-md-3">
+                                    <label>Set</label>
+                                    <b-form-input
+                                        size="sm"
+                                        type="number"
+                                        disabled
+                                        v-model="this.sets.length + 1"
+                                        min="0"
+                                        oninput="validity.valid||(value='');"
+                                    >
 
-                    </b-form-input>
-                </div>-->
+                                    </b-form-input>
+                                </div>-->
                 <div class="col-sm-12 col-md-4">
                     <label>Kg</label>
                     <b-form-input
@@ -124,7 +124,6 @@ export default {
         validateForm(event) {
             event.preventDefault()
             if (this.$v.$invalid) {
-                console.log('something is invalid')
                 this.$bvToast.toast('Please make sure all fields are filled in', {
                     title: 'Set error',
                     variant: 'danger',
@@ -136,7 +135,6 @@ export default {
         },
         async OnSubmitSet(event) {
             event.preventDefault()
-            console.log(event)
             try {
                 await this.saveSet(this.setForm)
                 this.setForm = {
@@ -145,7 +143,11 @@ export default {
                     exerciseId: this.exercise.id
                 }
             } catch (e) {
-                console.log(e)
+                this.$bvToast.toast('Something went wrong', {
+                    title: e,
+                    variant: 'danger',
+                    solid: true
+                })
             }
         },
         ...mapActions('sets', [

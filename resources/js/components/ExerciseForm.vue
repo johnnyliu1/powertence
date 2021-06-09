@@ -51,6 +51,7 @@ export default {
                 this.$bvToast.toast('Please make sure the Exercise field is not empty', {
                     title: 'Set error',
                     variant: 'danger',
+                    solid: true,
                     autoHideDelay: 5000
                 })
             } else {
@@ -59,7 +60,6 @@ export default {
         },
         async onSubmitExercise(event) {
             event.preventDefault()
-            console.log(event)
             try {
                 await this.saveExercise(this.exerciseForm)
                 this.exerciseForm = {
@@ -67,7 +67,11 @@ export default {
                     workoutId: this.workoutId
                 }
             } catch (e) {
-                console.log(e)
+                this.$bvToast.toast('Something went wrong', {
+                    title: e,
+                    variant: 'danger',
+                    solid: true
+                })
             }
         },
         validateState(name) {

@@ -1,55 +1,59 @@
 <template>
     <div class="container">
         <b-card class="mt-4">
-        <h1>Register</h1>
-        <form action="#" @submit.prevent="validateForm">
-            <div class="form-group" :class="{ 'form-group--error': $v.userData.name.$error }">
-                <label class="form__label">Name</label>
-                <b-form-input
-                    class="form__input"
-                    v-model.trim="$v.userData.name.$model"
-                    placeholder="Enter name"
-                    aria-describedby="Required field"
-                    :state="validateState('name')"
-                />
-                <div class="error" v-if="!$v.userData.name.required"><small class="text-danger">Name is required</small>
+            <h1>Register</h1>
+            <form action="#" @submit.prevent="validateForm">
+                <div class="form-group" :class="{ 'form-group--error': $v.userData.name.$error }">
+                    <label class="form__label">Name</label>
+                    <b-form-input
+                        class="form__input"
+                        v-model.trim="$v.userData.name.$model"
+                        placeholder="Enter name"
+                        aria-describedby="Required field"
+                        :state="validateState('name')"
+                    />
+                    <div class="error" v-if="!$v.userData.name.required"><small class="text-danger">Name is
+                        required</small>
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="form-group">
-                <label>Email address</label>
-                <b-form-input
-                    type="email"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    v-model.trim="$v.userData.email.$model"
-                    placeholder="Enter email"
-                    :state="validateState('email')"
-                />
-                <div class="error" v-if="!$v.userData.email.email"><small class="text-danger">Must be an email</small>
+                <div class="form-group">
+                    <label>Email address</label>
+                    <b-form-input
+                        type="email"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        v-model.trim="$v.userData.email.$model"
+                        placeholder="Enter email"
+                        :state="validateState('email')"
+                    />
+                    <div class="error" v-if="!$v.userData.email.email"><small class="text-danger">Must be an
+                        email</small>
+                    </div>
+                    <div class="error" v-if="!validationEmail"><small class="text-danger">Email is required</small>
+                    </div>
                 </div>
-                <div class="error" v-if="!validationEmail"><small class="text-danger">Email is required</small></div>
-            </div>
 
 
-            <div class="form-group">
-                <label>Password</label>
-                <b-form-input
-                    type="password"
-                    class=""
-                    id="exampleInputPassword1"
-                    placeholder="Password"
-                    v-model="userData.password"
-                    :state="validateState('password')"
-                />
-                <div class="error" v-if="!$v.userData.password.required"><small class="text-danger">Password is
-                    required</small></div>
-                <div class="error" v-if="!$v.userData.password.minLength"><small class="text-danger">Password must have
-                    at least {{ $v.userData.password.$params.minLength.min }} letters.</small></div>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+                <div class="form-group">
+                    <label>Password</label>
+                    <b-form-input
+                        type="password"
+                        class=""
+                        id="exampleInputPassword1"
+                        placeholder="Password"
+                        v-model="userData.password"
+                        :state="validateState('password')"
+                    />
+                    <div class="error" v-if="!$v.userData.password.required"><small class="text-danger">Password is
+                        required</small></div>
+                    <div class="error" v-if="!$v.userData.password.minLength"><small class="text-danger">Password must
+                        have
+                        at least {{ $v.userData.password.$params.minLength.min }} letters.</small></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </b-card>
     </div>
 </template>
@@ -131,11 +135,10 @@ export default {
             try {
                 await axios.post('/api/register', userData)
                     .then(function () {
-                        console.log('user has been saved then')
+
                     })
             } catch (e) {
                 validated = false
-                console.log(e + 'catch')
                 this.$bvToast.toast('This email is already in use', {
                     title: 'Register error',
                     autoHideDelay: 5000,
@@ -147,12 +150,7 @@ export default {
                 await this.$router.push('/')
             }
         }
-    },
-
-    mounted() {
-        console.log('register moutned')
     }
-
 }
 </script>
 

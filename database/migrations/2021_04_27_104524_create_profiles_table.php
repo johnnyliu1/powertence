@@ -18,6 +18,8 @@ class CreateProfilesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('birthDate')->nullable();
             $table->text('startWeight')->nullable();
+            $table->text('currentWeight')->nullable();
+            $table->text('desiredWeight')->nullable();
             $table->string('file')->nullable();
             $table->longText('goals')->nullable();
             $table->timestamps();
