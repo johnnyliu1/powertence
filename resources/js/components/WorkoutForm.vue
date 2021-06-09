@@ -47,11 +47,13 @@ export default {
     methods: {
         ...mapActions('workouts', [
             'getResults',
-            'activate'
+            'activate',
+            'getAllWorkouts'
         ]),
         ...mapMutations('workouts', [
             'setLaravelData',
-            'setActive'
+            'setActive',
+            'setAllWorkouts'
         ]),
 
         onSubmit: function (event) {
@@ -65,6 +67,7 @@ export default {
                     console.log(response);
                     console.log(this.form.name)
                     this.$store.dispatch("workouts/getResults");
+                    this.$store.dispatch('workouts/getAllWorkouts', this.id)
                     this.$store.dispatch('workouts/activate', true)
                     this.$bvModal.hide('workoutForm')
                 })
@@ -73,18 +76,23 @@ export default {
                     console.log(this.form.name)
                     console.log(this.id)
                 })
+            this.getAllWorkouts(this.id)
         },
     },
     computed: {
         ...mapGetters('workouts', [
             //'workouts',
             'laravelData',
-            'active'
+            'active',
+            'allWorkouts'
         ]),
         ...mapGetters('user', [
             'authenticated',
             'user'
         ]),
+        ...mapState('workouts', [
+            'allWorkouts'
+        ])
 
     },
 }

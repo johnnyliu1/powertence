@@ -43,7 +43,7 @@ class SetController extends Controller
     {
         $newSet = new Set();
         $newSet->exercise_id = $request->exerciseId;
-        $newSet->set = $request->set;
+        $newSet->set = 0;
         $newSet->kg = $request->kg;
         $newSet->reps = $request->reps;
         $newSet->save();

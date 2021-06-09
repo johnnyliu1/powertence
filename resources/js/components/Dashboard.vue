@@ -2,15 +2,12 @@
     <div class="container">
         <div class="mt-4 mb-2">
             <h1 class="centered">Dashboard</h1>
-            <!--        {{ authenticated }}
-                        {{ user }}
-                        {{ workouts }}-->
-            <b-container class="p-0">
-                <b-row>
-                    <b-col sm="12" md="6" class="centered">
+            <b-container>
+                <b-row >
+                    <b-col sm="12" md="12" lg="6" class="centered">
                         <div>
                             <b-jumbotron>
-                                <h2>Hi, {{user.name}}!</h2>
+                                <h2>Hi, {{ user.name }}!</h2>
                                 <p>Check your statistics from previous workouts here.</p>
                                 <hr>
                                 <b-button size="sm"
@@ -25,56 +22,71 @@
                             </b-jumbotron>
                         </div>
                     </b-col>
-                    <b-col sm="12" md="6">
-                        test
+                    <b-col sm="12" md="12" lg="6" class="centered-md">
+                        <div>
+                            <b-jumbotron class="p-4">
+                                <b-card-group deck>
+                                    <b-card bg-variant="primary" text-variant="white" header="Total workouts" class="text-center">
+                                        <b-card-text><h1 class="bigText">{{ allWorkouts.length }}</h1></b-card-text>
+                                    </b-card>
+                                    <b-card bg-variant="primary" text-variant="white" header="Current weight" class="text-center">
+                                        <b-card-text>
+                                            <b-card-text v-if="profile[0].startWeight === null"><h1 class="bigText">Not set</h1></b-card-text>
+                                            <b-card-text v-else><h1 class="bigText">{{ profile[0].startWeight }} kg</h1></b-card-text>
+                                        </b-card-text>
+                                    </b-card>
+                                </b-card-group>
+                            </b-jumbotron>
+                        </div>
                     </b-col>
                 </b-row>
 
                 <b-row>
-                    <b-col sm="12" md="6" align-self="stretch">
+                    <b-col sm="12" md="6" align-self="stretch" align-v="stretch">
                         <b-jumbotron class="p-4 ">
                             <h4>Previous workouts</h4>
                             <hr>
                             <div class="table-responsive-sm">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Time</th>
-                                    <th scope="col">View</th>
-                                </tr>
-                                </thead>
-                                <tbody v-for="workout in workouts">
-                                <tr>
-                                    <td>{{ workout.name }}</td>
-                                    <td>{{ workout.created_at | moment }}</td>
-                                    <td>{{ workout.betweenTime | timeBetween }}</td>
-                                    <td>
-                                        <b-button size="sm" @click="toggleDetail(workout.id)" variant="primary">View
-                                        </b-button>
-                                        <b-modal :id="workout.id" size="lg" hide-footer>
-                                            <workout-detail :workoutId="workout.id"></workout-detail>
-                                        </b-modal>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Time</th>
+                                        <th scope="col">View</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody v-for="workout in workouts">
+                                    <tr>
+                                        <td>{{ workout.name }}</td>
+                                        <td>{{ workout.created_at | moment }}</td>
+                                        <td>{{ workout.betweenTime | timeBetween }}</td>
+                                        <td>
+                                            <b-button size="sm" @click="toggleDetail(workout.id)" variant="primary">View
+                                            </b-button>
+                                            <b-modal :id="workout.id" size="lg" hide-footer>
+                                                <workout-detail :workoutId="workout.id"></workout-detail>
+                                            </b-modal>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </b-jumbotron>
                     </b-col>
 
                     <b-col sm="12" md="6">
-                        <b-jumbotron class="p-4">
+                        <b-jumbotron class="p-4" >
                             <h4>Charts</h4>
                             <hr>
+                            <p>Compare your exercises in different point in times!</p>
                             <div class="row">
                                 <div class="col-6">
                                     <label>Select workout</label>
                                     <b-form-select v-model="selected" @change="changeWorkout()" size="sm">
                                         <option v-for="(workout, workoutIndex) in workouts" :key="workout.id"
                                                 :value="workout.id">
-                                            {{ workout.name }} / {{workout.created_at | moment}}
+                                            {{ workout.name }} / {{ workout.created_at | moment }}
                                         </option>
                                     </b-form-select>
                                 </div>
@@ -138,10 +150,12 @@ export default {
             this.$store.dispatch('workouts/getAll', this.user_id);
             this.$store.dispatch('user/loadProfile', this.user_id);
             this.$store.dispatch('exercises/getSingleExercise', this.selectedExercises)
+            this.$store.dispatch('workouts/getAllWorkouts', this.user_id)
             this.selectedExercises = null
         }
     },
     computed: {
+
         ...mapGetters('user', [
             'authenticated',
             'user',
@@ -149,7 +163,8 @@ export default {
         ]),
         ...mapGetters('workouts', [
             'workouts',
-            'single'
+            'single',
+            'allWorkouts'
         ]),
         ...mapGetters('exercises', [
             'exercises',
@@ -170,24 +185,41 @@ export default {
             selectedExercises: null,
             componentKey: 0,
             graphList: [],
+            tooltipData: [],
+            tooltipTest: null,
             selectedExerciseName: null,
             chartData: {
-                labels: ['Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6'],
+                labels: ['Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5'],
                 datasets: []
             },
+
             options: {
                 scales: {
                     y: {
                         beginAtZero: true
                     }
+                },
+                tooltips: {
+                    displayColors: false,
+                    callbacks: {
+                        footer: function (item, everything) {
+                            let index = item[0].index
+                            let lengthData = everything.datasets[0].data.length - 1
+                            let totalReps = everything.datasets[0].data[lengthData][index]
+
+                            return totalReps + ' Rep(s)'
+                        }
+                    }
                 }
+
             },
         }
     },
     methods: {
         ...mapActions('workouts', [
             'getAll',
-            'getSingle'
+            'getSingle',
+            'getAllWorkouts'
         ]),
         ...mapActions('exercises', [
             'getAllExercisesForWorkout',
@@ -195,7 +227,8 @@ export default {
         ]),
         ...mapMutations('workouts', [
             'setWorkouts',
-            'setSingleWorkout'
+            'setSingleWorkout',
+            'setAllWorkouts'
         ]),
         ...mapMutations('exercises', [
             'setExercises',
@@ -223,12 +256,16 @@ export default {
             if (this.selected !== null && this.selectedExercises !== null) {
                 let i;
                 let selectedData = [];
+                //this.tooltipData = [];
+                let tooltipObject = []
                 for (i = 0; i < this.sets.length; i++) {
                     selectedData.push(this.sets[i].kg)
+                    tooltipObject.push(this.sets[i].reps)
                 }
-                console.log('aantal sets = ' + this.sets.length)
-                console.log('aantal sets in graph = ' + this.chartData.labels.length)
-                console.log(this.exercises)
+                selectedData.push(tooltipObject)
+                console.log(tooltipObject + 'heey')
+                this.tooltipData = tooltipObject
+
                 if (!this.graphList.includes(this.exercise.id)) {
                     if (this.chartData.labels.length < this.sets.length) {
                         this.chartData.labels = []
@@ -244,13 +281,12 @@ export default {
                             return "rgb(" + r + "," + g + "," + b + "," + a + ")";
                         };
                         var makeColor = dynamicColors();
-
                         this.chartData.datasets.push({
-                            label: this.exercise.name,
+                            label: this.exercise.name + ' - ' + moment(this.exercise.created_at).format('L'),
                             data: selectedData,
                             backgroundColor: makeColor,
                             borderColor: makeColor,
-                            borderWidth: 1
+                            borderWidth: 1,
                         })
                         this.graphList.push(this.exercise.id)
                     } else {
@@ -263,7 +299,7 @@ export default {
                         };
                         var makeColor = dynamicColors();
                         this.chartData.datasets.push({
-                            label: this.exercise.name,
+                            label: this.exercise.name + ' - ' + moment(this.exercise.created_at).format('L'),
                             data: selectedData,
                             backgroundColor: makeColor,
                             borderColor: makeColor,
@@ -279,7 +315,6 @@ export default {
                     })
                 }
                 this.forceRerender()
-
             } else {
                 this.$bvToast.toast('Please select a workout and exercise to add to the graph', {
                     title: 'Error',
@@ -287,7 +322,7 @@ export default {
                     autoHideDelay: 5000,
                 })
             }
-        }
+        },
     }
 }
 </script>
@@ -296,6 +331,12 @@ export default {
 .small {
     max-width: 600px;
     margin: 150px auto;
+}
+.bigText {
+    font-size: 3em;
+}
+.card.bg-primary {
+    background-color: #003c77 !important;
 }
 
 .mt-3, .my-3 {

@@ -4,11 +4,11 @@
         <div class="centered">
             <b-jumbotron class="pl-4 pt-0 pb-0">
                 <h4 class="pt-3"><strong>
-                    <blockquote>{{quote}}</blockquote>
+                    <blockquote>{{ quote }}</blockquote>
                 </strong></h4>
-                <small class="pt-1">{{author}}</small>
+                <small class="pt-1">{{ author }}</small>
                 <hr>
-                <p class="pt-3">You currently have {{laravelData.data.length}} workout(s).</p>
+                <p class="pt-3">You currently have {{ laravelData.total }} workout(s).</p>
                 <b-button v-if="this.active === false" class="mt-1 mb-3 primary-btn" v-b-modal.workoutForm>Create new
                     workout
                 </b-button>
@@ -16,11 +16,11 @@
                 </b-button>
             </b-jumbotron>
         </div>
-        <div>
-            {{ authenticated }}
-            {{ user.name }}
-            {{ active }}
-        </div>
+        <!--        <div>
+                    {{ authenticated }}
+                    {{ user.name }}
+                    {{ active }}
+                </div>-->
         <div>
             <b-modal id="workoutForm" title="CreateWorkout" hide-footer>
                 <workout-form></workout-form>
@@ -64,6 +64,9 @@
 
         </div>
         <div v-for="workout in laravelData.data" :key="workout.id">
+            <template v-if="">
+
+            </template>
             <div>
                 <b-card-group class="mt-2" deck>
                     <b-card header-tag="header">
@@ -106,7 +109,7 @@
                             </p>
                             <p class="centered" v-if="workout.stopTime !== null">
                                 <b-icon class="mr-2 mt-1" icon="calendar"></b-icon>
-                                {{ workout.created_at | moment }}
+                                {{ workout.created_at | detail }}
                             </p>
                             <p class="centered" v-if="workout.stopTime !== null">
                                 <b-icon class="mr-2 mt-1" icon="person-circle"></b-icon>
@@ -123,7 +126,6 @@
                                         size="sm"
                                         class="mt-2"
                                         variant="dark"
-
                                     >
                                         Show exercises
                                     </b-button>
@@ -145,7 +147,7 @@
                                     <ul class="list-group list-unstyled list-group-numbered">
                                         <div v-for="exercise in exercises">
                                             <li class="list-group-item">
-                                                <h4 v-if="workout.stopTime !== null">{{exercise.name}}</h4>
+                                                <h4 v-if="workout.stopTime !== null">{{ exercise.name }}</h4>
                                                 <set-form
                                                     v-if="workout.stopTime === null"
                                                     :exercise="exercise">
@@ -163,7 +165,6 @@
                                                         </b-button>
                                                     </div>
                                                 </template>
-
                                             <li/>
                                         </div>
                                     </ul>
@@ -196,6 +197,9 @@ export default {
         },
         timer(date) {
             return moment(date).utcOffset(0).format("HH:mm:ss")
+        },
+        detail(date) {
+            return moment(date).format('DD/MM/YYYY')
         }
     },
     beforeMount() {
@@ -211,6 +215,7 @@ export default {
             user_id: this.$store.state.user.user.id,
             quote: null,
             author: null,
+            isActive: null,
             form: {
                 name: '',
                 user: this.id,
@@ -232,11 +237,13 @@ export default {
         ...mapActions('workouts', [
             'getResults',
             'deleteWorkout',
-            'activate'
+            'activate',
+            'getAllWorkouts'
         ]),
         ...mapMutations('workouts', [
             //'setWorkouts',
-            'setLaravelData'
+            'setLaravelData',
+            'setAllWorkouts'
         ]),
         ...mapActions('exercises', [
             'saveExercise',
@@ -283,7 +290,6 @@ export default {
             }
         },
         toggleShowSetsDetail(exerciseId) {
-
             if (this.showSetsDetailState.includes(exerciseId)) {
                 this.showSetsDetailState = this.showSetsDetailState.filter(x => x !== exerciseId)
                 this.$store.dispatch('sets/getAllSetsForExercise', exerciseId)
@@ -329,6 +335,7 @@ export default {
         deleteAndRefresh(workout) {
             this.deleteWorkout(workout);
             this.$store.dispatch("workouts/getResults");
+            this.$store.dispatch('workouts/getAllWorkouts', this.id)
             this.$bvToast.toast('Workout has been deleted!', {
                 title: 'Delete workout',
                 autoHideDelay: 5000,
@@ -418,6 +425,9 @@ export default {
                     console.log(response);
                     this.$bvModal.hide('UpdateWorkoutForm')
                     this.getResults()
+                    this.getAllWorkouts(this.id)
+                    this.$forceUpdate()
+                    this.$store.dispatch('workouts/getAllWorkouts', this.user_id)
                 })
                 .catch(error => {
                     console.log(error);
@@ -429,13 +439,21 @@ export default {
     },
     mounted() {
         console.log('Component mounted.');
-        this.getResults();
+        if (this.authenticated === true) {
+            this.$store.dispatch('user/loadProfile', this.user_id)
+            this.$store.dispatch('workouts/getAllWorkouts', this.user_id)
+            console.log(this.profile[0])
+
+        }
+
+
     },
     computed: {
         ...mapGetters('workouts', [
             //'workouts',
             'laravelData',
-            'active'
+            'active',
+            'allWorkouts'
         ]),
         ...mapState('workouts', [
             'active',
@@ -454,20 +472,27 @@ export default {
     },
     created() {
         this.getRandomQuote();
-        for (var i = 0; i < this.laravelData.data.length; i++) {
-            if (this.laravelData.data[i].stopTime === null) {
-                this.$store.dispatch("workouts/activate", true)
-            }
-        }
+        this.getResults();
+        this.getAllWorkouts(this.id)
         setInterval(this.currentTime.bind(this), 1000)
         setInterval(this.calculateTimePassed.bind(this), 1000)
         // when new user gets created the state of active was true so no workout could be created
         if (this.laravelData.data.length === 0) {
             this.$store.dispatch("workouts/activate", false)
         }
-        if (this.authenticated === true) {
-            this.$store.dispatch('user/loadProfile', this.user_id)
-            console.log(this.profile[0])
+        /*        for (let i = 0; i < this.laravelData.data.length + 1; i++) {
+                    console.log(this.laravelData.data[i])
+                    if (this.laravelData.data[i].stopTime === null) {
+                        console.log('het wordt nu wel geactive normaal')
+                        this.$store.dispatch("workouts/activate", true)
+                    }
+                }*/
+        console.log(this.allWorkouts)
+        for (let i = 0; i < this.allWorkouts.length; i++) {
+            console.log(this.allWorkouts[i])
+            if (this.allWorkouts[i].stopTime === null) {
+                this.$store.dispatch("workouts/activate", true)
+            }
         }
     },
 };
@@ -499,6 +524,12 @@ export default {
     border-color: #002877 !important;
 }
 
+ul .page-item.active .page-link {
+    background-color: #002877 !important;
+    border-color: #002877 !important;
+}
+
+
 @media (max-width: 767px) {
     .centered {
         text-align: center;
@@ -508,6 +539,15 @@ export default {
 
     .logo-sm {
 
+    }
+}
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991px) {
+    .centered-md {
+        text-align: center;
+        justify-content: center !important;
+        display: flex !important;
     }
 }
 </style>

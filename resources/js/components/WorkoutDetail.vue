@@ -13,6 +13,14 @@
                                 <b-icon class="mr-2" icon="clock"></b-icon>
                                 {{ single.betweenTime | timeBetween }}
                             </p>
+                            <p class="centered" v-if="single.stopTime !== null">
+                                <b-icon class="mr-2 mt-1" icon="calendar"></b-icon>
+                                {{ single.created_at | detail }}
+                            </p>
+                            <p class="centered" v-if="single.stopTime !== null">
+                                <b-icon class="mr-2 mt-1" icon="person-circle"></b-icon>
+                                {{ user.name }}
+                            </p>
                             </div>
                     <div class="centered">
                             <template v-if="single.stopTime === null">
@@ -119,6 +127,9 @@ export default {
         },
         timeBetween(date) {
             return moment(date).format('h:mm:ss')
+        },
+        detail(date) {
+            return moment(date).format('DD/MM/YYYY')
         }
     },
     computed: {

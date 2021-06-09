@@ -10,9 +10,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <template v-for="set in sets">
+                <template v-for="(set,index) in sets">
                     <tr>
-                        <td>{{ set.set }}</td>
+                        <td>{{ index + 1 }}</td>
                         <td>{{ set.kg }}</td>
                         <td>{{ set.reps }}</td>
                     </tr>
@@ -43,6 +43,9 @@ export default {
         ...mapGetters('sets', [
             'sets'
         ]),
+    },
+    created() {
+        this.$store.dispatch('sets/getAllSetsForExercise', this.exercise.id)
     }
 }
 </script>

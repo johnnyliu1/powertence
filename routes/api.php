@@ -32,6 +32,7 @@ Route::post('/register', [UserController::class, 'register']);
 
 Route::get('/workouts', [WorkoutController::class, 'index']);
 Route::get('/workouts/{id}', [WorkoutController::class, 'show']);
+Route::get('/workouts/getAll/{id}', [WorkoutController::class, 'getAllWorkouts']);
 Route::get('/workouts/all/{id}', [WorkoutController::class, 'getWorkouts']);
 Route::post('/workouts/store', [WorkoutController::class, 'store']);
 Route::put('/workouts/update/{id}', [WorkoutController::class, 'update']);
