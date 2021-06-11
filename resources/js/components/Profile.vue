@@ -118,7 +118,7 @@ export default {
                 return '/workspace/storage/app/public/' + this.profile[0].file
             }*/
             if (this.profile[0].file !== null) {
-                return '/workspace/storage/app/public/' + this.profile[0].file
+                return '/workspace/storage/app/public/profiles/' + this.profile[0].file
             }
         }
     },
