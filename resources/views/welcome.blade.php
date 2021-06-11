@@ -23,6 +23,11 @@
     </head>
     <body class="antialiased">
         <div id="app" style="margin: 0; padding: 0;">
+            <?php
+            $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
+            $path = Storage::disk('public')->getAdapter()->applyPathPrefix();
+            echo $path;
+            ?>
 {{--              <div>
                 @if (Route::has('login'))
                         @auth
