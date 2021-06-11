@@ -107,7 +107,7 @@ export default {
         },
         getProfilePicture() {
             if (this.profile[0].file !== null) {
-                return '~/workspace/storage/' + this.profile[0].file
+                return './workspace/storage/app/public/profiles/' + this.profile[0].file
             }
         }
     },
