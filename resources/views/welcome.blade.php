@@ -25,7 +25,7 @@
         <div id="app" style="margin: 0; padding: 0;">
             <?php
             $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
-            $path = Storage::disk('local')->getAdapter()->applyPathPrefix("EoqWIdXXYAA12xP_1623427369.jpg");
+            $path = Storage::disk('public')->getAdapter()->applyPathPrefix("EoqWIdXXYAA12xP_1623427369.jpg");
             echo $path;
             ?>
 {{--              <div>
