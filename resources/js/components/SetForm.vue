@@ -3,19 +3,6 @@
         <div class="fw-bold"><h4>{{ exercise.name }}</h4></div>
         <b-form @submit.prevent="validateForm">
             <div class="row">
-                <!--                <div class="col-sm-12 col-md-3">
-                                    <label>Set</label>
-                                    <b-form-input
-                                        size="sm"
-                                        type="number"
-                                        disabled
-                                        v-model="this.sets.length + 1"
-                                        min="0"
-                                        oninput="validity.valid||(value='');"
-                                    >
-
-                                    </b-form-input>
-                                </div>-->
                 <div class="col-sm-12 col-md-4">
                     <label>Kg</label>
                     <b-form-input
@@ -48,54 +35,6 @@
                 </div>
             </div>
         </b-form>
-
-        <!--                <b-form @submit.prevent="validateForm">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <b-form-input
-                                        size="sm"
-                                        type="number"
-                                        v-model="$v.setForm.set.$model"
-                                        min="0"
-                                        oninput="validity.valid||(value='');"
-                                        :state="validateState('set')"
-                                    >
-
-                                    </b-form-input>
-                                </div>
-                                <div class="col-sm-6">
-                                    <b-form-input
-                                        size="sm"
-                                        type="number"
-                                        v-model="$v.setForm.kg.$model"
-                                        min="0"
-                                        oninput="validity.valid||(value='');"
-                                        :state="validateState('kg')"
-                                    >
-
-                                    </b-form-input>
-                                </div>
-                                <div class="col-sm-3">
-                                    <b-form-input
-                                        size="sm"
-                                        type="number"
-                                        v-model="$v.setForm.reps.$model"
-                                        min="0"
-                                        oninput="validity.valid||(value='');"
-                                        :state="validateState('reps')"
-                                    >
-                                    </b-form-input>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="d-inline">
-                                        <b-button size="sm" variant="info" type="submit">
-                                            Submit
-                                        </b-button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </b-form>-->
     </div>
 </template>
 

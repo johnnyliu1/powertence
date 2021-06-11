@@ -7,12 +7,13 @@
                     <div class="form-group">
                         <label>Email address</label>
                         <b-form-input
-                            type="email"
+                            type="text"
                             id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
                             v-model="$v.userData.email.$model"
                             placeholder="Enter email"
+                            :state="validateState('email')"
                         />
+                        <div class="error" v-if="!$v.userData.email">Must be valid email adress</div>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
@@ -50,9 +51,7 @@ export default {
         ...mapActions("user", ["signIn"]),
         async handleLogin() {
             await this.signIn(this.userData);
-            if (this.wrong === false) {
-                await this.$router.push('/')
-            }
+            await this.$router.push('/')
         },
         validateData(event) {
             event.preventDefault()
@@ -60,6 +59,9 @@ export default {
                 this.$store.dispatch('user/loadWrong', true)
             } else {
                 this.handleLogin()
+                if (this.username !== null) {
+                    this.$store.dispatch('user/loadWrong', true)
+                }
             }
         },
         validateState(name) {
@@ -77,9 +79,6 @@ export default {
     created() {
         this.$store.dispatch('user/signOut')
         this.$store.dispatch('user/loadWrong', false)
-        if (this.authenticated === true) {
-            this.$router.push('/')
-        }
     },
     validations: {
         userData: {

@@ -31,6 +31,14 @@ const actions = {
         return response;
 
     },
+    async deleteSet({commit, state}, id) {
+        console.log(id)
+        try {
+            const response = await axios.delete('api/sets/delete/' + id)
+        } catch (e) {
+            console.log(e)
+        }
+    },
 }
 
 // mutations

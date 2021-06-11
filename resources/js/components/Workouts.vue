@@ -8,7 +8,9 @@
                 </strong></h4>
                 <small class="pt-1">{{ author }}</small>
                 <hr>
-                <p class="pt-3">You currently have {{ laravelData.total }} workout(s).</p>
+                <p v-if="laravelData.total !== 0" class="pt-3">You currently have {{ laravelData.total }} workout(s).</p>
+                <p v-else class="pt-3">You currently have 0 workout(s).</p>
+
                 <b-button v-if="this.active === false" class="mt-1 mb-3 primary-btn" v-b-modal.workoutForm>Create new
                     workout
                 </b-button>
@@ -511,7 +513,10 @@ ul .page-item.active .page-link {
     background-color: #002877 !important;
     border-color: #002877 !important;
 }
-
+.menuItem:hover {
+    text-underline: none;
+    color: white;
+}
 
 @media (max-width: 767px) {
     .centered {

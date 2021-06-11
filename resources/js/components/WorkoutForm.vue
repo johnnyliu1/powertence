@@ -1,12 +1,12 @@
 <template>
     <div>
-        <b-form @submit="onSubmit" v-if="show">
+        <b-form @submit="validateForm" v-if="show">
             <b-form-group id="input-group-2" label="Name of the workout" label-for="input-2">
                 <b-form-input
                     id="input-2"
-                    v-model="form.name"
+                    v-model="$v.title.$model"
                     placeholder="Enter name"
-                    required
+                    :state="validateState('title')"
                 ></b-form-input>
             </b-form-group>
             <b-button type="submit" variant="primary">Create</b-button>
@@ -16,6 +16,7 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import {required} from "vuelidate/lib/validators";
 
 export default {
     name: "WorkoutForm",
@@ -28,9 +29,7 @@ export default {
         return {
             show: true,
             id: this.$store.state.user.user.id,
-            form: {
-                name: '',
-            }
+                title: null,
         }
     },
     methods: {
@@ -44,11 +43,26 @@ export default {
             'setActive',
             'setAllWorkouts'
         ]),
-
+        validateState(name) {
+            const {$dirty, $error} = this.$v[name]
+            return $dirty ? !$error : null
+        },
+        validateForm(event) {
+            event.preventDefault()
+            if (this.$v.$invalid) {
+                this.$bvToast.toast('Please make sure all fields are filled in', {
+                    title: 'Form error',
+                    variant: 'danger',
+                    autoHideDelay: 5000
+                })
+            } else {
+                this.onSubmit(event)
+            }
+        },
         onSubmit: function (event) {
             event.preventDefault()
             axios.post('api/workouts/store', {
-                name: this.form.name,
+                name: this.title,
                 userId: this.id
             })
                 .then((response) => {
@@ -76,6 +90,11 @@ export default {
         ])
 
     },
+    validations: {
+        title: {
+            required,
+        }
+    }
 }
 </script>
 
