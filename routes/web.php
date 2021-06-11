@@ -43,4 +43,4 @@ Auth::routes([
     'register' => false, // Registration Routes...
 ]);
 
-URL::forceScheme('https');
+//URL::forceScheme('https');
