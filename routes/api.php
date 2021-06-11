@@ -67,3 +67,4 @@ Route::middleware('auth:sanctum')->get('/profile', function (Request $request) {
 
 });
  */
+URL::forceScheme('https');
