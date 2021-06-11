@@ -24,7 +24,7 @@
     <body class="antialiased">
         <div id="app" style="margin: 0; padding: 0;">
             <?php
-            $storagePath  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+            $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
             echo $storagePath;
             ?>
 {{--              <div>
