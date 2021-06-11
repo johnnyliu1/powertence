@@ -90,7 +90,7 @@
                                     </b-form-select>
                                 </div>
                                 <div class="col-6">
-                                    <div v-if="exercises.length">
+                                    <div v-if="exercises.length && this.selected !== null">
                                         <label>Select Exercise</label>
                                         <b-form-select v-model="selectedExercises"
                                                        @change="changeExercise()"
@@ -234,6 +234,7 @@ export default {
         ]),
         async toggleDetail(id) {
             this.workout_id = id
+            this.selected = null
             this.$bvModal.show(this.workout_id)
         },
         changeWorkout() {
