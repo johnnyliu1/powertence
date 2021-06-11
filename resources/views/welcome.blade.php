@@ -25,7 +25,9 @@
         <div id="app" style="margin: 0; padding: 0;">
             <?php
             $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
+            echo EoqWIdXXYAA12xP_1623427369.jpg;
             echo $storagePath;
+            echo public_path('storage');
             ?>
 {{--              <div>
                 @if (Route::has('login'))
