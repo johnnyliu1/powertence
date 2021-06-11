@@ -115,7 +115,7 @@ export default {
         ]),
         getProfilePicture() {
             if (this.profile.length !== 0 && this.profile[0].file !== null) {
-                return '../storage/' + this.profile[0].file
+                return '../public/storage/' + this.profile[0].file
             }
         }
     },
