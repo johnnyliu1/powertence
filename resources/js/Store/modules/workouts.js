@@ -40,7 +40,6 @@ const actions = {
             });
     },
     async getAllWorkouts({commit, state}, id) {
-        console.log('getallWorkouts called')
         axios.get('api/workouts/getAll/' + id)
             .then(response => {
                 this.everyWorkouts = response.data;
@@ -52,7 +51,6 @@ const actions = {
             .then(response => {
                 this.workouts = response.data;
                 commit('setWorkouts', response.data)
-                console.log("my object: %o", response)
             });
     },
     async getSingle({commit, state}, id) {
@@ -63,7 +61,6 @@ const actions = {
             });
     },
     async deleteWorkout({commit, state}, id) {
-        console.log(id)
         try {
             const response = await axios.delete('api/workouts/delete/' + id)
         } catch (e) {

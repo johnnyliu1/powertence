@@ -42,13 +42,11 @@ const actions = {
         try {
             const response = await axios.get('api/profile/' + id)
             commit('setProfile', response.data)
-            console.log(response.data)
         } catch (e) {
             commit('setProfile', null)
         }
     },
     async saveProfile({commit, dispatch}, id) {
-        console.log('SaveProfile loaded with user_id ' + id)
         const response = await axios.post('api/profile/store', {
             userId: id
         })
@@ -70,7 +68,6 @@ const actions = {
     async registerUser({dispatch}, credentials) {
         await axios.post('/api/register', credentials)
             .then(function () {
-                console.log('user registered')
             })
             .catch(function (error) {
                 console.log(error + 'user.js')
