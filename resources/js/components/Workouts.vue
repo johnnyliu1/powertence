@@ -198,8 +198,7 @@ export default {
             return moment(date).format("LLLL HH:mm:ss")
         },
         timer(date) {
-            //return moment(date).utcOffset(0).format("HH:mm:ss")
-            return moment(date).format("HH:mm:ss")
+            return moment(date).utcOffset(2).format("HH:mm:ss")
         },
         detail(date) {
             return moment(date).format('DD/MM/YYYY')
