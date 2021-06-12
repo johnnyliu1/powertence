@@ -4,20 +4,6 @@
             <b-form-group>
                 <label>Profile picture</label>
                 <input type="file" class="form-control btn btn-primary p-1" v-on:change="onFilesUpdate">
-<!--                <b-form-file
-                    v-model="profileForm.file"
-                    :state="Boolean(profileForm.file)"
-                    drop-placeholder="Drop file here..."
-                ></b-form-file>
-                <div class="mt-3">Selected file: {{ profileForm.file ? profileForm.file.name : '' }}</div>-->
-            </b-form-group>
-            <b-form-group>
-                <label>Choose a date</label>
-                <b-form-datepicker
-                    id="example-datepicker"
-                    v-model="profileForm.dateOfBirth"
-                    class="mb-2">
-                </b-form-datepicker>
             </b-form-group>
             <b-form-group>
                 <label>Start weight</label>
@@ -78,7 +64,6 @@ export default {
                 startWeight: null,
                 currentWeight: null,
                 desiredWeight: null,
-                dateOfBirth: null,
                 file: null,
                 goals: null
             },
@@ -109,7 +94,6 @@ export default {
             data.append('startWeight', this.profileForm.startWeight)
             data.append('currentWeight', this.profileForm.currentWeight)
             data.append('desiredWeight', this.profileForm.desiredWeight)
-            data.append('dateOfBirth', this.profileForm.dateOfBirth)
             data.append('file', this.profileForm.file)
             data.append('goals', this.profileForm.goals)
 

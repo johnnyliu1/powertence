@@ -60,7 +60,10 @@ export default {
             } else {
                 this.handleLogin()
                 if (this.username !== null) {
-                    this.$store.dispatch('user/loadWrong', true)
+                    setTimeout(function() {
+                        this.$store.dispatch('user/loadWrong', true)
+                    }, 3000);
+
                 }
             }
         },

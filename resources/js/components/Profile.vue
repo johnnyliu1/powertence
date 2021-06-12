@@ -4,27 +4,27 @@
         <div>
             <b-jumbotron class="p-4">
                 <b-row>
-                <b-col lg="3" md="4" sm="12" class="bg profilePicture">
+                    <b-col lg="3" md="4" sm="12" class="bg profilePicture">
 
-                    <b-avatar v-if="this.profile.length !== 0" size="10em"
-                              :src="getProfilePicture()" class="mt-0"></b-avatar>
-                    <b-avatar v-else class="mt-0" size="10em"></b-avatar>
-                </b-col>
-                <b-col lg="9" md="8" sm="12" class="d-flex justify-content-center justify-content-md-start">
-                    <div class="d-inline-block profilePicture profileText">
-                        <h2 class="">{{ user.name }}</h2>
-                        <h5>Account created {{ user.created_at | moment }}</h5>
-                        <b-button v-if="this.profile.length === 0"
-                                  variant="info"
-                                  size="sm"
-                                  @click="saveProfile(user_id)">
-                            Create profile
-                        </b-button>
-                        <b-button size="sm" v-else v-b-modal.profileForm variant="info">Edit
-                            profile
-                        </b-button>
-                    </div>
-                </b-col>
+                        <b-avatar v-if="this.profile.length !== 0" size="10em"
+                                  :src="getProfilePicture()" class="mt-0"></b-avatar>
+                        <b-avatar v-else class="mt-0" size="10em"></b-avatar>
+                    </b-col>
+                    <b-col lg="9" md="8" sm="12" class="d-flex justify-content-center justify-content-md-start">
+                        <div class="d-inline-block profilePicture profileText">
+                            <h2 class="">{{ user.name }}</h2>
+                            <h5>Account created {{ user.created_at | moment }}</h5>
+                            <b-button v-if="this.profile.length === 0"
+                                      variant="info"
+                                      size="sm"
+                                      @click="saveProfile(user_id)">
+                                Create profile
+                            </b-button>
+                            <b-button size="sm" v-else v-b-modal.profileForm variant="info">Edit
+                                profile
+                            </b-button>
+                        </div>
+                    </b-col>
                 </b-row>
             </b-jumbotron>
         </div>
@@ -44,24 +44,29 @@
                     </div>
                 </b-col>
                 <b-col v-if="profile !== null" cols="12" md="6">
-                    <b-input-group prepend="Date of birth" class="mt-3">
-                        <b-form-input :value="this.profile[0].birthDate" disabled>
-                        </b-form-input>
-                    </b-input-group>
                     <b-input-group prepend="Start weight" class="mt-3">
-                        <b-form-input :value="this.profile[0].startWeight" disabled>
+                        <b-form-input
+                            :value="this.profile[0].startWeight"
+                            disabled>
                         </b-form-input>
+
+
                     </b-input-group>
                     <b-input-group prepend="Current weight" class="mt-3">
-                        <b-form-input :value="this.profile[0].currentWeight" disabled>
+                        <b-form-input
+                            :value="this.profile[0].currentWeight" disabled>
                         </b-form-input>
+
                     </b-input-group>
                     <b-input-group prepend="Desired weight" class="mt-3">
-                        <b-form-input :value="this.profile[0].desiredWeight" disabled>
+                        <b-form-input
+                            :value="this.profile[0].desiredWeight" disabled>
                         </b-form-input>
+
                     </b-input-group>
                     <b-input-group prepend="Goals" class="mt-3">
-                        <b-form-textarea :value="this.profile[0].goals" disabled>
+                        <b-form-textarea
+                            :value="this.profile[0].goals" disabled>
                         </b-form-textarea>
                     </b-input-group>
                 </b-col>
@@ -114,9 +119,9 @@ export default {
             'saveProfile'
         ]),
         getProfilePicture() {
-/*            if (this.profile.length !== 0 && this.profile[0].file !== null) {
-                return '/workspace/storage/app/public/' + this.profile[0].file
-            }*/
+            /*            if (this.profile.length !== 0 && this.profile[0].file !== null) {
+                            return '/workspace/storage/app/public/' + this.profile[0].file
+                        }*/
             if (this.profile.length !== 0 || this.profile[0].file !== null) {
                 return '/storage/profiles/' + this.profile[0].file
             }
@@ -147,6 +152,7 @@ export default {
     .profileText {
         margin-right: 2em;
     }
+
     .profilePicture {
         text-align: left;
     }

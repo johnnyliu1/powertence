@@ -99,7 +99,6 @@ class ProfileController extends Controller
             //Upload Image
             $path = $request->file('file')->storeAs('public/profiles',$fileNameToStore);
             $profile = Profile::find($id);
-            $profile->birthDate = $request->dateOfBirth;
             $profile->startWeight = $request->startWeight;
             $profile->currentWeight = $request->currentWeight;
             $profile->desiredWeight = $request->desiredWeight;
@@ -109,7 +108,6 @@ class ProfileController extends Controller
             $profile->update();
         } else {
             $profile = Profile::find($id);
-            $profile->birthDate = $request->dateOfBirth;
             $profile->startWeight = $request->startWeight;
             $profile->currentWeight = $request->currentWeight;
             $profile->desiredWeight = $request->desiredWeight;
