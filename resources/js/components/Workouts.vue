@@ -468,6 +468,8 @@ export default {
         this.getRandomQuote();
         this.getResults();
         this.getAllWorkouts(this.id)
+        console.log(this.getAllWorkouts)
+
         setInterval(this.currentTime.bind(this), 1000)
         setInterval(this.calculateTimePassed.bind(this), 1000)
         // when new user gets created the state of active was true so no workout could be created
@@ -476,16 +478,8 @@ export default {
         }
         for (let i = 0; i < this.allWorkouts.length; i++) {
             if (this.allWorkouts[i].stopTime === null) {
+                console.log('er is een NULL in ALLWORKOUTS')
                 this.$store.dispatch("workouts/activate", true)
-            } else {
-                this.$store.dispatch("workouts/activate", false)
-            }
-        }
-        for (let i = 0; i < this.laravelData.length; i++) {
-            if (this.laravelData[i].stopTime === null) {
-                this.$store.dispatch("workouts/activate", true)
-            } else {
-                this.$store.dispatch("workouts/activate", false)
             }
         }
     },
