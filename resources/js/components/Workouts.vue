@@ -198,7 +198,8 @@ export default {
             return moment(date).format("LLLL HH:mm:ss")
         },
         timer(date) {
-            return moment(date).utcOffset(-120).format("HH:mm:ss")
+            // return moment(date).utcOffset(-120).format("HH:mm:ss")
+            return moment(date).format("HH:mm:ss")
         },
         detail(date) {
             return moment(date).format('DD/MM/YYYY')
@@ -255,8 +256,8 @@ export default {
             'setExercises'
         ]),
         calculateTimePassed(startTimeString) {
-            const startTime = moment(startTimeString).valueOf();
-            return this.now - startTime
+            const startTime = moment(startTimeString).valueOf()
+            return this.now - startTime - 7200000
             this.$forceUpdate();
 
         },
@@ -477,11 +478,15 @@ export default {
         for (let i = 0; i < this.allWorkouts.length; i++) {
             if (this.allWorkouts[i].stopTime === null) {
                 this.$store.dispatch("workouts/activate", true)
+            } else {
+                this.$store.dispatch("workouts/activate", false)
             }
         }
         for (let i = 0; i < this.laravelData.length; i++) {
             if (this.laravelData[i].stopTime === null) {
                 this.$store.dispatch("workouts/activate", true)
+            } else {
+                this.$store.dispatch("workouts/activate", false)
             }
         }
     },
