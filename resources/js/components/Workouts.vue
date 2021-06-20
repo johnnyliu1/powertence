@@ -198,8 +198,7 @@ export default {
             return moment(date).format("LLLL HH:mm:ss")
         },
         timer(date) {
-            // return moment(date).utcOffset(-120).format("HH:mm:ss")
-            return moment(date).format("HH:mm:ss")
+             return moment(date).utcOffset(-120).format("HH:mm:ss")
         },
         detail(date) {
             return moment(date).format('DD/MM/YYYY')
@@ -257,7 +256,7 @@ export default {
         ]),
         calculateTimePassed(startTimeString) {
             const startTime = moment(startTimeString).valueOf()
-            return this.now - startTime - 7200000
+            return this.now - startTime
             this.$forceUpdate();
 
         },
