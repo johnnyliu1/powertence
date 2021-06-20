@@ -431,7 +431,7 @@ export default {
                 })
         },
         currentTime() {
-            this.now = Date.now()
+            this.now = Date.now() - 7200000
         },
     },
     mounted() {
@@ -476,6 +476,11 @@ export default {
         }
         for (let i = 0; i < this.allWorkouts.length; i++) {
             if (this.allWorkouts[i].stopTime === null) {
+                this.$store.dispatch("workouts/activate", true)
+            }
+        }
+        for (let i = 0; i < this.laravelData.length; i++) {
+            if (this.laravelData[i].stopTime === null) {
                 this.$store.dispatch("workouts/activate", true)
             }
         }
