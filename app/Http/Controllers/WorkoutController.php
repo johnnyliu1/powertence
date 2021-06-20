@@ -21,7 +21,7 @@ class WorkoutController extends Controller
 
         //$myWorkouts = $request->user()->workouts;
         //$myWorkouts = Workout::paginate(5)->where('user_id', $request->user()->id);
-        $myWorkouts = Workout::where('user_id', $request->user()->id)->paginate(3);
+        $myWorkouts = Workout::where('user_id', $request->user()->id)->paginate(3)->orderBy('created_at', 'DESC');
         return $myWorkouts;
     }
     public function getWorkouts(Request $request, $id)
