@@ -50,8 +50,13 @@ export default {
     methods: {
         ...mapActions("user", ["signIn"]),
         async handleLogin() {
-            await this.signIn(this.userData);
-            await this.$router.push('/')
+            try {
+                await this.signIn(this.userData);
+                await this.$router.push('/')
+            } catch (e) {
+                this.$store.dispatch('user/loadWrong', true)
+            }
+
         },
         validateData(event) {
             event.preventDefault()
@@ -60,10 +65,9 @@ export default {
             } else {
                 this.handleLogin()
                 if (this.username !== null) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         this.$store.dispatch('user/loadWrong', true)
                     }, 3000);
-
                 }
             }
         },
